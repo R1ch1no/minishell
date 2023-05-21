@@ -6,7 +6,7 @@
 /*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:38:12 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/07 15:04:37 by qtran            ###   ########.fr       */
+/*   Updated: 2023/05/21 13:41:32 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void lexer(t_data *data)
     data->cmd_line = malloc(sizeof(char *) * (count_tokens_v2(data->line_read) + 1));
     if (data->cmd_line == NULL)
         return (perror("minishell malloc"), cleanup(data));
-
-    
     init_cmd_line(data);
 }
 

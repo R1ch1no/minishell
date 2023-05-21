@@ -6,7 +6,7 @@
 /*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:41:56 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/07 15:01:30 by qtran            ###   ########.fr       */
+/*   Updated: 2023/05/21 17:05:28 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ typedef struct s_data
 	char	**env_copy;
 	char	*line_read;
 	char	**cmd_line;
+
+	int		fd_infile;
+	int		fd_outfile;
+	//not quite sure if i need the pipe fd's like this
+	int		fd_p_read;
+	int		fd_p_write;
 }			t_data;
 
 //init.c
@@ -48,8 +54,8 @@ int trim_spaces(t_data *data);
 int count_tokens_v2(char *str);
 void init_cmd_line(t_data *data);
 int get_token_len(char *str);
-int get_non_quote_len(char *str, int i);
-int get_quote_len(char *str, int i);
+int get_non_quote_len(char *str);
+int get_quote_len(char *str);
 
 
 

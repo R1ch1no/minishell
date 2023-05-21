@@ -55,7 +55,7 @@ fclean: clean
 re: fclean all
 	@echo "$(GREEN)Recompilation successfully done!$(NC)"
 
-aa: re
+aa: all
 	@echo "$(GREEN)Executing programm with \"TEST_INPUT\" of the Makefile.$(NC)"
 	./$(NAME) $(ARGV)
 
@@ -64,10 +64,10 @@ va: all
 	valgrind --leak-check=full \
 		--show-leak-kinds=all \
 		--track-origins=yes \
-		--track-fds=yes \
 		--suppressions=val_suppression_file.txt \
 		./$(NAME)
-	code valgrind_output.txt
+#--track-fds=yes \
+#code valgrind_output.txt
 
 #--trace-children=yes
 #valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(TEST_INPUT)
