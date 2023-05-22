@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:25:48 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/21 12:16:55 by qtran            ###   ########.fr       */
+/*   Updated: 2023/05/22 16:39:01 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ int	ft_strcmp(char *s1, char *s2)
 	return ((int)(unsigned char)(*s1) - (int)(unsigned char)(*s2));
 }
 
-
-
-char*	my_strcmp(char *s1, char *s2)
+char	*my_strcmp(char *s1, char *s2)
 {
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);

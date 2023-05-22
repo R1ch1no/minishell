@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exiting_program.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 11:37:55 by qtran             #+#    #+#             */
-/*   Updated: 2023/03/23 14:27:18 by qtran            ###   ########.fr       */
+/*   Updated: 2023/05/22 17:29:18 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,5 @@ void	cleanup(t_data *data)
 		close(data->pipe[1]);
 		data->pipe[1] = -1;
 	}
-	exit(0);
+	exit (0);
 }

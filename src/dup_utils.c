@@ -3,22 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   dup_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 13:15:39 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/07 14:58:51 by qtran            ###   ########.fr       */
+/*   Updated: 2023/05/22 16:38:52 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int get_2d_arr_len(void **arr)
+int	get_2d_arr_len(void **arr)
 {
-    int i;
-    i = 0;
-    while (arr[i])
-        i++;
-    return (i);
+	int	i;
+
+	i = 0;
+	while (arr[i])
+		i++;
+	return (i);
 }
 
 char	*ft_strdup(const char *s1)
@@ -43,31 +44,31 @@ char	*ft_strdup(const char *s1)
 	return (dest);
 }
 
-char **dup_str_arr(char **ori)
+char	**dup_str_arr(char **ori)
 {
-    int i;
-    char **copy;
-    i = 0;
-    
+	int		i;
+	char	**copy;
+
+	i = 0;
 	if (ori == NULL || ori[0] == NULL)
 		return (NULL);
-    copy = malloc((get_2d_arr_len((void**)ori) + 1) * sizeof(char *));
+	copy = malloc((get_2d_arr_len((void **)ori) + 1) * sizeof(char *));
 	if (copy == NULL)
 	{
 		perror("minishell malloc");
 		exit(1);
 	}
-    while (ori[i])
-    {
-        copy[i] = ft_strdup(ori[i]);
+	while (ori[i])
+	{
+		copy[i] = ft_strdup(ori[i]);
 		if (copy[i] == NULL)
 		{
 			perror("minishell malloc");
 			free_2d_str_until(copy, i);
 			exit(1);
 		}
-        i++;
-    }
-    copy[i] = NULL;
-    return (copy);
+		i++;
+	}
+	copy[i] = NULL;
+	return (copy);
 }

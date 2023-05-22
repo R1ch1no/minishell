@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:41:56 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/21 17:05:28 by qtran            ###   ########.fr       */
+/*   Updated: 2023/05/22 17:35:10 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINI_H
-# define MINI_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include "libft/libft.h"
 # include <readline/history.h>
@@ -48,19 +48,14 @@ void		init_data(t_data *data, char **env);
 
 //lexer.c  ______LEXER________
 void		lexer(t_data *data);
-int trim_spaces(t_data *data);
+int			trim_spaces(t_data *data);
 
 //init_cmd_line.c
-int count_tokens_v2(char *str);
-void init_cmd_line(t_data *data);
-int get_token_len(char *str);
-int get_non_quote_len(char *str);
-int get_quote_len(char *str);
-
-
-
-
-
+int			count_tokens_v2(char *str);
+void		init_cmd_line(t_data *data);
+int			get_token_len(char *str);
+int			get_non_quote_len(char *str);
+int			get_quote_len(char *str);
 
 //__________________________GENERAL UTILS__________________________
 //
@@ -70,9 +65,8 @@ void		print_str_arr(char **arr);
 //dup_utils.c
 char		**dup_str_arr(char **ori);
 //cleanup.c
-void		cleanup(t_data *data);
-void		free_2d_str_arr(char **arr);
-void 		free_2d_str_until(char **arr, int end);
-
+void		cleanse(t_data *data);
+void		free_2d_str_arr(char ***arr);
+void		free_2d_str_until(char **arr, int end);
 
 #endif
