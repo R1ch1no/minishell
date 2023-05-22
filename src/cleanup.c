@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:05:02 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/22 19:07:43 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/05/22 19:44:23 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,22 @@ void	free_2d_str_arr(char ***arr)
 	free(*arr);
 	*arr = NULL;
 }
+/* 
+void	free_2d_str_arr_v2(char **arr)
+{
+	int	i;
+
+	i = 0;
+	if (arr == NULL)
+		return ;
+	while (arr[i] != NULL)
+	{
+		free(arr[i]);
+		arr[i] = NULL;
+		i++;
+	}
+} */
+
 
 void	free_2d_str_until(char **arr, int end)
 {

@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:41:56 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/22 17:35:10 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/05/22 19:35:36 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ char		**dup_str_arr(char **ori);
 //cleanup.c
 void		cleanse(t_data *data);
 void		free_2d_str_arr(char ***arr);
+void		free_2d_str_arr_v2(char **arr);
 void		free_2d_str_until(char **arr, int end);
 
 #endif

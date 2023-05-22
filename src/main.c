@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:54:05 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/22 19:07:59 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/05/22 19:37:53 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,8 @@ int	main(int argc, char **argv, char **env)
 		//heredoc();
 		//parser();//
 		//executer();
-		if (data.cmd_line != NULL)
-		{
-			free_2d_str_arr(&data.cmd_line);
+		free_2d_str_arr(&data.cmd_line);
 			
-		}
 		run++; //TEST
 	}
 	//the following block ONLY WRITTEN FOR TESTING PURPOSES
