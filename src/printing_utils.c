@@ -6,7 +6,7 @@
 /*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:25:07 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/07 15:00:47 by qtran            ###   ########.fr       */
+/*   Updated: 2023/05/22 15:25:58 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ void print_str_arr(char **arr)
     int i;
 
     i = 0;
+    if (arr == NULL)
+    {
+        printf("arr == NULL");
+        return;
+    }
     while (arr[i])
     {
         printf("%s#\n", arr[i]);

@@ -6,7 +6,7 @@
 /*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 16:05:02 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/21 12:38:15 by qtran            ###   ########.fr       */
+/*   Updated: 2023/05/22 16:15:28 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,22 @@ void free_2d_str_arr(char **arr)
     int i;
 
     i = 0;
-    while (arr[i])
+    if ((*arr) == NULL)
     {
-        free(arr[i]);
-        arr[i] = NULL;
+        printf("Arr = NULL\n");
+        return;
+    }
+    while (arr[i] != NULL)
+    {
+        if (arr[i] != NULL)
+        {
+            free(arr[i]);
+            arr[i] = NULL;
+        }
         i++;
     }
     free(arr);
-    arr = NULL;
+//    arr = NULL;
 }
 
 void free_2d_str_until(char **arr, int end)

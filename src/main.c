@@ -6,7 +6,7 @@
 /*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:54:05 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/21 15:16:14 by qtran            ###   ########.fr       */
+/*   Updated: 2023/05/22 16:08:15 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int main(int argc, char **argv, char **env)
         return (1);
     
     init_data(&data, env);
-    while (1)
+    int run = 1;//TEST
+    while (run < 3)//TEST
     {
         data.line_read = readline("prompt ");
         if (data.line_read == NULL)
@@ -39,11 +40,16 @@ int main(int argc, char **argv, char **env)
         lexer(&data);
         //heredoc();
         //parser();//
-        
-        //the following block ONLY WRITTEN FOR TESTING PURPOSES
-        //free(data.line_read);
-        cleanup(&data);
-        exit(0);
+        //executer();
+        if (data.cmd_line != NULL)
+        {
+            free_2d_str_arr(data.cmd_line);
+        }
+        run++; //TEST
     }
+    //the following block ONLY WRITTEN FOR TESTING PURPOSES
+    //free(data.line_read);
+    cleanup(&data);
+    exit(0);
     return (1);   
 }
