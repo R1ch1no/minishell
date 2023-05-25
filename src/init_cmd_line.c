@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cmd_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 12:45:09 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/22 17:36:50 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:57:54 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,10 @@ int	get_token_len(char *str)
 	if (ft_strchr("|<>", str[i]) != NULL)
 		return (get_non_quote_len(str));
 	//figured this part is not needed At ALL
-	//else if (str[i] == '\'' || str[i] == '\"')
-	//    i = get_quote_len(&str[i]);
+	while (str[i] && (str[i] != ' ' && ft_strchr("|<>'\"", str[i]) == NULL))
+		i++;
+	if (str[i] == '\'' || str[i] == '\"')
+	    i += get_quote_len(&str[i]);
 	while (str[i] && (str[i] != ' ' && ft_strchr("|<>", str[i]) == NULL))
 		i++;
 	return (i);
