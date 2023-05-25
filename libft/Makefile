@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: qtran <qtran@student.42.fr>                +#+  +:+       +#+         #
+#    By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/26 16:53:14 by qtran             #+#    #+#              #
-#    Updated: 2023/02/27 14:26:00 by qtran            ###   ########.fr        #
+#    Updated: 2023/05/25 14:43:57 by rkurnava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,7 @@ $(bon_obj):
 	@$(CC) -c $(Cflags) $(bon_src)
 
 clean:
-	rm -rf *.o
+	@rm -rf *.o
 	$(MAKE) -C $(PRINTF_DIR) clean
 	@echo "clean done"
 

@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:54:05 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/22 19:37:53 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/05/25 15:23:45 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	main(int argc, char **argv, char **env)
 	int run = 1;    //TEST
 	while (run < 4) //TEST
 	{
+		signal_set_up(&data);
 		data.line_read = readline("prompt ");
 		if (data.line_read == NULL)
 		{
@@ -44,7 +45,6 @@ int	main(int argc, char **argv, char **env)
 		//parser();//
 		//executer();
 		free_2d_str_arr(&data.cmd_line);
-			
 		run++; //TEST
 	}
 	//the following block ONLY WRITTEN FOR TESTING PURPOSES
