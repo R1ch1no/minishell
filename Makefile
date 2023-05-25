@@ -12,7 +12,8 @@ SRC			= 	main.c \
 				init.c \
 				lexer.c \
 				cleanup.c \
-				init_cmd_line.c
+				init_cmd_line.c \
+				signals.c
 
 SRCS 		= $(addprefix $(SRC_PATH)/, $(SRC))
 OBJ 		= $(SRC:.c=.o)
@@ -25,31 +26,31 @@ LIBFT 		= $(LIBFT_DIR)/libft.a
 all: $(OBJ_PATH) $(NAME)
 
 $(OBJ_PATH):
-	mkdir -p $(OBJ_PATH)
+	@mkdir -p $(OBJ_PATH)
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) -lreadline -lhistory $(OBJS) $(LIBFT) -o $(NAME) 
+	@$(CC) $(CFLAGS) -lreadline -lhistory $(OBJS) $(LIBFT) -o $(NAME) 
 	@echo "$(GREEN)Executable \"$(NAME)\" succesfully created.$(NC)"
 
 
 $(LIBFT):
-	$(MAKE) -C $(LIBFT_DIR)
+	@$(MAKE) -C $(LIBFT_DIR)
 
 
 #General
 clean:
-	rm -rf $(OBJ_PATH)
+	@rm -rf $(OBJ_PATH)
 	@echo "$(MAGENTA)Obj directory removed.$(NC)"
-	$(MAKE) -C $(LIBFT_DIR) clean
+	@$(MAKE) -C $(LIBFT_DIR) clean
 	@echo "$(MAGENTA)Make clean in directory "$(LIBFT_DIR)" invoked.$(NC)"
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 	@echo "$(MAGENTA)Deleted executable named: $(NAME)$(NC)"
-	$(MAKE) -C $(LIBFT_DIR) fclean
+	@$(MAKE) -C $(LIBFT_DIR) fclean
 	@echo "$(MAGENTA)Make fclean in directory "$(LIBFT_DIR)" invoked.$(NC)"
 
 re: fclean all
