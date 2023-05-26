@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 12:45:09 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/26 18:29:26 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/05/26 18:57:36 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	init_cmd_line(t_data *data)
 	}
 	data->cmd_line[j] = NULL;
 	//printf("____Testing init 2d cmd_line array______\n");
-	print_str_arr(data->cmd_line);
+	/* print_str_arr(data->cmd_line); */
 }
 
 int	get_token_len(char *str)
