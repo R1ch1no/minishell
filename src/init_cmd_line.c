@@ -47,7 +47,7 @@ void	init_cmd_line(t_data *data)
 	}
 	data->cmd_line[j] = NULL;
 	//printf("____Testing init 2d cmd_line array______\n");
-	print_str_arr(data->cmd_line);
+	/* print_str_arr(data->cmd_line); */
 }
 
 int	get_token_len(char *str)
