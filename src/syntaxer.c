@@ -1,43 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printing_utils.c                                   :+:      :+:    :+:   */
+/*   syntaxer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/19 14:25:07 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/26 14:48:41 by rkurnava         ###   ########.fr       */
+/*   Created: 2023/05/26 16:34:07 by rkurnava          #+#    #+#             */
+/*   Updated: 2023/05/26 18:25:59 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_int_arr(int *arr, int size)
+int	syntaxer(char **cmd_line)
 {
-	int	i;
+	int	y;
 
-	i = 0;
-	while (i < size)
+	y = -1;
+	while (cmd_line[++y])
 	{
-		printf("arr[%d]: %d\n", i, arr[i]);
-		i++;
 	}
-}
-
-void	print_str_arr(char **arr)
-{
-	int	i;
-
-	i = 0;
-	if (arr == NULL)
-	{
-		printf("arr == NULL");
-		return ;
-	}
-	while (arr[i])
-	{
-		printf("%s#\n", arr[i]);
-		i++;
-	}
-	printf("%s#\n", arr[i]); //prints the NULL terminator
+	return (0);
 }

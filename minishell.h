@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:41:56 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/25 18:40:40 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/05/26 16:35:12 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,15 @@ typedef struct s_data
 void					init_data(t_data *data, char **env);
 
 //lexer.c  ______LEXER________
-void					lexer(t_data *data);
 int						trim_spaces(t_data *data);
+void					lexer(t_data *data);
 
 //init_cmd_line.c
 int						count_tokens_v2(char *str);
-void					init_cmd_line(t_data *data);
 int						get_token_len(char *str);
 int						get_non_quote_len(char *str);
 int						get_quote_len(char *str);
+void					init_cmd_line(t_data *data);
 
 //__________________________GENERAL UTILS__________________________
 //
@@ -72,7 +72,14 @@ void					free_2d_str_arr(char ***arr);
 void					free_2d_str_arr_v2(char **arr);
 void					free_2d_str_until(char **arr, int end);
 //signals handling;
-int						eof_read(char *readl);
 void					signal_set_up(t_data *data);
+//built-ins
+int						ft_cd(const char *path);
+void					ft_echo(const char *str, int n);
+void					ft_pwd(void);
+
+int						ft_strcmp_v2(char *s1, char *s2);
+int						syntaxer(char **cmd_line);
+void					executer(char **cmd_line);
 
 #endif

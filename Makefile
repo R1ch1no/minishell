@@ -13,7 +13,10 @@ SRC			= 	main.c \
 				lexer.c \
 				cleanup.c \
 				init_cmd_line.c \
-				signals.c
+				signals.c \
+				cd_pwd_echo.c \
+				executer.c \
+				ft_strcmp.c \
 
 SRCS 		= $(addprefix $(SRC_PATH)/, $(SRC))
 OBJ 		= $(SRC:.c=.o)

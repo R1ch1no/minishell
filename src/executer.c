@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 12:42:30 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/25 16:20:10 by qtran            ###   ########.fr       */
+/*   Updated: 2023/05/26 15:06:33 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,37 +23,42 @@
 
 
     Fiona:
-    hat sie dann einfach ein 2d array wo alle außer das richtige infile weg ist --> nein, alle noch da
+    hat sie dann einfach ein 2d array wo alle außer das richtige infile weg ist --> nein,
+	alle noch da
 */
 
+//any of the specials in quotes wont work --> "|", "<",
+//meaning it will mistake it and tries to pipe
 
-//any of the specials in quotes wont work --> "|", "<", meaning it will mistake it and tries to pipe
-
-
-
-void executer(t_data *data)
+void	executer(char **cmd_line)
 {
-    int i;
+	int	y;
 
-    i = 0;
-    while (data)
-    
+	y = -1;
+	while (cmd_line[++y] != NULL)
+	{
+		if (ft_strcmp_v2(cmd_line[y], "pwd") == 0)
+			ft_pwd();
+		if (ft_strcmp_v2(cmd_line[y], "echo") == 0)
+		{
+			if (ft_strcmp_v2(cmd_line[y + 1], "-n") == 0)
+				ft_echo(cmd_line[y + 2], 1);
+			else
+				ft_echo(cmd_line[y + 1], 0);
+		}
+		if (ft_strcmp_v2(cmd_line[y], "cd") == 0)
+			ft_cd(cmd_line[y + 1]);
+	}
 }
 
-
-
-void	set_stdin_out(t_data *data)
+/* void	set_stdin_out(t_data *data)
 {
-    if 
-	if (dup2(data->fd_in, STDIN_FILENO) == -1)
-		cleanup(data);
+	if
+		if (dup2(data->fd_in, STDIN_FILENO) == -1)
+			cleanup(data);
 	if (dup2(data->fd_out, STDOUT_FILENO) == -1)
 		cleanup(data);
 }
-
-
-
-
 
 static int	get_cmd(char *cmd, t_data *data)
 {
@@ -90,4 +95,4 @@ void	run_cmd(char *cmd, t_data *data)
 	perror("execve");
 	cleanup(data);
 	exit(1);
-}
+} */

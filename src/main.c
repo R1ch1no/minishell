@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:54:05 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/25 19:40:30 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/05/26 16:50:36 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,12 @@ int	main(int argc, char **argv, char **env)
 		lexer(&data);
 		free(data.line_read);
 		data.line_read = NULL;
-		//heredoc();
-		//parser();//
-		//executer();|
+		if (syntaxer(data.cmd_line) == 0)
+		{
+			/* heredoc();
+			parser(); */
+			executer(data.cmd_line);
+		}
 		free_2d_str_arr(&data.cmd_line);
 	}
 	//the following block ONLY WRITTEN FOR TESTING PURPOSES

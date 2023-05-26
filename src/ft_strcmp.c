@@ -6,13 +6,13 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 17:25:48 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/22 16:39:01 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/05/26 14:48:37 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_strcmp(char *s1, char *s2)
+int	ft_strcmp_v2(char *s1, char *s2)
 {
 	if (s1 == NULL || s2 == NULL)
 		return (9999);
@@ -24,7 +24,7 @@ int	ft_strcmp(char *s1, char *s2)
 	return ((int)(unsigned char)(*s1) - (int)(unsigned char)(*s2));
 }
 
-char	*my_strcmp(char *s1, char *s2)
+/* char	*my_strcmp(char *s1, char *s2)
 {
 	if (s1 == NULL || s2 == NULL)
 		return (NULL);
@@ -36,7 +36,7 @@ char	*my_strcmp(char *s1, char *s2)
 		s2++;
 	}
 	return (s1);
-}
+} */
 /*
 int	main(void)
 {

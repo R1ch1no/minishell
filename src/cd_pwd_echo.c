@@ -6,12 +6,11 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:56:43 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/05/25 19:00:16 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/05/26 14:48:32 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stddef.h>
 
 int	ft_cd(const char *path)
 {
@@ -61,11 +60,4 @@ void	ft_echo(const char *str, int n)
 	}
 	if (n == 0)
 		write(1, "\n", 1);
-}
-
-int	main(int argc, char **argv)
-{
-	ft_cd(argv[1]);
-	ft_pwd();
-	return (0);
 }
