@@ -1,6 +1,9 @@
 
 #include "../minishell.h"
 
+//123456
+//abcdef
+//012345
 
 /*
 
@@ -27,9 +30,6 @@ void preparing_dollar_for_executer(t_data *data)
 
 }
 
-int i = ft_substr();
-
-
 //if u find dollar then subout except above and then check further but at last dollar + strlen env_var sub
 //dollar sign var stops until:
 // any redirection 
@@ -37,19 +37,35 @@ int i = ft_substr();
 //pipe
 //quotes kinda weird
 
+
+char *get_env_value(char **env) //nach dem ersten = Zeichen
+{
+    return ("end");
+}
+
+int get_len_til(char *str, char *set)
+{
+    int i;
+
+    i = 0;
+    while (str[i] && ft_strchr(set, str[i]) == NULL) //ends on '\0', space and all special chars
+        i++;
+    return (i);
+}
+
+
 int valid_dollar_sub(char *str, char **env)
 {
     int i;
     int quotes;
-    //char *str_before
+    char *before_dollar;
+    char *after_dollar;
+    char *env_value;
     //char *str_after
     //char *str_substitute = strdup(cmd_line[])
 
     i = 0;
     quotes = 0;
-    if (str[i] == '$')
-        //wie unten außer substr_before
-        return 
     while (str[i])
     {
         if (str[i] == '\'')
@@ -59,6 +75,13 @@ int valid_dollar_sub(char *str, char **env)
             if ((quotes % 2 != 0 && ft_strchr(&str[i], '\'') != NULL)) //if dollar is negated cuz of single quotes
                 i++;
             else
+            {
+                if (i != 0)
+                    before_dollar = ft_substr(str, 0, i + 1);
+                after_dollar = ft_substr(str, i + 1, get_len_til(&str[i], "$<>|'\""));
+                env_value = get_env_value(after_dollar);
+
+            }
             //substr str_before_$ (str[0], len=i+1) if i = 0 dann len = 0
             //get str_after_$_til: space or eof or $
             //look for it in env_copy
@@ -77,6 +100,7 @@ int valid_dollar_sub(char *str, char **env)
             i++;
     }
 }
+
 
 int single_quote_exception(char *str, int quotes)
 {
