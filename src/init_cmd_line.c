@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/07 12:45:09 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/26 15:09:03 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/05/26 18:29:26 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ int	get_token_len(char *str)
 			i += get_quote_len(&str[i]);
 			//printf("get_token_len: %s\n", &str[i]);
 		}	
-		i++;
+		else
+			i++;
 	}
 	return (i);
 }
@@ -124,17 +125,18 @@ int	get_quote_len(char *str)
 	i = 0;
 	if (str[i] == '\'')
 	{
-		i++;
-		closing_quote = ft_strchr(&str[i], '\'');
+		closing_quote = ft_strchr(&str[i + 1], '\'');
 		if (closing_quote != NULL)
-			return (closing_quote - &str[i] + 1); //without the +1 im exactly 1 char before the quote now im on the quote
+			return (closing_quote - &str[i] + 1); //if this ret-value is added to the first quote then u will land on the second quote 
 	}
 	else if (str[i] == '\"')
 	{
-		i++;
-		closing_quote = ft_strchr(&str[i], '\"');
+		closing_quote = ft_strchr(&str[i + 1], '\"');
 		if (closing_quote != NULL)
+		{
+			//printf("pointer diff: %ld\n", closing_quote - &str[i]);
 			return (closing_quote - &str[i] + 1);
+		}
 	}
-	return (i);
+	return (1);
 }
