@@ -15,36 +15,7 @@ if that int not -1 then i have index of where the dollar is in the str
 //recipe:
 //cuting out all double quotes "" before dollar sign should be fine
 //gerade=alle raus, ungerade alle außer das letzte raus
-//wenn ich quotes for dollar zähle dann kann ich sie schon rausschneiden
 
-void preparing_dollar_for_executer(t_data *data)
-{
-    int i;
-    
-    i = 0;
-    while (data->cmd_line[i])
-    {
-        if (valid_dollar_sub())
-            subout_dollar();
-        else 
-            i++;
-    }
-
-
-}
-
-//if u find dollar then subout except above and then check further but at last dollar + strlen env_var sub
-//dollar sign var stops until:
-// any redirection 
-//dollar again
-//pipe
-//quotes kinda weird
-
-
-char *get_env_value(char **env) //nach dem ersten = Zeichen
-{
-    return ("end");
-}
 
 int get_len_til(char *str, char *set)
 {
@@ -105,22 +76,100 @@ int valid_dollar_sub(char *str, char **env)
 
 
 
+//test'$user bla'_'$USER
+
+//test
+//'
+//$USER bla
+//'
+//_
+//'
+//$SUER
+
 
 
 void dollar_and_s_quotes(char *str)
 {
     int i;
-    char *last_quote;
-    char *temp;
+    int count;
+    char **temp;
+    
     i = 0;
-    while(str[i]) 
+    count = count_char(str, '\'');
+    if (count == 1)
     {
-        if (str[i] == '\'' && ft_strchr(str, '\'') != NULL)
-            temp = ft_substr(str, 0, ft_strchr(str, '\'') - &str[0]);
-            printf("%s\n", temp);
-        i++;
+        while(str[i]) 
+        {
+            if (str[i] == '$')
+                printf("");
+            i++;
+        }
+        return ;
     }
+
+    temp = ft_split(str, '\'');
 }
+
+
+int get_arr_len(char **arr)
+{
+    int i;
+
+    i = 0;
+    if (!arr)
+        return (-1);
+    while (arr[i])
+        i++;
+    return (i);
+}
+
+int get_i_of_next_occ(char **arr, int first, char *str)
+{
+    int i;
+
+    if (!arr || !str)
+       return (-1);
+    i = first + 1;
+    while (arr[i] && ft_strcmp_v2(arr[i], str) != 0)
+       i++;
+    if (arr[i] == NULL)
+        return (-1);
+    return (i);
+}
+
+//LETS SAY I HAVE A SPLIT IN MY WAY MEANING all words and the spliter
+char *subout_dollar_s_quotes(char **arr)
+{
+    int i;
+    int j;
+    char *temp;
+    char *buf;
+
+    temp = ft_strjoin("", "");
+    i = 0;
+    while (arr[i])
+    {
+        if (arr[i][0] == '\'' && arr[i + 2][0])
+        {
+            //ES KANN NUR 1 str zwischen splitter SEIN
+            free(arr[i]);
+            arr[i] = malloc(sizeof(char));
+            arr[i][0] = '\0';
+            i += 2;
+            free(arr[i]);
+            arr[i] = malloc(sizeof(char));
+            arr[i][0] = '\0';
+        }
+        if (count_char(arr[i], '$'))
+            subout_dollar();
+        else if (i != 0)
+            temp = ft_strjoin(temp, arr[i]);
+
+    }
+    return (temp)
+}
+
+
 
 
 
