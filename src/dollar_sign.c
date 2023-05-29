@@ -14,6 +14,11 @@ if that int not -1 then i have index of where the dollar is in the str
 */
 
 
+//recipe:
+//cuting out all double quotes "" before dollar sign should be fine
+//gerade=alle raus, ungerade alle außer das letzte raus
+//wenn ich quotes for dollar zähle dann kann ich sie schon rausschneiden
+
 void preparing_dollar_for_executer(t_data *data)
 {
     int i;
@@ -53,7 +58,8 @@ int get_len_til(char *str, char *set)
     return (i);
 }
 
-
+// Test'$USER and $USER' $USER '$USER
+//schneid raus quotes wenn gerade und fang danach an
 int valid_dollar_sub(char *str, char **env)
 {
     int i;
@@ -68,8 +74,8 @@ int valid_dollar_sub(char *str, char **env)
     quotes = 0;
     while (str[i])
     {
-        if (str[i] == '\'')
-            quotes++;
+        if (str[i] == '\'' && ft_strchr(str, '\''))
+            quotes++; //cut out quotes 
         else if (str[i] == '$')
         {
             if ((quotes % 2 != 0 && ft_strchr(&str[i], '\'') != NULL)) //if dollar is negated cuz of single quotes
@@ -80,7 +86,6 @@ int valid_dollar_sub(char *str, char **env)
                     before_dollar = ft_substr(str, 0, i + 1);
                 after_dollar = ft_substr(str, i + 1, get_len_til(&str[i], "$<>|'\""));
                 env_value = get_env_value(after_dollar);
-
             }
             //substr str_before_$ (str[0], len=i+1) if i = 0 dann len = 0
             //get str_after_$_til: space or eof or $
@@ -96,10 +101,11 @@ int valid_dollar_sub(char *str, char **env)
             //free str_before and str_after and str from cmd_line
             //set str to joined str!    
         }
-        else 
-            i++;
+       i++;
     }
 }
+
+
 
 
 int single_quote_exception(char *str, int quotes)

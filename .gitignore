@@ -7,3 +7,4 @@ obj/
 
 #ignores specific file (in this case our executable)
 minishell
+a.out
