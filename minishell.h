@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:41:56 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/26 16:35:12 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/05/29 11:48:27 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,14 @@ int						get_token_len(char *str);
 int						get_non_quote_len(char *str);
 int						get_quote_len(char *str);
 void					init_cmd_line(t_data *data);
+
+
+//cutting_quotes.c
+int		count_char(char *str, char c);
+void	cut_out_all(char *str, char c, char *cutted);
+void	cut_out_all_but_last(char *str, char c, char *cutted);
+void	cut_out_quotes(char **str, char c);
+
 
 //__________________________GENERAL UTILS__________________________
 //

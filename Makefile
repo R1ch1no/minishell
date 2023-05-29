@@ -17,6 +17,7 @@ SRC			= 	main.c \
 				cd_pwd_echo.c \
 				executer.c \
 				ft_strcmp.c \
+				cutting_quotes.c
 				syntaxer.c
 
 SRCS 		= $(addprefix $(SRC_PATH)/, $(SRC))

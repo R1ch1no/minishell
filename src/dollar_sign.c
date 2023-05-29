@@ -6,11 +6,9 @@
 //012345
 
 /*
-
 '$'money_file
 check if dollar sub valid returns int
 if that int not -1 then i have index of where the dollar is in the str
-
 */
 
 
@@ -74,8 +72,8 @@ int valid_dollar_sub(char *str, char **env)
     quotes = 0;
     while (str[i])
     {
-        if (str[i] == '\'' && ft_strchr(str, '\''))
-            quotes++; //cut out quotes 
+        if (str[i] == '\'' && ft_strchr(str, '\'') != NULL)
+            cut_out_all
         else if (str[i] == '$')
         {
             if ((quotes % 2 != 0 && ft_strchr(&str[i], '\'') != NULL)) //if dollar is negated cuz of single quotes
@@ -102,6 +100,25 @@ int valid_dollar_sub(char *str, char **env)
             //set str to joined str!    
         }
        i++;
+    }
+}
+
+
+
+
+
+void dollar_and_s_quotes(char *str)
+{
+    int i;
+    char *last_quote;
+    char *temp;
+    i = 0;
+    while(str[i]) 
+    {
+        if (str[i] == '\'' && ft_strchr(str, '\'') != NULL)
+            temp = ft_substr(str, 0, ft_strchr(str, '\'') - &str[0]);
+            printf("%s\n", temp);
+        i++;
     }
 }
 
