@@ -34,7 +34,7 @@ int	main(int argc, char **argv, char **env)
 		{
 			/* heredoc();
 			parser(); */
-			executer(data.cmd_line);
+			executer(&data);
 		}
 		free_2d_str_arr(&data.cmd_line);
 	}

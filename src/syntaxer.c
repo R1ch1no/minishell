@@ -19,5 +19,6 @@ int	syntaxer(char **cmd_line)
 			p++;
 		}
 	}
+	(void)pipes;
 	return (0);
 }

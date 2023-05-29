@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:41:56 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/29 11:48:27 by qtran            ###   ########.fr       */
+/*   Updated: 2023/05/29 18:48:45 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,11 @@ int						get_non_quote_len(char *str);
 int						get_quote_len(char *str);
 void					init_cmd_line(t_data *data);
 
-
 //cutting_quotes.c
-int		count_char(char *str, char c);
-void	cut_out_all(char *str, char c, char *cutted);
-void	cut_out_all_but_last(char *str, char c, char *cutted);
-void	cut_out_quotes(char **str, char c);
-
+int						count_char(char *str, char c);
+void					cut_out_all(char *str, char c, char *cutted);
+void					cut_out_all_but_last(char *str, char c, char *cutted);
+void					cut_out_quotes(char **str, char c);
 
 //__________________________GENERAL UTILS__________________________
 //
@@ -85,9 +83,11 @@ void					signal_set_up(t_data *data);
 int						ft_cd(const char *path);
 void					ft_echo(const char *str, int n);
 void					ft_pwd(void);
+void					ft_env(char **env);
+void					ft_unset(char **env, char *search);
 
 int						ft_strcmp_v2(char *s1, char *s2);
 int						syntaxer(char **cmd_line);
-void					executer(char **cmd_line);
+void					executer(t_data *data);
 
 #endif

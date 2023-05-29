@@ -17,7 +17,7 @@ SRC			= 	main.c \
 				cd_pwd_echo.c \
 				executer.c \
 				ft_strcmp.c \
-				cutting_quotes.c
+				cutting_quotes.c \
 				syntaxer.c
 
 SRCS 		= $(addprefix $(SRC_PATH)/, $(SRC))
@@ -37,7 +37,7 @@ $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(LIBFT) $(OBJS)
-	@$(CC) $(CFLAGS) -lreadline -lhistory $(OBJS) $(LIBFT) -o $(NAME) 
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -lhistory -o $(NAME) 
 	@echo "$(GREEN)Executable \"$(NAME)\" succesfully created.$(NC)"
 
 

@@ -19,24 +19,28 @@
 //any of the specials in quotes wont work --> "|", "<",
 //meaning it will mistake it and tries to pipe
 
-void	executer(char **cmd_line)
+void	executer(t_data *data)
 {
 	int	y;
 
 	y = -1;
-	while (cmd_line[++y] != NULL)
+	while (data->cmd_line[++y] != NULL)
 	{
-		if (ft_strcmp_v2(cmd_line[y], "pwd") == 0)
+		if (ft_strcmp_v2(data->cmd_line[y], "pwd") == 0)
 			ft_pwd();
-		if (ft_strcmp_v2(cmd_line[y], "echo") == 0)
+		if (ft_strcmp_v2(data->cmd_line[y], "echo") == 0)
 		{
-			if (ft_strcmp_v2(cmd_line[y + 1], "-n") == 0)
-				ft_echo(cmd_line[y + 2], 1);
+			if (ft_strcmp_v2(data->cmd_line[y + 1], "-n") == 0)
+				ft_echo(data->cmd_line[y + 2], 1);
 			else
-				ft_echo(cmd_line[y + 1], 0);
+				ft_echo(data->cmd_line[y + 1], 0);
 		}
-		if (ft_strcmp_v2(cmd_line[y], "cd") == 0)
-			ft_cd(cmd_line[y + 1]);
+		if (ft_strcmp_v2(data->cmd_line[y], "cd") == 0)
+			ft_cd(data->cmd_line[y + 1]);
+		if (ft_strcmp_v2(data->cmd_line[y], "env") == 0)
+			ft_env(data->env_copy);
+		if (ft_strcmp_v2(data->cmd_line[y], "unset") == 0)
+			ft_unset(data->env_copy, data->cmd_line[y + 1]);
 	}
 }
 
