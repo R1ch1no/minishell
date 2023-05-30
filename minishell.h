@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:41:56 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/30 10:46:00 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/05/30 12:36:19 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_data
 	int					fd_infile;
 	int					fd_outfile;
 	//not quite sure if i need the pipe fd's like this
-	int					fd_p_read;
+	int					fd_p_read;t_data *data
 	int					fd_p_write;
 	struct sigaction	sa;
 }						t_data;
