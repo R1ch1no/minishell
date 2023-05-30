@@ -14,11 +14,12 @@ SRC			= 	main.c \
 				cleanup.c \
 				init_cmd_line.c \
 				signals.c \
-				cd_pwd_echo.c \
+				env_cd_pwd.c \
+				echo_unset.c \
 				executer.c \
 				ft_strcmp.c \
 				cutting_quotes.c \
-				syntaxer.c
+				syntaxer.c \
 
 SRCS 		= $(addprefix $(SRC_PATH)/, $(SRC))
 OBJ 		= $(SRC:.c=.o)

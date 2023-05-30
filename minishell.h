@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:41:56 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/29 18:48:45 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/05/30 10:46:00 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int						ft_cd(const char *path);
 void					ft_echo(const char *str, int n);
 void					ft_pwd(void);
 void					ft_env(char **env);
-void					ft_unset(char **env, char *search);
+void					ft_unset(t_data *data, char *search);
 
 int						ft_strcmp_v2(char *s1, char *s2);
 int						syntaxer(char **cmd_line);

@@ -39,8 +39,9 @@ void	executer(t_data *data)
 			ft_cd(data->cmd_line[y + 1]);
 		if (ft_strcmp_v2(data->cmd_line[y], "env") == 0)
 			ft_env(data->env_copy);
-		if (ft_strcmp_v2(data->cmd_line[y], "unset") == 0)
-			ft_unset(data->env_copy, data->cmd_line[y + 1]);
+		if (ft_strcmp_v2(data->cmd_line[y], "unset") == 0 && data->cmd_line[y
+				+ 1])
+			ft_unset(data, data->cmd_line[y + 1]);
 	}
 }
 
