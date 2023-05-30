@@ -21,27 +21,31 @@
 
 void	executer(t_data *data)
 {
-	int	y;
+	t_node	*current;
 
-	y = -1;
-	while (data->cmd_line[++y] != NULL)
+	current = data->cmd_line;
+	while (current != NULL)
 	{
-		if (ft_strcmp_v2(data->cmd_line[y], "pwd") == 0)
-			ft_pwd();
-		if (ft_strcmp_v2(data->cmd_line[y], "echo") == 0)
+		if (ft_strcmp_node(current, "pwd") == 0)
+			ft_pwd(current);
+		else if (ft_strcmp_node(current, "echo") == 0)
 		{
-			if (ft_strcmp_v2(data->cmd_line[y + 1], "-n") == 0)
-				ft_echo(data->cmd_line[y + 2], 1);
-			else
-				ft_echo(data->cmd_line[y + 1], 0);
+			current = current->next;
+			ft_echo(current);
 		}
-		if (ft_strcmp_v2(data->cmd_line[y], "cd") == 0)
-			ft_cd(data->cmd_line[y + 1]);
-		if (ft_strcmp_v2(data->cmd_line[y], "env") == 0)
-			ft_env(data->env_copy);
-		if (ft_strcmp_v2(data->cmd_line[y], "unset") == 0 && data->cmd_line[y
-				+ 1])
-			ft_unset(data, data->cmd_line[y + 1]);
+		else if (ft_strcmp_node(current, "cd") == 0)
+			ft_cd(current->next);
+		else if (ft_strcmp_node(current, "env") == 0)
+			ft_env(data->env_copy, current);
+		else if (ft_strcmp_node(current, "unset") == 0 && current->next)
+			ft_unset(data, current->next->cmd);
+		else
+		{
+			if (current != NULL)
+				current = current->next;
+		}
+		if (current != NULL)
+			printf("NODE : %s", current->cmd);
 	}
 }
 

@@ -1,33 +1,34 @@
 
 #include "../minishell.h"
 
-void	ft_echo(const char *str, int n)
+//echo receives node that comes after the node containing cmd "echo"
+void	ft_echo(t_node *node)
 {
-	int	i;
+	int		i;
+	int		n;
 
-	i = 0;
-	if ((!str || str == NULL) && n == 1)
-		return ;
-	if ((!str || str == NULL) && n == 0)
+	i = -1;
+	n = 0;
+	if (node == NULL)
 	{
 		write(1, "\n", 1);
 		return ;
 	}
-	while (str[i])
+	if (ft_strcmp_v2(node->cmd, "-n") == 0)
 	{
-		if (n == 1)
-		{
-			if (str[i + 1] == '\0' && str[i] == '\n')
-				break ;
-			else
-				write(1, &str[i], 1);
-		}
+		n = 1;
+		node = node->next;
+	}
+	if (node == NULL && n == 1)
+		return ;
+	while (node->cmd[++i])
+	{
+		if (n == 1 && node->cmd[i + 1] == '\0' && node->cmd[i] == '\n')
+			return ;
 		else
-			write(1, &str[i], 1);
-		i++;
+			write(1, &node->cmd[i], 1);
 	}
-	if (n == 0)
-		write(1, "\n", 1);
+	write(1, "\n", 1);
 }
 
 int	ft_find_match(t_data *data, char *search, int y)

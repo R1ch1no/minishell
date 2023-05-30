@@ -1,53 +1,34 @@
 
 #include "../minishell.h"
 
-//DOLLAR SIGN ISNT IMPLEMENTED YET
-
-int	count_tokens_v2(char *str) //basically the function below without mallocs
-{
-	int i;
-	int j;
-	int len;
-
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		len = get_token_len(&str[i]);
-		j++;
-		i += len;
-		while (str[i] == ' ')
-			i++;
-	}
-	//printf("Token count v2: %d\n", j);
-	return (j);
-}
-
+//data->line_read is typecasted for shorter lines into char *str
 void	init_cmd_line(t_data *data)
 {
 	int		i;
 	int		j;
 	int		len;
 	char	*str;
+	t_node *new_node;
 
 	str = data->line_read;
 	i = 0;
 	j = 0;
+	new_node = NULL;
 	while (str[i])
 	{
 		len = get_token_len(&str[i]);
-		data->cmd_line[j] = ft_substr(str, i, len);
-		if (data->cmd_line[j] == NULL)
-			return (perror("minishell malloc"), cleanse(data));
+		//data->cmd_line[j] = ft_substr(str, i, len);
+		new_node = create_node(ft_substr(str, i, len));
+		if (new_node == NULL)
+        	return (perror("mini hell malloc"), cleanse(data));
 		//evtl exit aus cleanup rausnehmen? und in solchen Fällen exit(1)?
+		add_node_back(&data->cmd_line, new_node);
 		j++;
 		i += len;
 		while (str[i] == ' ')
 			i++;
 	}
-	data->cmd_line[j] = NULL;
-	//printf("____Testing init 2d cmd_line array______\n");
-	/* print_str_arr(data->cmd_line); */
+	//data->cmd_line[j] = NULL;
 }
 
 int	get_token_len(char *str)

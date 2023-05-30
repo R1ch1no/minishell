@@ -1,24 +1,22 @@
 
 #include "../minishell.h"
 
-//for far only counts number of pipes 
+//for far only counts number of pipes
 //and saves their index + 1 in the pipes[] int array
-int	syntaxer(char **cmd_line)
+int	syntaxer(t_node *cmd_line)
 {
-	int	y;
-	int	pipes[500];
-	int	p;
+	(void)cmd_line;
+/* 	t_node	*current;
 
-	y = -1;
-	p = 0;
-	while (cmd_line[++y] != NULL)
+	current = cmd_line;
+	while (current != NULL)
 	{
-		if (ft_strcmp_v2(cmd_line[y], "|") == 0)
+		if (ft_strcmp_v2(current->cmd, "|") == 0)
 		{
-			pipes[p] = y + 1;
-			p++;
+			if
 		}
-	}
-	(void)pipes;
+	} */
 	return (0);
 }
+
+

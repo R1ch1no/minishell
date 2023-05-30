@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:41:56 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/30 12:36:19 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/05/30 17:59:11 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,26 @@
 //	CHECK(fd);
 
 //Structures
+
+typedef struct s_node
+{
+	int					special;
+	char				*cmd;
+	struct s_node		*next;
+}						t_node;
+
+//fd_p_read, fd_p_write : not quite sure if i need the pipe fd's like this
+
 typedef struct s_data
 {
 	char				**env_copy;
 	char				*line_read;
-	char				**cmd_line;
-
 	int					fd_infile;
 	int					fd_outfile;
-	//not quite sure if i need the pipe fd's like this
-	int					fd_p_read;t_data *data
+	int					fd_p_read;
 	int					fd_p_write;
 	struct sigaction	sa;
+	t_node				*cmd_line;
 }						t_data;
 
 //init.c
@@ -53,7 +61,6 @@ int						trim_spaces(t_data *data);
 void					lexer(t_data *data);
 
 //init_cmd_line.c
-int						count_tokens_v2(char *str);
 int						get_token_len(char *str);
 int						get_non_quote_len(char *str);
 int						get_quote_len(char *str);
@@ -80,14 +87,21 @@ void					free_2d_str_until(char **arr, int end);
 //signals handling;
 void					signal_set_up(t_data *data);
 //built-ins
-int						ft_cd(const char *path);
-void					ft_echo(const char *str, int n);
-void					ft_pwd(void);
-void					ft_env(char **env);
+int						ft_cd(t_node *node);
+void					ft_echo(t_node *node);
+void					ft_pwd(t_node *node);
+void					ft_env(char **env, t_node *node);
 void					ft_unset(t_data *data, char *search);
 
 int						ft_strcmp_v2(char *s1, char *s2);
-int						syntaxer(char **cmd_line);
+int						syntaxer(t_node *cmd_line);
 void					executer(t_data *data);
+
+//lists
+int						ft_strcmp_node(t_node *node, char *s2);
+void					ft_clean_cmd(t_data *data);
+void					add_node_back(t_node **lst, t_node *new);
+void					print_list(t_node *head);
+t_node					*create_node(char *str);
 
 #endif

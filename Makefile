@@ -20,6 +20,8 @@ SRC			= 	main.c \
 				ft_strcmp.c \
 				cutting_quotes.c \
 				syntaxer.c \
+				linked_list_utils.c\
+				linked_list_utils_two.c\
 
 SRCS 		= $(addprefix $(SRC_PATH)/, $(SRC))
 OBJ 		= $(SRC:.c=.o)

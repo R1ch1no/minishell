@@ -9,7 +9,7 @@ void	cleanse(t_data *data)
 		data->line_read = NULL;
 	}
 	free_2d_str_arr(&data->env_copy);
-	free_2d_str_arr(&data->cmd_line);
+	ft_clean_cmd(data);
 	printf("finished cleanup\n");
 }
 
