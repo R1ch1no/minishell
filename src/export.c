@@ -30,19 +30,21 @@ char	**copy_2d_char_arr(char **env, int len)
 	return (print);
 }
 
-void	print_quotes(char **print, char c)
+void	print_quotes(char **print, char c, int y, int x)
 {
-	int	y;
-	int	x;
-
-	y = -1;
 	while (print[++y])
 	{
 		x = -1;
 		write(1, "declare -x ", 11);
 		while (print[y][++x])
 		{
-			if (print[y][x] == '=')
+			if(print[y][x] == '=' && print[y][x + 1] == '\0')
+			{
+				write(1, "=", 1);
+				write(1, &c, 1);
+				write(1, &c, 1);
+			}
+			else if (print[y][x] == '=')
 			{
 				write(1, &print[y][x], 1);
 				write(1, &c, 1);
@@ -83,9 +85,38 @@ void	ft_export_na(char **env, t_node **node, int len)
 		}
 	}
 	row = -1;
-	print_quotes(print, '"');
+	print_quotes(print, '"', -1, -1);
 	free_2d_str_arr(&print);
 	(*node) = (*node)->next;
+}
+
+int	check_var(char *var, int in)
+{
+	if (!var)
+		return (1);
+	while (var[++in])
+	{
+		if (var[in] == '=')
+			break ;
+	}
+	if (var[in] == '\0')
+		return (1);
+	if (var[in] == '=')
+		return (0);
+	if (var[in] == '"')
+		in++;
+	if (var[in] == '\0')
+		return (1);
+	if (var[in] == '"')
+		return (0);
+	if (var[in] != '"')
+	{
+		while (var[in])
+			in++;
+		if (var[in - 1] == '"')
+			return (0);
+	}
+	return (0);
 }
 
 void	ft_export_a(t_data *data, char *var, t_node **node, int len)
@@ -94,6 +125,8 @@ void	ft_export_a(t_data *data, char *var, t_node **node, int len)
 	char	**new_env;
 
 	y = 0;
+	if (check_var(var, -1) == 1)
+		return ;
 	new_env = copy_2d_char_arr(data->env_copy, len);
 	if (new_env == NULL)
 		return ;
@@ -110,5 +143,4 @@ void	ft_export_a(t_data *data, char *var, t_node **node, int len)
 	free_2d_str_arr(&data->env_copy);
 	data->env_copy = new_env;
 	(*node) = (*node)->next;
-	print_quotes(new_env, '"');
 }
