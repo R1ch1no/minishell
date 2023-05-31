@@ -26,8 +26,16 @@ void	ft_pwd(t_node **node)
 	(*node) = (*node)->next;
 }
 
+//dunno how to implement it or when :
+//if the command is for example - env HELLO="HELLO"
+//env prints the env and HELLO="HELLO" at the end
+//but it is not saved in env
 void	ft_env(char **env, t_node **node)
 {
 	print_str_arr(env);
 	(*node) = (*node)->next;
+}
+
+void	ft_export(char **env, t_node **node)
+{
 }
