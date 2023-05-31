@@ -68,6 +68,7 @@ t_node	*create_node(char *str)
 	if (new == NULL)
 		return (NULL);
 	printf("Node created\n");
+	new->special = 0;
 	new->cmd = str;
 	new->next = NULL;
 	return (new);
