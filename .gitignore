@@ -1,6 +1,7 @@
 #ignores all .o files in repo (all subfolders)
 *.o
 *.a
+.vscode
 
 #ignores a specifc folder
 obj/

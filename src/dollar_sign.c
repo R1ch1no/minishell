@@ -21,10 +21,57 @@ int get_len_til(char *str, char *set)
 {
     int i;
 
+    if (!str)
+        return (-1);
     i = 0;
     while (str[i] && ft_strchr(set, str[i]) == NULL) //ends on '\0', space and all special chars
         i++;
     return (i);
+}
+
+
+char *ft_str_many_chr(char *str, char *set)
+{
+    int i;
+    char *ptr;
+
+    if (!str || !set)
+        return (NULL);
+    i = 0;
+    ptr = ft_strchr(set, str[i]);
+    while (str[i] && ptr == NULL)
+    {
+        ptr = ft_strchr(set, str[i]);
+        i++;
+    }
+    return (ptr);
+}
+
+
+char *strdup_without(const char *src, char c, int len)
+{
+    char *dup;
+    int i;
+    int j;
+
+    if (!src)
+        return (NULL);
+    dup = malloc(sizeof(char) * (len + 1));
+    if (!dup)
+        exit(1); //cleanse()
+    i = 0;
+    j = 0;
+    while (src[i] && j < len)
+    {
+        if (src[i] != c)
+        {
+            dup[j] = src[i];
+            j++;
+        }
+        i++;
+    }
+    dup[j] = '\0';
+    return (dup);
 }
 
 // Test'$USER and $USER' $USER '$USER
@@ -32,30 +79,30 @@ int get_len_til(char *str, char *set)
 int valid_dollar_sub(char *str, char **env)
 {
     int i;
-    int quotes;
-    char *before_dollar;
-    char *after_dollar;
-    char *env_value;
+
+    char *sec_quote;
+    char *cutted;
+    char *rest;
     //char *str_after
     //char *str_substitute = strdup(cmd_line[])
-
     i = 0;
-    quotes = 0;
     while (str[i])
     {
-        if (str[i] == '\'' && ft_strchr(str, '\'') != NULL)
-            cut_out_all
-        else if (str[i] == '$')
+        if (str[i] == '\'') 
         {
-            if ((quotes % 2 != 0 && ft_strchr(&str[i], '\'') != NULL)) //if dollar is negated cuz of single quotes
-                i++;
-            else
+            i++;
+            sec_quote = ft_strchr(str, '\'');
+            if (sec_quote != NULL)
             {
-                if (i != 0)
-                    before_dollar = ft_substr(str, 0, i + 1);
-                after_dollar = ft_substr(str, i + 1, get_len_til(&str[i], "$<>|'\""));
-                env_value = get_env_value(after_dollar);
+                cutted = strdup_without(str, '\'', sec_quote - str);
+                sec_quote++;
+                rest = ft_strdup(sec_quote);
+                str = ft_strjoin(cutted, rest);
+                free(cutted),
+                free(rest);
             }
+        }    
+    
             //substr str_before_$ (str[0], len=i+1) if i = 0 dann len = 0
             //get str_after_$_til: space or eof or $
             //look for it in env_copy
@@ -68,16 +115,27 @@ int valid_dollar_sub(char *str, char **env)
             //strlen of joined str
             //set i to the next char after the end of last $VAR
             //free str_before and str_after and str from cmd_line
-            //set str to joined str!    
-        }
+            //set str to joined str! 
        i++;
     }
 }
 
-
+int subout_dollar(char **str, int i)
+{
+    char *before_dollar;
+    char *dollar_name;
+    char *end;
+    if (i != 0)
+        before_dollar = ft_substr(str, 0, i + 1);
+    else
+        before_dollar = ft_strdup("");
+    end = ft_str_many_chr(&(*str[i]), "$<>|'\" ");
+    dollar_name = ft_substr(str, i + 1, end - str[i + 1]);
+    printf("dollar_name: %s", dollar_name);
+    return (5);
+}
 
 //test'$user bla'_'$USER
-
 //test
 //'
 //$USER bla
@@ -85,30 +143,6 @@ int valid_dollar_sub(char *str, char **env)
 //_
 //'
 //$SUER
-
-
-
-void dollar_and_s_quotes(char *str)
-{
-    int i;
-    int count;
-    char **temp;
-    
-    i = 0;
-    count = count_char(str, '\'');
-    if (count == 1)
-    {
-        while(str[i]) 
-        {
-            if (str[i] == '$')
-                printf("");
-            i++;
-        }
-        return ;
-    }
-
-    temp = ft_split(str, '\'');
-}
 
 
 int get_arr_len(char **arr)
@@ -137,36 +171,11 @@ int get_i_of_next_occ(char **arr, int first, char *str)
     return (i);
 }
 
-//LETS SAY I HAVE A SPLIT IN MY WAY MEANING all words and the spliter
-char *subout_dollar_s_quotes(char **arr)
+
+int main()
 {
-    int i;
-    int j;
-    char *temp;
-    char *buf;
-
-    temp = ft_strjoin("", "");
-    i = 0;
-    while (arr[i])
-    {
-        if (arr[i][0] == '\'' && arr[i + 2][0])
-        {
-            //ES KANN NUR 1 str zwischen splitter SEIN
-            free(arr[i]);
-            arr[i] = malloc(sizeof(char));
-            arr[i][0] = '\0';
-            i += 2;
-            free(arr[i]);
-            arr[i] = malloc(sizeof(char));
-            arr[i][0] = '\0';
-        }
-        if (count_char(arr[i], '$'))
-            subout_dollar();
-        else if (i != 0)
-            temp = ft_strjoin(temp, arr[i]);
-
-    }
-    return (temp)
+    char *str = "1$USER<name";
+    subout(&str, 1);
 }
 
 
@@ -174,10 +183,3 @@ char *subout_dollar_s_quotes(char **arr)
 
 
 
-int single_quote_exception(char *str, int quotes)
-{
-    if (quotes % 2 != 0 && ft_strchr(str, '\'') != NULL)
-        return (TRUE);
-    else 
-        return(FALSE);
-}
