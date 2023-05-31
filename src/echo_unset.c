@@ -2,33 +2,33 @@
 #include "../minishell.h"
 
 //echo receives node that comes after the node containing cmd "echo"
-void	ft_echo(t_node *node)
+void	ft_echo(t_node **node)
 {
-	int		i;
-	int		n;
+	int	i;
+	int	n;
 
 	i = -1;
 	n = 0;
-	if (node == NULL)
+	if ((*node) == NULL)
 	{
 		write(1, "\n", 1);
 		return ;
 	}
-	if (ft_strcmp_v2(node->cmd, "-n") == 0)
+	if (ft_strcmp_v2((*node)->cmd, "-n") == 0)
 	{
 		n = 1;
-		node = node->next;
+		(*node) = (*node)->next;
 	}
-	if (node == NULL && n == 1)
+	if ((*node) == NULL && n == 1)
 		return ;
-	while (node->cmd[++i])
+	while ((*node)->cmd[++i])
 	{
-		if (n == 1 && node->cmd[i + 1] == '\0' && node->cmd[i] == '\n')
+		if (n == 1 && (*node)->cmd[i + 1] == '\0' && (*node)->cmd[i] == '\n')
 			return ;
-		else
-			write(1, &node->cmd[i], 1);
+		write(1, &(*node)->cmd[i], 1);
 	}
 	write(1, "\n", 1);
+	(*node) = (*node)->next;
 }
 
 int	ft_find_match(t_data *data, char *search, int y)
@@ -64,12 +64,12 @@ int	ft_core(t_data *data, char **new_env, int y, int z)
 			return (1);
 		}
 		ft_strlcpy(new_env[z], data->env_copy[y], ft_strlen(data->env_copy[y])
-			+ 1);
+				+ 1);
 	}
 	return (0);
 }
 
-void	ft_unset(t_data *data, char *search)
+void	ft_unset(t_data *data, char *search, t_node **node)
 {
 	int		y;
 	int		z;
@@ -79,21 +79,21 @@ void	ft_unset(t_data *data, char *search)
 	z = -1;
 	while (data->env_copy[y])
 		y++;
-	new_env = malloc((y + 1) * sizeof(char *));
+	new_env = malloc((y) * sizeof(char *));
 	if (!new_env)
 		return (perror(NULL));
 	y = 0;
 	while (data->env_copy[y] != NULL)
 	{
-		++z;
-		y += ft_find_match(data, search, y);
-		if (ft_core(data, new_env, y, z) == 1)
-			return ;
+		if (ft_find_match(data, search, y) == 0)
+			if (ft_core(data, new_env, y, ++z) == 1)
+				return ;
 		if (data->env_copy[y] == NULL)
 			break ;
 		y++;
 	}
 	free_2d_str_arr(&data->env_copy);
-	new_env[z] = NULL;
+	new_env[z + 1] = NULL;
 	data->env_copy = new_env;
+	(*node) = (*node)->next;
 }

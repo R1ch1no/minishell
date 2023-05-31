@@ -27,25 +27,23 @@ void	executer(t_data *data)
 	while (current != NULL)
 	{
 		if (ft_strcmp_node(current, "pwd") == 0)
-			ft_pwd(current);
+			ft_pwd(&current);
 		else if (ft_strcmp_node(current, "echo") == 0)
 		{
 			current = current->next;
-			ft_echo(current);
+			ft_echo(&current);
 		}
 		else if (ft_strcmp_node(current, "cd") == 0)
-			ft_cd(current->next);
-		else if (ft_strcmp_node(current, "env") == 0)
-			ft_env(data->env_copy, current);
-		else if (ft_strcmp_node(current, "unset") == 0 && current->next)
-			ft_unset(data, current->next->cmd);
-		else
 		{
-			if (current != NULL)
-				current = current->next;
+			current = current->next;
+			ft_cd(&current);
 		}
+		else if (ft_strcmp_node(current, "env") == 0)
+			ft_env(data->env_copy, &current);
+		else if (ft_strcmp_node(current, "unset") == 0 && current->next)
+			ft_unset(data, current->next->cmd, &current);
 		if (current != NULL)
-			printf("NODE : %s", current->cmd);
+			current = current->next;
 	}
 }
 
