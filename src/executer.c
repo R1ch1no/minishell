@@ -42,6 +42,11 @@ void	executer(t_data *data)
 			ft_env(data->env_copy, &current);
 		else if (ft_strcmp_node(current, "unset") == 0 && current->next)
 			ft_unset(data, current->next->cmd, &current);
+		else if (ft_strcmp_node(current, "export") == 0 && current->next)
+			ft_export_a(data, current->next->cmd, &current,
+				get_arr_len(data->env_copy) + 1);
+		else if (ft_strcmp_node(current, "export") == 0)
+			ft_export_na(data->env_copy, &current, get_arr_len(data->env_copy));
 		if (current != NULL)
 			current = current->next;
 	}

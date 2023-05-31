@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:41:56 by qtran             #+#    #+#             */
-/*   Updated: 2023/05/31 14:51:32 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/05/31 17:44:32 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ void					ft_echo(t_node **node);
 void					ft_pwd(t_node **node);
 void					ft_env(char **env, t_node **node);
 void					ft_unset(t_data *data, char *search, t_node **node);
-void					ft_export(char **env, t_node **node);
+void					ft_export_na(char **env, t_node **node, int len);
+void					ft_export_a(t_data *data, char *var, t_node **node, int len);
 
 int						ft_strcmp_v2(char *s1, char *s2);
 int						syntaxer(t_node *cmd_line);
@@ -104,5 +105,8 @@ void					ft_clean_cmd(t_data *data);
 void					add_node_back(t_node **lst, t_node *new);
 void					print_list(t_node *head);
 t_node					*create_node(char *str);
+
+//dollar_sign_file
+int						get_arr_len(char **arr);
 
 #endif

@@ -16,6 +16,7 @@ SRC			= 	main.c \
 				signals.c \
 				env_cd_pwd.c \
 				echo_unset.c \
+				export.c \
 				executer.c \
 				ft_strcmp.c \
 				cutting_quotes.c \
