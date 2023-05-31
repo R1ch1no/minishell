@@ -36,6 +36,15 @@ void	ft_env(char **env, t_node **node)
 	(*node) = (*node)->next;
 }
 
-void	ft_export(char **env, t_node **node)
+int	get_arr_len(char **arr)
 {
+	int	i;
+
+	i = 0;
+	if (!arr)
+		return (-1);
+	while (arr[i])
+		i++;
+	return (i);
 }
+
