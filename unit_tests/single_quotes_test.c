@@ -6,7 +6,7 @@
 /*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:49:08 by qtran             #+#    #+#             */
-/*   Updated: 2023/06/01 14:51:35 by qtran            ###   ########.fr       */
+/*   Updated: 2023/06/01 16:47:57 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,32 @@ char *strdup_without(char *src, char c, int len)
     return (dup);
 }
 
-
+int single_quotes(char **str, int i)
+{
+    int len;
+    char *sec_quote;
+    char *cutted;
+    char *rest;
+    
+    i++;
+    sec_quote = ft_strchr(&(*str)[i], '\'');
+    if (sec_quote != NULL)
+    {
+        len = sec_quote - (*str) - 1;
+        cutted = strdup_without((*str), '\'', len);
+        sec_quote++;
+        rest = strdup(sec_quote);
+        //printf("len: %d\n", len);
+        //printf("cutted: %s\n", cutted);
+        //printf("rest: %s\n", rest);
+        free((*str));
+        (*str) = ft_strjoin(cutted, rest);
+        free(cutted);
+        free(rest);
+        i = len;
+    }
+    return (i);
+}
 
 char *ft_str_many_chr(char *str, char *set)
 {
@@ -110,43 +135,8 @@ char *ft_str_many_chr(char *str, char *set)
         j = 0;
         i++;
     }
-    return (NULL);
+    return (&str[i]);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 char *ft_strjoin_3(char *s1, char *s2, char *s3)
@@ -174,18 +164,17 @@ int subout_dollar(char **str, int i)
         before_dollar = ft_substr(*str, 0, i);
     else
         before_dollar = ft_strdup("");
-
     //it can have spaces and <> signs if its in double quotes, bash reads the name until the special chars
     end = ft_str_many_chr(&(*str)[i + 1], "$'\"<> ");
     dollar_name = ft_substr(*str, i + 1, end - &(*str)[i + 1]);
     //printf("dollar_name: %s\n", dollar_name);
     env_value = ft_strdup("qtran");
-    end++;
     if (*end != '\0')
     {
         temp = ft_strdup(end++);
         free(*str);
         (*str) = ft_strjoin_3(before_dollar, env_value, temp);
+        free(temp);
     }
     else
     {
@@ -196,13 +185,12 @@ int subout_dollar(char **str, int i)
     free(dollar_name);
     free(before_dollar);
     free(env_value);
-    free(temp);
     return (i);
 }
 
 
 
-char *dollar_and_s_quotes(char *str) //only works with malloc'd str
+void dollar_and_s_quotes(char **str) //only works with malloc'd str
 {
     int i;
     int len; 
@@ -211,34 +199,33 @@ char *dollar_and_s_quotes(char *str) //only works with malloc'd str
     char *rest;
 
     i = 0;
-    while (str[i])
+    while ((*str)[i])
     {
-        if (str[i] == '\'') 
+        if ((*str)[i] == '\'') 
         {
             i++;
-            sec_quote = ft_strchr(&str[i], '\'');
+            sec_quote = ft_strchr(&(*str)[i], '\'');
             if (sec_quote != NULL)
             {
-                len = sec_quote - str - 1;
+                len = sec_quote - (*str) - 1;
                 //printf("len: %d\n", len);
-                cutted = strdup_without(str, '\'', len);
+                cutted = strdup_without((*str), '\'', len);
                 //printf("cutted: %s\n", cutted);
                 sec_quote++;
                 rest = strdup(sec_quote);
                 //printf("rest: %s\n", rest);
-                free(str);
-                str = ft_strjoin(cutted, rest);
-                free(cutted),
+                free((*str));
+                (*str) = ft_strjoin(cutted, rest);
+                free(cutted);
                 free(rest);
                 i = len;
             }
         }
-        else if (str[i] == '$')
-            i = subout_dollar(*str, i);
+        else if ((*str)[i] == '$')
+            i = subout_dollar(str, i);
         else
             i++;
     }
-    return (str);
 }
 
 
@@ -269,5 +256,10 @@ int main()
     printf("%s\n", str3);
     free(str3); */
 
-    //
+    //TESTING ACTUAL IMPLEMENTATION FOR MINISHELL
+    char *str3 = ft_strdup("01'$USER'SHIT");
+    printf("Original: %s\n", str3);
+    dollar_and_s_quotes(&str3);
+    printf("changed: %s\n", str3);
+    free(str3);
 }
