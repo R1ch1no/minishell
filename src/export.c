@@ -38,7 +38,7 @@ void	print_quotes(char **print, char c, int y, int x)
 		write(1, "declare -x ", 11);
 		while (print[y][++x])
 		{
-			if(print[y][x] == '=' && print[y][x + 1] == '\0')
+			if (print[y][x] == '=' && print[y][x + 1] == '\0')
 			{
 				write(1, "=", 1);
 				write(1, &c, 1);
@@ -103,19 +103,6 @@ int	check_var(char *var, int in)
 		return (1);
 	if (var[in] == '=')
 		return (0);
-	if (var[in] == '"')
-		in++;
-	if (var[in] == '\0')
-		return (1);
-	if (var[in] == '"')
-		return (0);
-	if (var[in] != '"')
-	{
-		while (var[in])
-			in++;
-		if (var[in - 1] == '"')
-			return (0);
-	}
 	return (0);
 }
 
@@ -127,13 +114,15 @@ void	ft_export_a(t_data *data, char *var, t_node **node, int len)
 	y = 0;
 	if (check_var(var, -1) == 1)
 		return ;
+	if (ft_adjust_single_quotes(&var) == 1)
+		return ;
 	new_env = copy_2d_char_arr(data->env_copy, len);
-	if (new_env == NULL)
+	if (new_env == NULL || !new_env)
 		return ;
 	while (new_env[y] != NULL)
 		y++;
 	new_env[y] = malloc(ft_strlen(var) + 1);
-	if (new_env[y] == NULL)
+	if (new_env[y] == NULL || !new_env[y])
 	{
 		free_2d_str_arr(&new_env);
 		return (perror(NULL));
