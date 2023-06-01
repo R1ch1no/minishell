@@ -8,7 +8,7 @@ void prep_for_executer(t_node *head, t_data *data)
     current = head;
     while (current)
     {
-        cut_out_quotes(&current->cmd, '\"');
+        cut_out_quotes(&current->cmd, '\"'); //double quotes
         current = current->next;
     }
     current = head;

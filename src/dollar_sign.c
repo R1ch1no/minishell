@@ -1,6 +1,14 @@
 
 #include "../minishell.h"
 
+
+//NOTION DIDNT WORK
+/*
+    $USER">"
+    "$USER>"
+    $USER>
+*/
+
 //123456
 //abcdef
 //012345
@@ -170,15 +178,6 @@ int get_i_of_next_occ(char **arr, int first, char *str)
         return (-1);
     return (i);
 }
-
-
-int main()
-{
-    char *str = "1$USER<name";
-    subout(&str, 1);
-}
-
-
 
 
 
