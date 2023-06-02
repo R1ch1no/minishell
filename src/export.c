@@ -36,13 +36,14 @@ char	**copy_2d_char_arr(char **env, int len)
 //otherwise, everything is printed unchaned
 // c is the '=' sign - to save lines of code
 //y and x are also sent in to save lines
+
 void	print_quotes(char **print, char c, int y, int x)
 {
 	int	sign;
 
-	sign = 0;
 	while (print[++y])
 	{
+		sign = 0;
 		x = -1;
 		printf("declare -x ");
 		while (print[y][++x])
@@ -62,7 +63,6 @@ void	print_quotes(char **print, char c, int y, int x)
 				printf("%c", print[y][x]);
 		}
 		printf("\n");
-		sign = 0;
 	}
 }
 
@@ -130,6 +130,8 @@ void	ft_export_a(t_data *data, char *var, t_node **node, int len)
 
 	y = 0;
 	if (check_var(var, -1, node) == 1)
+		return ;
+	if (ft_replace_existing(data, *node) == 1)
 		return ;
 	new_env = copy_2d_char_arr(data->env_copy, len);
 	if (new_env == NULL || !new_env)

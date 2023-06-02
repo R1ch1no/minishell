@@ -79,3 +79,27 @@ int	ft_adjust_single_quotes(char **str, t_node *node)
 	free(tmp);
 	return (0);
 }
+
+int	ft_replace_existing(t_data *data, t_node *node)
+{
+	int		y;
+	int		match;
+	char	*replace;
+	char	*tmp;
+
+	y = -1;
+	match = 0;
+	while (data->env_copy[++y])
+		if (ft_strcmp_v2(data->env_copy[y], node->cmd) == 0)
+			match = y;
+	if (match == 0)
+		return (0);
+	tmp = data->env_copy[match];
+	replace = malloc(ft_strlen(node->cmd) + 1);
+	if (!replace || replace == NULL)
+		return (1);
+	ft_strlcpy(replace, node->cmd, ft_strlen(node->cmd) + 1);
+	data->env_copy[match] = replace;
+	free(tmp);
+	return (1);
+}

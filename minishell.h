@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:41:56 by qtran             #+#    #+#             */
-/*   Updated: 2023/06/02 19:52:47 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/02 20:43:42 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,14 @@ void					ft_echo(t_node **node);
 void					ft_pwd(t_node **node);
 void					ft_env(char **env, t_node **node);
 void					ft_unset(t_data *data, char *search, t_node **node);
+//export
 void					ft_export_na(char **env, t_node **node, int len);
 void					ft_export_a(t_data *data, char *var, t_node **node,
 							int len);
 int						ft_adjust_single_quotes(char **str, t_node *node);
 int						double_quotes_count(char *str);
 int						single_quotes_count(char *str);
+int						ft_replace_existing(t_data *data, t_node *node);
 
 int						ft_strcmp_v2(char *s1, char *s2);
 int						syntaxer(t_node *cmd_line);
