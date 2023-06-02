@@ -6,7 +6,7 @@
 /*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:49:08 by qtran             #+#    #+#             */
-/*   Updated: 2023/06/01 16:47:57 by qtran            ###   ########.fr       */
+/*   Updated: 2023/06/02 18:30:36 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,25 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
+int	count_char(char *str, char c)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	if (!str)
+		return (-1);
+	while (str[i])
+	{
+		if (str[i] == c)
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+
 char *strdup_without(char *src, char c, int len)
 {
     char *dup;
@@ -99,9 +118,6 @@ int single_quotes(char **str, int i)
         cutted = strdup_without((*str), '\'', len);
         sec_quote++;
         rest = strdup(sec_quote);
-        //printf("len: %d\n", len);
-        //printf("cutted: %s\n", cutted);
-        //printf("rest: %s\n", rest);
         free((*str));
         (*str) = ft_strjoin(cutted, rest);
         free(cutted);
@@ -109,6 +125,9 @@ int single_quotes(char **str, int i)
         i = len;
     }
     return (i);
+    //printf("len: %d\n", len);
+        //printf("cutted: %s\n", cutted);
+        //printf("rest: %s\n", rest);
 }
 
 char *ft_str_many_chr(char *str, char *set)
@@ -117,13 +136,9 @@ char *ft_str_many_chr(char *str, char *set)
     int j;
 
     if (!str || !set)
-    {
-        printf("NULÖLLL ???");
         return (NULL);
-    }
     i = 0;
     j = 0;
-    //printf("in many char, passed str: %s\n", str);
     while (str[i])
     {
         while (set[j])
@@ -165,7 +180,12 @@ int subout_dollar(char **str, int i)
     else
         before_dollar = ft_strdup("");
     //it can have spaces and <> signs if its in double quotes, bash reads the name until the special chars
-    end = ft_str_many_chr(&(*str)[i + 1], "$'\"<> ");
+    //currently still a bug if $name" or $"nameand unclosed quote
+    if (count_char(*str, '\'') % 2 != 0 || (count_char(*str, '\"') == 1))
+        end = ft_str_many_chr(&(*str)[i + 1], "$ "); 
+    else
+        end = ft_str_many_chr(&(*str)[i + 1], "$'\" ");
+    
     dollar_name = ft_substr(*str, i + 1, end - &(*str)[i + 1]);
     //printf("dollar_name: %s\n", dollar_name);
     env_value = ft_strdup("qtran");
@@ -181,53 +201,73 @@ int subout_dollar(char **str, int i)
         free(*str);
         *str = ft_strjoin(before_dollar, env_value);
     }
-    i += (ft_strlen(env_value) + 1);
+    i += (ft_strlen(env_value));
     free(dollar_name);
     free(before_dollar);
     free(env_value);
     return (i);
 }
 
-
-
-void dollar_and_s_quotes(char **str) //only works with malloc'd str
+char *strcpy_wout_ind(char *str, int x)
 {
     int i;
-    int len; 
-    char *sec_quote;
-    char *cutted;
-    char *rest;
+    int j;
+    char *cpy;
+        
+    if (!str)
+        return (NULL);
+    cpy = malloc(sizeof(char) * ft_strlen(str));
+    if (!cpy)
+        exit(1);
+    i = 0;
+    j = 0;
+    while (str[i])
+    {
+        if (i != x)
+        {
+            cpy[j] = str[i];
+            i++;
+            j++;
+        }
+        else
+            i++;   
+    }
+    cpy[j] = '\0';
+    return (cpy);
+}
+
+
+//only works with malloc'd str
+void dollar_and_s_quotes(char **str) 
+{
+    int i;
+    char *temp;
 
     i = 0;
     while ((*str)[i])
     {
-        if ((*str)[i] == '\'') 
+        if ((*str)[i] == '$' && (*str)[i + 1] && (*str)[i + 1] != ' ')
         {
-            i++;
-            sec_quote = ft_strchr(&(*str)[i], '\'');
-            if (sec_quote != NULL)
+            if ((*str)[i + 1] == '?')
+                printf("Baustelle\n");
+            if (((*str)[i + 1] == '\'' && ft_strchr(&(*str)[i + 2], '\'')) || 
+                ((*str)[i + 1] == '\"' && ft_strchr(&(*str)[i + 2], '\"')))
             {
-                len = sec_quote - (*str) - 1;
-                //printf("len: %d\n", len);
-                cutted = strdup_without((*str), '\'', len);
-                //printf("cutted: %s\n", cutted);
-                sec_quote++;
-                rest = strdup(sec_quote);
-                //printf("rest: %s\n", rest);
-                free((*str));
-                (*str) = ft_strjoin(cutted, rest);
-                free(cutted);
-                free(rest);
-                i = len;
+                temp = strcpy_wout_ind(*str, i);
+                free(*str);
+                *str = temp;
+                printf("Baustelle quotes nach $\n");
+                i++;
             }
-        }
-        else if ((*str)[i] == '$')
-            i = subout_dollar(str, i);
+            else
+                i = subout_dollar(str, i);
+        }  
+        else if ((*str)[i] == '\'') 
+            i = single_quotes(str, i);
         else
             i++;
     }
 }
-
 
 
 int main()
@@ -239,7 +279,6 @@ int main()
     //printf("Input str: %s\n", str);
     //printf("dup: %s\n", dup);
     //free(dup);
-
 
     //char *str = "second'test'2 single 'quotes before and at end 3'";
     //char *str2 = strdup(str);
@@ -257,9 +296,79 @@ int main()
     free(str3); */
 
     //TESTING ACTUAL IMPLEMENTATION FOR MINISHELL
-    char *str3 = ft_strdup("01'$USER'SHIT");
+    char *str3 = ft_strdup("01'$USER'SHIT $USER$USER'''$'user");
     printf("Original: %s\n", str3);
     dollar_and_s_quotes(&str3);
     printf("changed: %s\n", str3);
     free(str3);
+    //dollar in d und s quotes
+    str3 = ft_strdup("test'$'");
+    printf("Original: %s\n", str3);
+    dollar_and_s_quotes(&str3);
+    printf("changed: %s\n", str3);
+    free(str3);
+    
+    str3 = ft_strdup("$smth'$' money");
+    printf("Original: %s\n", str3);
+    dollar_and_s_quotes(&str3);
+    printf("changed: %s\n", str3);
+    free(str3);
+    
+    //dollar at end 
+    str3 = ft_strdup("name$");
+    printf("Original: %s\n", str3);
+    dollar_and_s_quotes(&str3);
+    printf("changed: %s\n", str3);
+    free(str3);
+
+    //str3 = ft_strdup("bashtest$\"quotes\"");
+    //printf("Original: %s\n", str3);
+    //dollar_and_s_quotes(&str3);
+    //printf("changed: %s\n", str3);
+    //free(str3);
+
+
+    //$-sign and after quote which is closed
+    str3 = ft_strdup("bashtest$\"quotes\"");
+    printf("Original: %s\n", str3);
+    dollar_and_s_quotes(&str3);
+    printf("changed: %s\n", str3);
+    free(str3);
+
+    printf("\n----$-sign and after it a quote which is unlcosed----\n");
+    //str3 = ft_strdup("bashtest$\"quotes");
+    str3 = ft_strdup("test$USER\"");
+    printf("Original: %s\n", str3);
+    dollar_and_s_quotes(&str3);
+    printf("changed: %s\n", str3);
+    free(str3);
+    printf("\n----$-sign and after it 3 quotes----\n");
+    str3 = ft_strdup("test$USER\"three\"quo\"tes");
+    printf("Original: %s\n", str3);
+    dollar_and_s_quotes(&str3);
+    printf("changed: %s\n", str3);
+    free(str3);
+
+
+    printf("\n----closed quote after dollar----\n");
+    //str3 = ft_strdup("bashtest$\"quotes");
+    str3 = ft_strdup("test$USER\"NAME\"");
+    printf("Original: %s\n", str3);
+    dollar_and_s_quotes(&str3);
+    printf("changed: %s\n", str3);
+    free(str3);
+
+    printf("\n----redirection with quotes and without---\n");
+    //str3 = ft_strdup("bashtest$\"quotes");
+    str3 = ft_strdup("bashtest\"$USER>name\"");
+    printf("Original: %s\n", str3);
+    dollar_and_s_quotes(&str3);
+    printf("changed: %s\n", str3);
+    free(str3);
+    str3 = ft_strdup("bashtest$USER>name");
+    printf("Original: %s\n", str3);
+    dollar_and_s_quotes(&str3);
+    printf("changed: %s\n", str3);
+    free(str3);
+    
 }
