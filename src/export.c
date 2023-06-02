@@ -30,37 +30,43 @@ char	**copy_2d_char_arr(char **env, int len)
 	return (print);
 }
 
+//print is the copy of enviroment, that was sorted before
+//this function only adds declare -x and quotes after first = sign
+//and at the end of the value of the env envritoble
+//otherwise, everything is printed unchaned
+// c is the '=' sign - to save lines of code
+//y and x are also sent in to save lines
 void	print_quotes(char **print, char c, int y, int x)
 {
+	int	sign;
+
+	sign = 0;
 	while (print[++y])
 	{
 		x = -1;
-		write(1, "declare -x ", 11);
+		printf("declare -x ");
 		while (print[y][++x])
 		{
+			if (print[y][x] == '"')
+				printf("\\");
 			if (print[y][x] == '=' && print[y][x + 1] == '\0')
+				printf("=%c%c", c, c);
+			else if (print[y][x] == '=' && sign == 0)
 			{
-				write(1, "=", 1);
-				write(1, &c, 1);
-				write(1, &c, 1);
-			}
-			else if (print[y][x] == '=')
-			{
-				write(1, &print[y][x], 1);
-				write(1, &c, 1);
+				sign = 1;
+				printf("%c%c", print[y][x], c);
 			}
 			else if (print[y][x + 1] == '\0')
-			{
-				write(1, &print[y][x], 1);
-				write(1, &c, 1);
-			}
+				printf("%c%c", print[y][x], c);
 			else
-				write(1, &print[y][x], 1);
+				printf("%c", print[y][x]);
 		}
-		write(1, "\n", 1);
+		printf("\n");
+		sign = 0;
 	}
 }
 
+//export function with no arguments
 void	ft_export_na(char **env, t_node **node, int len)
 {
 	int		row;
@@ -84,13 +90,12 @@ void	ft_export_na(char **env, t_node **node, int len)
 			}
 		}
 	}
-	row = -1;
 	print_quotes(print, '"', -1, -1);
 	free_2d_str_arr(&print);
 	(*node) = (*node)->next;
 }
 
-int	check_var(char *var, int in)
+int	check_var(char *var, int in, t_node **node)
 {
 	if (!var)
 		return (1);
@@ -102,19 +107,29 @@ int	check_var(char *var, int in)
 	if (var[in] == '\0')
 		return (1);
 	if (var[in] == '=')
-		return (0);
+	{
+		if (var[in + 1] == '\'')
+			if (single_quotes_count(var) % 2 == 1)
+				return (1);
+		if (var[in + 1] == '"')
+			if (double_quotes_count(var) % 2 == 1)
+				return (1);
+		if (var[in + 1] == '\0')
+			return (1);
+	}
+	if (ft_adjust_single_quotes(&var, *node) == 1)
+		return (1);
 	return (0);
 }
 
+//export function when there are arguments
 void	ft_export_a(t_data *data, char *var, t_node **node, int len)
 {
 	int		y;
 	char	**new_env;
 
 	y = 0;
-	if (check_var(var, -1) == 1)
-		return ;
-	if (ft_adjust_single_quotes(&var) == 1)
+	if (check_var(var, -1, node) == 1)
 		return ;
 	new_env = copy_2d_char_arr(data->env_copy, len);
 	if (new_env == NULL || !new_env)
@@ -127,7 +142,7 @@ void	ft_export_a(t_data *data, char *var, t_node **node, int len)
 		free_2d_str_arr(&new_env);
 		return (perror(NULL));
 	}
-	ft_strlcpy(new_env[y], var, ft_strlen(var) + 1);
+	ft_strlcpy(new_env[y], (*node)->cmd, ft_strlen(var) + 1);
 	new_env[y + 1] = NULL;
 	free_2d_str_arr(&data->env_copy);
 	data->env_copy = new_env;

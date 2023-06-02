@@ -1,6 +1,21 @@
 
 #include "../minishell.h"
 
+int	single_quotes_count(char *str)
+{
+	int	in;
+	int	d_qs;
+
+	in = -1;
+	d_qs = 0;
+	while (str[++in])
+	{
+		if (str[in] == '\'')
+			d_qs++;
+	}
+	return (d_qs);
+}
+
 int	double_quotes_count(char *str)
 {
 	int	in;
@@ -18,6 +33,7 @@ int	double_quotes_count(char *str)
 
 void	ft_adjust_core(char *new, char *str)
 {
+	int		sign;
 	int		in;
 	int		ind;
 	char	c;
@@ -25,9 +41,15 @@ void	ft_adjust_core(char *new, char *str)
 	c = '\'';
 	in = 0;
 	ind = 0;
+	sign = 0;
 	while (str[in])
 	{
-		if (str[in] == c)
+		if ((str[in] == c || str[in] == '"') && str[in - 1] == '=' && sign == 0)
+		{
+			sign = 1;
+			in++;
+		}
+		if ((str[in] == c || str[in] == '"') && str[in + 1] == '\0')
 			in++;
 		if (str[in] == '\0')
 			break ;
@@ -38,14 +60,14 @@ void	ft_adjust_core(char *new, char *str)
 	new[ind] = '\0';
 }
 
-int	ft_adjust_single_quotes(char **str)
+int	ft_adjust_single_quotes(char **str, t_node *node)
 {
 	char	*new;
-	char	*temp;
+	char	*tmp;
 
 	if (!str)
 		return (1);
-	temp = (*str);
+	tmp = node->cmd;
 	new = malloc(ft_strlen(*str) - 2 + double_quotes_count(*str) + 1);
 	if (new == NULL || !new)
 	{
@@ -53,7 +75,7 @@ int	ft_adjust_single_quotes(char **str)
 		return (1);
 	}
 	ft_adjust_core(new, *str);
-	*str = new;
-	free(temp);
+	node->cmd = new;
+	free(tmp);
 	return (0);
 }
