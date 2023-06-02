@@ -20,6 +20,10 @@ void change(char **str)
 }
 
 
+void print_address(char *str)
+{
+    printf("address in function scope: %p\n", &str);
+}
 int main()
 {
     t_data *data;
@@ -35,4 +39,12 @@ int main()
 
     printf("End of main\n");
     free(data);
+
+    char *str1 = strdup("Hello");
+    char *str2 = strdup("nothing");
+    printf("address main scope: %p\n", &str1);
+    print_address(str1);
+    printf("address main scope: %p\n", &str2);
+    print_address(str2);
+
 }
