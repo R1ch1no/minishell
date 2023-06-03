@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   single_quotes_test.c                               :+:      :+:    :+:   */
+/*   quotes_and_dollar.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:49:08 by qtran             #+#    #+#             */
-/*   Updated: 2023/06/03 12:18:30 by qtran            ###   ########.fr       */
+/*   Updated: 2023/06/03 09:46:54 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char *strdup_without(char *src, char c, int len)
     return (dup);
 }
 
-int single_quotes(char **str, int i)
+int single_quotes(char **str, int i, char quote)
 {
     int len;
     char *sec_quote;
@@ -111,11 +111,11 @@ int single_quotes(char **str, int i)
     char *rest;
     
     i++;
-    sec_quote = ft_strchr(&(*str)[i], '\'');
+    sec_quote = ft_strchr(&(*str)[i], quote);
     if (sec_quote != NULL)
     {
         len = sec_quote - (*str) - 1;
-        cutted = strdup_without((*str), '\'', len);
+        cutted = strdup_without((*str), quote, len);
         sec_quote++;
         rest = strdup(sec_quote);
         free((*str));
@@ -263,7 +263,9 @@ void dollar_and_s_quotes(char **str)
                 i = subout_dollar(str, i);
         }  
         else if ((*str)[i] == '\'') 
-            i = single_quotes(str, i);
+            i = single_quotes(str, '\'', i);
+        else if ((*str)[i] == '\"')
+            i = single_quotes(str, '\"', i);
         else
             i++;
     }
@@ -371,9 +373,4 @@ int main()
     printf("changed: %s\n", str3);
     free(str3);
     
-    str3 = ft_strdup("$\"USER\"");
-    printf("Original: %s\n", str3);
-    dollar_and_s_quotes(&str3);
-    printf("changed: %s\n", str3);
-    free(str3);
 }

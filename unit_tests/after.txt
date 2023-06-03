@@ -1,0 +1,41 @@
+Original: 01'$USER'SHIT $USER$USER'''$'user
+changed: 01$USERSHIT qtranqtran$user
+Original: test'$'
+changed: test$
+Original: $smth'$' money
+changed: qtran$ money
+Original: name$
+changed: name$
+Original: bashtest$"quotes"
+Baustelle quotes nach $
+changed: bashtest"quotes"
+
+----$-sign and after it a quote which is unlcosed----
+Original: test$USER"
+changed: testqtran
+
+----$-sign and after it 3 quotes----
+Original: test$USER"three"quo"tes
+changed: testqtranthreequo"tes
+
+----redirection with quotes and without---
+Original: bashtest"$USER>name"
+changed: bashtestqtran
+Original: bashtest$USER>name
+changed: bashtestqtran
+
+----Dollar in double quotes---
+Original: minishell"$USER"
+changed: minishellqtran
+
+----closed quote after dollar----
+Original: test$USER"NAME"
+changed: testqtranNAME
+
+----Dollar and 1 double quote before---
+Original: minishell"$USER
+changed: minishell"qtran
+
+----Dollar and 1 double quote after---
+Original: minishell$USER"
+changed: minishellqtran

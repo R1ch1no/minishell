@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:41:56 by qtran             #+#    #+#             */
-/*   Updated: 2023/06/02 20:43:42 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/03 11:00:20 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,16 @@ t_node					*create_node(char *str);
 
 //dollar_sign_file
 int						get_arr_len(char **arr);
+
+
+//quotes_and_dollar
+int	count_char(char *str, char c);
+char *strdup_without(char *src, char c, int len);
+int single_quotes(char **str, int i, char quote);
+char *ft_str_many_chr(char *str, char *set);
+char *ft_strjoin_3(char *s1, char *s2, char *s3);
+int subout_dollar(char **str, int i);
+char *strcpy_wout_ind(char *str, int x);
+void dollar_and_s_quotes(char **str);
 
 #endif

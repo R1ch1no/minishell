@@ -35,7 +35,7 @@ int main()
         printf("NULL\n");
     if (data->str == NULL)
         printf("NULL\n");
-
+    
 
     printf("End of main\n");
     free(data);
