@@ -70,7 +70,7 @@ void print_test(t_node node)
     if (strcmp(node.bash, node.mini) == 0)
         printf("Success\n");
     else
-        printf("Fail\n");
+        printf("Fail 🥲\n");
 }
 
 void	print_list(t_node *head)
@@ -98,13 +98,15 @@ int main()
     //$? evals-to: 1234
     //
     t_node *head = NULL;
-    
+    //Quotes
     add_node_back
     (   &head, 
-        "\"01'$USER'SHIT $USER$USER'''$'user\"",
-        "01$USERSHIT qtranqtran$user"   
+        "(\"01'$USER'SHIT $USER$USER'''$'user\")",
+        "(01$USERSHIT qtranqtran$user)"   
     );
     
+
+    //
     add_node_back
     (   &head, 
         "text'$'",
@@ -119,34 +121,55 @@ int main()
 
     add_node_back
     (   &head, 
-        "$USER'$' money",
-        "qtran$ money"   
+        "$USER'$' space",
+        "qtran$ space"   
+    );
+
+    //closed quotes directly after
+    add_node_back
+    (   &head, 
+        "(text$\"USER\")",
+        "(textUSER)"   
     );
 
     add_node_back
     (   &head, 
-        "text$\"quotes\"",
-        "textquotes"   
+        "(text$'USER')",
+        "(textUSER)"   
     );
 
+    //closed single quotes directly after but in double quotes
     add_node_back
-    (   &head, 
-        "text$'quotes'",
-        "textquotes"   
+    (   &head,
+        "(\"text$'USER'\")",
+        "(text$'USER')"
     );
 
+    //closed double quotes in $ sign 
+    add_node_back
+    (   &head,
+        "(\"text$\"USER)",
+        "(text$USER)"
+    );
+
+    //unclosed quotes
     add_node_back
     (   &head, 
         "text$USER\"",
         "textqtran"
     );
-
     add_node_back
     (   &head,
         "text$USER\"three\"quo\"tes",
         "textqtranthreequo\"tes"
     );
 
+    
+    
+    
+    
+    
+    
     add_node_back
     (   &head,
         "text$USER\"NAME\"",
@@ -190,12 +213,36 @@ int main()
     );
 
     
-    //$ sign and special afterward
+    //$ sign and special instant afterwards
     add_node_back
-(   &head,
-    "text$|text",
-    "text|text"
-);
+    (   &head,
+        "text$|text",
+        "text$|text"
+    );
+
+    add_node_back
+    (   &head,
+        "text$<text",
+        "text$<text"
+    );
+
+    add_node_back
+    (   &head,
+        "text$>>text",
+        "text$>>text"
+    );
+    //special not instant afterwards
+    add_node_back
+    (   &head,
+        "(text$te|xt)",
+        "(textqtran|xt)"
+    );
+
+    add_node_back
+    (   &head,
+        "(text$te>>xt)",
+        "(textqtran>>xt)"
+    );
     
     //EXIT STATUS AKA $?
     add_node_back
@@ -203,24 +250,30 @@ int main()
         "text$?\"exit-status",
         "text1234\"exit-status"
     );
+    
+    add_node_back
+    (   &head,
+        "(text$USER?text\")",
+        "(textqtran?text\")"
+    );
 
     add_node_back
-(   &head,
-    "text$'?text",
-    "textqtrantext"
-);
+    (   &head,
+        "text$'?text",
+        "textqtran?text"
+    );
 
     add_node_back
-(   &head,
-    "'text$?text'",
-    "text$?text"
-);
+    (   &head,
+        "'text$?text'",
+        "text$?text"
+    );
 
-        add_node_back
-(   &head,
-    "\"text$?text\"",
-    "text1234text"
-);
+    add_node_back
+    (   &head,
+        "(\"text$?text\")",
+        "(text1234text)"
+    );
 
 
     print_list(head);

@@ -6,7 +6,7 @@
 /*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:49:08 by qtran             #+#    #+#             */
-/*   Updated: 2023/06/03 13:24:12 by qtran            ###   ########.fr       */
+/*   Updated: 2023/06/04 17:27:45 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 #include <string.h>
 
 # include "../libft/libft.h"
+
+# define TRUE 1
+# define FALSE 0
+
+void strcpy_wout_ind(char **str, unsigned int x);
+
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -167,59 +173,114 @@ char *ft_strjoin_3(char *s1, char *s2, char *s3)
     return (str);
 }
 
-
-
-int check_if_char_in_row()
+int check_if_char_in_row(char *str, char c)
 {
+    int i;
     
+    i = 0;
+    
+    if (!str)
+        return (-1);
+    if (str[i] == c && str[i + 1] == c)
+        return (TRUE);
+    else
+        return(FALSE);
 }
+
+char *get_str_before_dollar(char *str, int i)
+{
+    char *before_dollar;
+    if (i != 0)
+        before_dollar = ft_substr(str, 0, i - 1);
+    else
+        before_dollar = ft_strdup("");
+    return (before_dollar);
+}
+
+//it can have spaces and <> signs if its in double quotes, bash reads the name until the special chars
+//fixes bug if unclosed quote after $ sign: $name" or $"name 
+char *get_end_of_dollar(char *str, int i)
+{
+    char *end;
+    
+    if (count_char(str, '\'') == 1 || count_char(str, '\"') == 1)
+        end = ft_str_many_chr(&str[i], "$?<>| ");
+    else
+        end = ft_str_many_chr(&str[i], "'\"$?<>| ");
+    return (end);
+}
+
+char *get_env_value(char **str, int i)
+{
+    char *env_value;
+    
+    if ((*str)[i] == '?')
+    {
+        env_value = ft_strdup("1234");
+        //end_of_d++;
+    }
+    else
+        env_value = ft_strdup("qtran");
+    return (env_value);
+}
+
+//void subbing_cmd_str(char **str, char *before_d, char *end_of_d)
+//{
+//    char *after_d;
+//    
+//    if (*end_of_d != '\0')
+//    {
+//        after_d = ft_strdup(end_of_d);
+//        free(*str);
+//        (*str) = ft_strjoin_3(before_d, env_value, after_d);
+//        free(after_d);
+//    }
+//    else
+//    {
+//        free(*str);
+//        *str = ft_strjoin(before_d, env_value);
+//    }
+//}
 
 int subout_dollar(char **str, int i)
 {
-    char *before_dollar;
-    char *dollar_name;
+    char *before_d;
+    char *d_name;
     char *env_value;
-    char *end;
-    char *temp;
+    char *end_of_d;
+    char *after_d;
 
-
-    if ((*str)[i + 1] == '\"' && (*str)[i + 2] == '\"')
-        return (i+=2);
-    if (ft_strchr("<>|", (*str)[i + 1]) != NULL)
-            return (i++);
-    if (i != 0)
-        before_dollar = ft_substr(*str, 0, i);
-    else
-        before_dollar = ft_strdup("");
-    //it can have spaces and <> signs if its in double quotes, bash reads the name until the special chars
-    //fixes bug if unclosed quote after $ sign: $name" or $"name 
-    if (count_char(*str, '\'') == 1 || count_char(*str, '\"') == 1)
-        end = ft_str_many_chr(&(*str)[i + 1], "$?<>| ");
-    else
-        end = ft_str_many_chr(&(*str)[i + 1], "'\"$?<>| ");
-    
-    dollar_name = ft_substr(*str, i + 1, end - &(*str)[i + 1]);
-    if (strcmp(dollar_name, "?") == 0)
+    i++;
+    if (!(*str)[i] || ft_strchr("<>| ", (*str)[i]) != NULL)
+        return (i);
+    if (((*str)[i] == '\'' && ft_strchr(&(*str)[i + 1], '\'')) || 
+        ((*str)[i] == '\"' && ft_strchr(&(*str)[i + 1], '\"')))
+        return (strcpy_wout_ind(str, i - 1), i - 1);
+    before_d = get_str_before_dollar(*str, i);
+    end_of_d = get_end_of_dollar(*str, i);
+    d_name = ft_substr(*str, i, end_of_d - &(*str)[i]);
+    if ((*str)[i] == '?')
+    {
         env_value = ft_strdup("1234");
+        end_of_d++;
+    }
     else
-        env_value = ft_strdup("qtran");
-    printf("dallor name: %s\n", dollar_name);
-    printf("env value: %s\n", env_value);
-    if (*end != '\0')
+        env_value = ft_strdup("qtran"); //pass in d_name in richards function
+    if (*end_of_d != '\0')
     {
-        temp = ft_strdup(end++);
+        after_d = ft_strdup(end_of_d);
         free(*str);
-        (*str) = ft_strjoin_3(before_dollar, env_value, temp);
-        free(temp);
+        (*str) = ft_strjoin_3(before_d, env_value, after_d);
+        free(after_d);
     }
     else
     {
         free(*str);
-        *str = ft_strjoin(before_dollar, env_value);
-    }
-    i += (ft_strlen(env_value));
-    free(dollar_name);
-    free(before_dollar);
+        *str = ft_strjoin(before_d, env_value);
+    }    
+    i += ft_strlen(env_value) - 1;
+    free(d_name);
+    free(before_d);
     free(env_value);
     return (i);
 }
@@ -251,30 +312,27 @@ void strcpy_wout_ind(char **str, unsigned int x)
     *str = cpy;
 }
 
-
 //only works with malloc'd str
+//j is to "remember" the ending double quote if before it is $ then skip substitution and to not subout single quotes
 void dollar_and_s_quotes(char **str) 
 {
     int i;
-
+    int last_quote;
+    
     i = 0;
+    last_quote = 0;
     while ((*str)[i])
     {
-        if ((*str)[i] == '$' && (*str)[i + 1] && (*str)[i + 1] != ' ')
+        if ((*str)[i] == '$' && last_quote - 1 != i)//&& (*str)[i + 1] && (*str)[i + 1] != ' ' )
         {
-            if ((*str)[i + 1] == '?')
-                printf("Baustelle\n");
-            if (((*str)[i + 1] == '\'' && ft_strchr(&(*str)[i + 2], '\'')) || 
-                ((*str)[i + 1] == '\"' && ft_strchr(&(*str)[i + 2], '\"')))
-                strcpy_wout_ind(str, i);
-            else
-                i = subout_dollar(str, i);
+            //if (i < last_quote)
+            i = subout_dollar(str, i);
         }  
-        else if ((*str)[i] == '\'') 
+        else if ((*str)[i] == '\'') // && last_quote - 1 < i) //muss noch gefixed werden
             i = single_quotes(str, i, '\'');
         else if ((*str)[i] == '\"')
         {
-            single_quotes(str, i, '\"');
+            last_quote = single_quotes(str, i, '\"');
             if ((*str)[i] == '\"')
                 i++;        
         }
