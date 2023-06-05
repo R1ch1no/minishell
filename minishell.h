@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:41:56 by qtran             #+#    #+#             */
-/*   Updated: 2023/06/03 11:00:20 by qtran            ###   ########.fr       */
+/*   Updated: 2023/06/05 15:32:45 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int						ft_adjust_single_quotes(char **str, t_node *node);
 int						double_quotes_count(char *str);
 int						single_quotes_count(char *str);
 int						ft_replace_existing(t_data *data, t_node *node);
+int						ft_strcmp_v2_until(char *s1, char *s2, char c);
 
 int						ft_strcmp_v2(char *s1, char *s2);
 int						syntaxer(t_node *cmd_line);
@@ -115,15 +116,14 @@ t_node					*create_node(char *str);
 //dollar_sign_file
 int						get_arr_len(char **arr);
 
-
 //quotes_and_dollar
-int	count_char(char *str, char c);
-char *strdup_without(char *src, char c, int len);
-int single_quotes(char **str, int i, char quote);
-char *ft_str_many_chr(char *str, char *set);
-char *ft_strjoin_3(char *s1, char *s2, char *s3);
-int subout_dollar(char **str, int i);
-char *strcpy_wout_ind(char *str, int x);
-void dollar_and_s_quotes(char **str);
+int						count_char(char *str, char c);
+char					*strdup_without(char *src, char c, int len);
+int						single_quotes(char **str, int i, char quote);
+char					*ft_str_many_chr(char *str, char *set);
+char					*ft_strjoin_3(char *s1, char *s2, char *s3);
+int						subout_dollar(char **str, int i);
+char					*strcpy_wout_ind(char *str, int x);
+void					dollar_and_s_quotes(char **str);
 
 #endif

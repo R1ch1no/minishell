@@ -114,8 +114,6 @@ int	check_var(char *var, int in, t_node **node)
 		if (var[in + 1] == '"')
 			if (double_quotes_count(var) % 2 == 1)
 				return (1);
-		if (var[in + 1] == '\0')
-			return (1);
 	}
 	if (ft_adjust_single_quotes(&var, *node) == 1)
 		return (1);
