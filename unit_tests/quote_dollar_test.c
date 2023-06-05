@@ -1,19 +1,5 @@
 
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-
-# include "../libft/libft.h"
-
-int	count_char(char *str, char c);
-char *strdup_without(char *src, char c, int len);
-int single_quotes(char **str, int i, char quote);
-char *ft_str_many_chr(char *str, char *set);
-char *ft_strjoin_3(char *s1, char *s2, char *s3);
-int subout_dollar(char **str, int i);
-char *strcpy_wout_ind(char *str, int x);
-void dollar_and_s_quotes(char **str);
+#include "../minishell.h"
 
 typedef struct s_node
 {
@@ -22,7 +8,6 @@ typedef struct s_node
     char                *mini;
 	struct s_node		*next;
 }						t_node;
-
 
 t_node	*lstlast(t_node *lst)
 {
