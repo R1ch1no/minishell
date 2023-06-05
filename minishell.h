@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:41:56 by qtran             #+#    #+#             */
-/*   Updated: 2023/06/05 15:32:45 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/05 17:26:07 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ int						double_quotes_count(char *str);
 int						single_quotes_count(char *str);
 int						ft_replace_existing(t_data *data, t_node *node);
 int						ft_strcmp_v2_until(char *s1, char *s2, char c);
+int						closed_with_double(char *str);
+int						closed_with_single(char *str);
 
 int						ft_strcmp_v2(char *s1, char *s2);
 int						syntaxer(t_node *cmd_line);
