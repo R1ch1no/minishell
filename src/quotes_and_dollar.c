@@ -25,7 +25,6 @@ int single_quotes(char **str, int i, char quote)
     return (i);
 }
 
-
 //only works with malloc'd str
 //j is to "remember" the ending double quote if before it is $ then skip substitution and to not subout single quotes
 void dollar_and_s_quotes(char **str, t_data *data) 
