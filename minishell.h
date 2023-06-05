@@ -55,6 +55,10 @@ int						get_non_quote_len(char *str);
 int						get_quote_len(char *str);
 void					init_cmd_line(t_data *data);
 
+//pre_executer.c
+void					prep_for_executer(t_node *head, t_data *data);
+void					dollar_and_s_quotes(char **str, t_data *data);
+
 //cutting_quotes.c not used yet maybe unneccassary
 int						count_char(char *str, char c);
 void					cut_out_all(char *str, char c, char *cutted);
@@ -94,14 +98,12 @@ void					ft_unset(t_data *data, char *search, t_node **node);
 void					ft_export_na(char **env, t_node **node, int len);
 void					ft_export_a(t_data *data, char *var, t_node **node,
 							int len);
-int						ft_adjust_single_quotes(char **str, t_node *node);
 int						double_quotes_count(char *str);
 int						single_quotes_count(char *str);
 int						ft_replace_existing(t_data *data, t_node *node);
 int						ft_strcmp_v2_until(char *s1, char *s2, char c);
 int						closed_with_double(char *str);
 int						closed_with_single(char *str);
-void					dollar_and_s_quotes(char **str, t_data *data);
 
 int						ft_strcmp_v2(char *s1, char *s2);
 int						syntaxer(t_node *cmd_line);

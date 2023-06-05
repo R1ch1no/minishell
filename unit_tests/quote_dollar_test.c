@@ -1,17 +1,17 @@
 
 #include "../minishell.h"
 
-typedef struct s_node
+typedef struct s_test
 {
 	char				*test;
     char                *bash;
     char                *mini;
-	struct s_node		*next;
-}						t_node;
+	struct s_test		*next;
+}						t_test;
 
-t_node	*lstlast(t_node *lst)
+t_test	*lstlast_test(t_test *lst)
 {
-	t_node	*temp;
+	t_test	*temp;
 
 	if (!lst)
 		return (NULL);
@@ -22,15 +22,15 @@ t_node	*lstlast(t_node *lst)
 }
 
 
-void	add_node_back(t_node **lst, char *test, char *bash)
+void	add_test_back(t_test **lst, char *test, char *bash)
 {
-	t_node	*last;
-    t_node	*new;
-    new = malloc(sizeof(t_node));
+	t_test	*last;
+    t_test	*new;
+    new = malloc(sizeof(t_test));
     if (new == NULL)
 	    return ;
     char *str = ft_strdup(test);
-    dollar_and_s_quotes(&str);
+    dollar_and_s_quotes(&str, NULL);
     
     new->next = NULL;
     new->test = test;
@@ -42,11 +42,11 @@ void	add_node_back(t_node **lst, char *test, char *bash)
 		*lst = new;
 		return ;
 	}
-	last = lstlast(*lst);
+	last = lstlast_test(*lst);
 	last->next = new;
 }
 
-void print_test(t_node node)
+void print_test(t_test node)
 {
     printf("Test: %s\n", node.test);
     printf("bash: %s\n", node.bash);
@@ -58,9 +58,9 @@ void print_test(t_node node)
         printf("Fail 🥲\n");
 }
 
-void	print_list(t_node *head)
+void	print_test_list(t_test *head)
 {
-	t_node	*print;
+	t_test	*print;
 
 	if (!head)
 		return ;
@@ -82,9 +82,36 @@ int main()
     //any $text_not_special evals-to: qtran even if it doesnt exist
     //$? evals-to: 1234
     //
-    t_node *head = NULL;
+    t_test *head = NULL;
+    
+    
+    //richards test with quotes
+    add_test_back
+    (   &head, 
+        "a='\"'",
+        "a=\""   
+    );
+
+     add_test_back
+    (   &head, 
+        "b=\"'\"",
+        "b='"   
+    );
+
+         add_test_back
+    (   &head, 
+        "(b=\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\")",
+        "(b=thisisnotfun)"   
+    );
+
+         add_test_back
+    (   &head, 
+        "(c='\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\"')",
+        "(c=\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\")"   
+    );
+    
     //Quotes
-    add_node_back
+    add_test_back
     (   &head, 
         "(\"01'$USER'SHIT $USER$USER'''$'user\")",
         "(01$USERSHIT qtranqtran$user)"   
@@ -92,63 +119,63 @@ int main()
     
 
     //
-    add_node_back
+    add_test_back
     (   &head, 
         "text'$'",
         "text$"   
     );
     
-    add_node_back
+    add_test_back
     (   &head, 
         "text$",
         "text$"   
     );
 
-    add_node_back
+    add_test_back
     (   &head, 
         "$USER'$' space",
         "qtran$ space"   
     );
 
     //closed quotes directly after
-    add_node_back
+    add_test_back
     (   &head, 
         "(text$\"USER\")",
         "(textUSER)"   
     );
 
-    add_node_back
+    add_test_back
     (   &head, 
         "(text$'USER')",
         "(textUSER)"   
     );
 
-    add_node_back
+    add_test_back
     (   &head, 
         "(\"text$'USER\")",
         "(textqtran)"   
     );
     //closed single quotes directly after but in double quotes
-    add_node_back
+    add_test_back
     (   &head,
         "(\"text$'USER'\")",
         "(text$'USER')"
     );
 
     //closed double quotes in $ sign 
-    add_node_back
+    add_test_back
     (   &head,
         "(\"text$\"USER)",
         "(text$USER)"
     );
 
     //unclosed quotes
-    add_node_back
+    add_test_back
     (   &head, 
         "text$USER\"",
         "textqtran"
     );
-    add_node_back
+    add_test_back
     (   &head,
         "text$USER\"three\"quo\"tes",
         "textqtranthreequo\"tes"
@@ -160,43 +187,43 @@ int main()
     
     
     
-    add_node_back
+    add_test_back
     (   &head,
         "text$USER\"NAME\"",
         "textqtranNAME"  
     );
 
-    add_node_back
+    add_test_back
     (   &head,
         "text$USER>name",
         "textqtran>name"
     );
 
-     add_node_back
+     add_test_back
     (   &head,
         "text$USER name",
         "textqtran name"
     );
 
-    add_node_back
+    add_test_back
     (   &head,
         "text\"$USER\"",
         "textqtran"
     );
 
-    add_node_back
+    add_test_back
     (   &head,
         "text$USER\"NAME\"",
         "textqtranNAME"
     );
 
-    add_node_back
+    add_test_back
     (   &head,
         "text\"$USER",
         "text\"qtran"
     );
 
-    add_node_back
+    add_test_back
     (   &head,
         "$USER\"",
         "qtran"
@@ -204,68 +231,68 @@ int main()
 
     
     //$ sign and special instant afterwards
-    add_node_back
+    add_test_back
     (   &head,
         "text$|text",
         "text$|text"
     );
 
-    add_node_back
+    add_test_back
     (   &head,
         "text$<text",
         "text$<text"
     );
 
-    add_node_back
+    add_test_back
     (   &head,
         "text$>>text",
         "text$>>text"
     );
     //special not instant afterwards
-    add_node_back
+    add_test_back
     (   &head,
         "(text$te|xt)",
         "(textqtran|xt)"
     );
 
-    add_node_back
+    add_test_back
     (   &head,
         "(text$te>>xt)",
         "(textqtran>>xt)"
     );
     
     //EXIT STATUS AKA $?
-    add_node_back
+    add_test_back
     (   &head,
         "text$?\"exit-status",
         "text1234\"exit-status"
     );
     
-    add_node_back
+    add_test_back
     (   &head,
         "(text$USER?text\")",
         "(textqtran?text\")"
     );
 
-    add_node_back
+    add_test_back
     (   &head,
         "text$'?text",
         "textqtran?text"
     );
 
-    add_node_back
+    add_test_back
     (   &head,
         "'text$?text'",
         "text$?text"
     );
 
-    add_node_back
+    add_test_back
     (   &head,
         "(\"text$?text\")",
         "(text1234text)"
     );
 
 
-    print_list(head);
+    print_test_list(head);
     return 0;
 }

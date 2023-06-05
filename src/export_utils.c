@@ -1,6 +1,58 @@
 
 #include "../minishell.h"
 
+int	closed_with_double(char *str)
+{
+	int	i;
+	int	stop;
+	int	count;
+
+	i = 0;
+	stop = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (i > 0 && stop == 0)
+		{
+			if (str[i - 1] == '=' && str[i] == '"')
+				count++;
+			stop = 1;
+		}
+		if (str[i + 1] == '\0' && str[i] == '"')
+			count++;
+		i++;
+	}
+	if (count == 2)
+		return (1);
+	return (0);
+}
+
+int	closed_with_single(char *str)
+{
+	int	i;
+	int	stop;
+	int	count;
+
+	i = 0;
+	stop = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (i > 0 && stop == 0)
+		{
+			if (str[i - 1] == '=' && str[i] == '\'')
+				count++;
+			stop = 1;
+		}
+		if (str[i + 1] == '\0' && str[i] == '\'')
+			count++;
+		i++;
+	}
+	if (count == 2)
+		return (1);
+	return (0);
+}
+
 int	single_quotes_count(char *str)
 {
 	int	in;
@@ -29,59 +81,6 @@ int	double_quotes_count(char *str)
 			d_qs++;
 	}
 	return (d_qs);
-}
-
-void	ft_adjust_core(char *new, char *str, char rem)
-{
-	int		sign;
-	int		in;
-	int		ind;
-	char	c;
-
-	c = '\'';
-	in = 0;
-	ind = 0;
-	sign = 0;
-	while (str[in])
-	{
-		if ((str[in] == c || str[in] == rem) && str[in - 1] == '=' && sign == 0)
-		{
-			sign = 1;
-			in++;
-		}
-		if ((str[in] == c || str[in] == rem) && str[in + 1] == '\0')
-			in++;
-		if (str[in] == '\0')
-			break ;
-		new[ind] = str[in];
-		ind++;
-		in++;
-	}
-	new[ind] = '\0';
-}
-
-int	ft_adjust_single_quotes(char **str, t_node *node)
-{
-	int		rem;
-	char	*new;
-	char	*tmp;
-
-	if (!str)
-		return (1);
-	rem = -2;
-	tmp = node->cmd;
-	if (single_quotes_count(*str) == 0 || double_quotes_count(*str) == 0)
-		rem = 0;
-	new = malloc(ft_strlen(*str) + rem + double_quotes_count(*str) + 1);
-	if (new == NULL || !new)
-		return (write(2, "Allocation failed!\n", 19) && 1);
-	if (closed_with_double(*str))
-		ft_adjust_core(new, *str, '"');
-	if (closed_with_single(*str))
-		ft_adjust_core(new, *str, '\'');
-	node->cmd = new;
-	free(tmp);
-	return (0);
 }
 
 //in case a varable already exist , the function replaces it with the new value

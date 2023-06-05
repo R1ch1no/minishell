@@ -36,6 +36,7 @@ int	main(int argc, char **argv, char **env)
 		data->line_read = NULL;
 		if (syntaxer(data->cmd_line) == 0)
 		{
+			prep_for_executer(data->cmd_line, data);
 /* 			heredoc();
 			parser(); */
 			executer(data);
