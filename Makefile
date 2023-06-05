@@ -7,23 +7,28 @@ SRC_PATH 	= src
 OBJ_PATH 	= obj
 
 SRC			= 	main.c \
-				dup_utils.c \
-				printing_utils.c \
 				init.c \
 				lexer.c \
-				cleanup.c \
 				init_cmd_line.c \
 				signals.c \
 				env_cd_pwd.c \
 				echo_unset.c \
 				export.c \
 				export_utils.c \
-				executer.c \
-				ft_strcmp.c \
+				dollar.c \
 				cutting_quotes.c \
+				executer.c \
 				syntaxer.c \
+				ft_strcmp.c \
+				cleanup.c \
+				dup_utils.c \
+				printing_utils.c \
+				string_utils.c \
+				string_utils_2.c \
 				linked_list_utils.c\
 				linked_list_utils_two.c\
+				quotes_and_dollar.c \
+
 
 SRCS 		= $(addprefix $(SRC_PATH)/, $(SRC))
 OBJ 		= $(SRC:.c=.o)

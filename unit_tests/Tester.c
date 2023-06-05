@@ -138,6 +138,11 @@ int main()
         "(textUSER)"   
     );
 
+    add_node_back
+    (   &head, 
+        "(\"text$'USER\")",
+        "(textqtran)"   
+    );
     //closed single quotes directly after but in double quotes
     add_node_back
     (   &head,
