@@ -16,6 +16,7 @@ int	closed_with_double(char *str)
 		{
 			if (str[i - 1] == '=' && str[i] == '"')
 				count++;
+			stop = 1;
 		}
 		if (str[i + 1] == '\0' && str[i] == '"')
 			count++;
@@ -41,6 +42,7 @@ int	closed_with_single(char *str)
 		{
 			if (str[i - 1] == '=' && str[i] == '\'')
 				count++;
+			stop = 1;
 		}
 		if (str[i + 1] == '\0' && str[i] == '\'')
 			count++;
