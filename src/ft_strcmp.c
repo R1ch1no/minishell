@@ -31,6 +31,20 @@ int	ft_strcmp_v2(char *s1, char *s2)
 	return ((int)(unsigned char)(*s1) - (int)(unsigned char)(*s2));
 }
 
+int	ft_strcmp_v2_until(char *s1, char *s2, char c)
+{
+	if (s1 == NULL || s2 == NULL)
+		return (9999);
+	while (*s1 && *s2 && *s1 == *s2)
+	{
+		if (*s1 == c && *s2 == c)
+			return (0);
+		s1++;
+		s2++;
+	}
+	return ((int)(unsigned char)(*s1) - (int)(unsigned char)(*s2));
+}
+
 /* char	*my_strcmp(char *s1, char *s2)
 {
 	if (s1 == NULL || s2 == NULL)

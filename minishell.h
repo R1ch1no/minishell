@@ -101,6 +101,7 @@ int						ft_adjust_single_quotes(char **str, t_node *node);
 int						double_quotes_count(char *str);
 int						single_quotes_count(char *str);
 int						ft_replace_existing(t_data *data, t_node *node);
+int						ft_strcmp_v2_until(char *s1, char *s2, char c);
 
 int						ft_strcmp_v2(char *s1, char *s2);
 int						syntaxer(t_node *cmd_line);

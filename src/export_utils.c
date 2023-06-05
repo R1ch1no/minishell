@@ -62,13 +62,17 @@ void	ft_adjust_core(char *new, char *str)
 
 int	ft_adjust_single_quotes(char **str, t_node *node)
 {
+	int		rem;
 	char	*new;
 	char	*tmp;
 
 	if (!str)
 		return (1);
+	rem = 2;
 	tmp = node->cmd;
-	new = malloc(ft_strlen(*str) - 2 + double_quotes_count(*str) + 1);
+	if (single_quotes_count(*str) == 0 || double_quotes_count(*str) == 0)
+		rem = 0;
+	new = malloc(ft_strlen(*str) - rem + double_quotes_count(*str) + 1);
 	if (new == NULL || !new)
 	{
 		perror(NULL);
@@ -80,26 +84,33 @@ int	ft_adjust_single_quotes(char **str, t_node *node)
 	return (0);
 }
 
+//in case a varable already exist , the function replaces it with the new value
+//and return 1 otherwise if the variable is new, return 0 and append it
+//to the enviroment
 int	ft_replace_existing(t_data *data, t_node *node)
 {
 	int		y;
 	int		match;
 	char	*replace;
-	char	*tmp;
 
-	y = -1;
-	match = 0;
-	while (data->env_copy[++y])
-		if (ft_strcmp_v2(data->env_copy[y], node->cmd) == 0)
+	y = 0;
+	match = -1;
+	while (data->env_copy[y])
+	{
+		if (ft_strcmp_v2_until(data->env_copy[y], node->cmd, '=') == 0)
+		{
 			match = y;
-	if (match == 0)
+			break ;
+		}
+		y++;
+	}
+	if (match == -1)
 		return (0);
-	tmp = data->env_copy[match];
 	replace = malloc(ft_strlen(node->cmd) + 1);
 	if (!replace || replace == NULL)
 		return (1);
 	ft_strlcpy(replace, node->cmd, ft_strlen(node->cmd) + 1);
+	free(data->env_copy[match]);
 	data->env_copy[match] = replace;
-	free(tmp);
 	return (1);
 }
