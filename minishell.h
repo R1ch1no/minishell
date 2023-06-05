@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/21 15:41:56 by qtran             #+#    #+#             */
-/*   Updated: 2023/06/05 17:26:07 by rkurnava         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -66,11 +55,23 @@ int						get_non_quote_len(char *str);
 int						get_quote_len(char *str);
 void					init_cmd_line(t_data *data);
 
-//cutting_quotes.c
+//cutting_quotes.c not used yet maybe unneccassary 
 int						count_char(char *str, char c);
 void					cut_out_all(char *str, char c, char *cutted);
 void					cut_out_all_but_last(char *str, char c, char *cutted);
 void					cut_out_quotes(char **str, char c);
+
+//quotes_and_dollar
+//dollar.c
+char *get_str_before_dollar(char *str, int i);
+char *get_end_of_dollar(char *str, int i);
+char *get_env_value(char c, char **end_of_d);
+int subbing_cmd_str(char **str, char *before_d, char *env_value, char *end_of_d);
+int subout_dollar(char **str, int i, t_data *data);
+
+
+
+
 
 //__________________________GENERAL UTILS__________________________
 //
@@ -118,14 +119,17 @@ t_node					*create_node(char *str);
 //dollar_sign_file
 int						get_arr_len(char **arr);
 
-//quotes_and_dollar
-int						count_char(char *str, char c);
-char					*strdup_without(char *src, char c, int len);
-int						single_quotes(char **str, int i, char quote);
-char					*ft_str_many_chr(char *str, char *set);
-char					*ft_strjoin_3(char *s1, char *s2, char *s3);
-int						subout_dollar(char **str, int i);
-char					*strcpy_wout_ind(char *str, int x);
-void					dollar_and_s_quotes(char **str);
+
+
+//string_utils
+char *strdup_without(char *src, char c, int len);
+void strcpy_wout_ind(char **str, unsigned int x, t_data *data);
+int check_if_char_in_row(char *str, char c); //check if actually called 
+void four_free(char *s1, char *s2, char *s3, char *s4);
+
+//string_utils_2 aka "libft alike"
+char *ft_str_many_chr(char *str, char *set);
+char *ft_strjoin_3(char *s1, char *s2, char *s3);
+
 
 #endif

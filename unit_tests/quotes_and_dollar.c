@@ -6,7 +6,7 @@
 /*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:49:08 by qtran             #+#    #+#             */
-/*   Updated: 2023/06/04 17:27:45 by qtran            ###   ########.fr       */
+/*   Updated: 2023/06/05 16:20:25 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ char *strdup_without(char *src, char c, int len)
     return (dup);
 }
 
-int single_quotes(char **str, int i, char quote)
+int single_quotes(char **str, int i, char quote, t_data *data)
 {
     int len;
     char *sec_quote;
@@ -168,8 +168,12 @@ char *ft_strjoin_3(char *s1, char *s2, char *s3)
     if (!s1 || !s2 || !s3)
         return (NULL);
     temp = ft_strjoin(s1, s2);
+    if (!temp)
+        return (NULL);
     str = ft_strjoin(temp, s3);
     free(temp);
+    if (!str)
+        return (NULL);
     return (str);
 }
 
@@ -210,45 +214,51 @@ char *get_end_of_dollar(char *str, int i)
     return (end);
 }
 
-char *get_env_value(char **str, int i)
+char *get_env_value(char c, char **end_of_d)
 {
     char *env_value;
     
-    if ((*str)[i] == '?')
+    if (c == '?')
     {
         env_value = ft_strdup("1234");
-        //end_of_d++;
+        (*end_of_d)++;
     }
     else
         env_value = ft_strdup("qtran");
     return (env_value);
 }
 
-//void subbing_cmd_str(char **str, char *before_d, char *end_of_d)
-//{
-//    char *after_d;
-//    
-//    if (*end_of_d != '\0')
-//    {
-//        after_d = ft_strdup(end_of_d);
-//        free(*str);
-//        (*str) = ft_strjoin_3(before_d, env_value, after_d);
-//        free(after_d);
-//    }
-//    else
-//    {
-//        free(*str);
-//        *str = ft_strjoin(before_d, env_value);
-//    }
-//}
+int subbing_cmd_str(char **str, char *before_d, char *env_value, char *end_of_d)
+{
+    char *after_d;
+    
+    if (*end_of_d != '\0')
+    {
+        after_d = ft_strdup(end_of_d);
+        if (!after_d)
+            return (1);
+        free(*str);
+        (*str) = ft_strjoin_3(before_d, env_value, after_d);
+        if ((*str) == NULL)
+            return (1);
+        free(after_d);
+    }
+    else
+    {
+        free(*str);
+        *str = ft_strjoin(before_d, env_value);
+        if ((*str) == NULL)
+            return (1);
+    }
+    return (0);
+}
 
-int subout_dollar(char **str, int i)
+int subout_dollar(char **str, int i, t_data *data)
 {
     char *before_d;
     char *d_name;
     char *env_value;
     char *end_of_d;
-    char *after_d;
 
     i++;
     if (!(*str)[i] || ft_strchr("<>| ", (*str)[i]) != NULL)
@@ -259,25 +269,11 @@ int subout_dollar(char **str, int i)
     before_d = get_str_before_dollar(*str, i);
     end_of_d = get_end_of_dollar(*str, i);
     d_name = ft_substr(*str, i, end_of_d - &(*str)[i]);
-    if ((*str)[i] == '?')
-    {
-        env_value = ft_strdup("1234");
-        end_of_d++;
-    }
-    else
-        env_value = ft_strdup("qtran"); //pass in d_name in richards function
-    if (*end_of_d != '\0')
-    {
-        after_d = ft_strdup(end_of_d);
-        free(*str);
-        (*str) = ft_strjoin_3(before_d, env_value, after_d);
-        free(after_d);
-    }
-    else
-    {
-        free(*str);
-        *str = ft_strjoin(before_d, env_value);
-    }    
+    env_value = get_env_value((*str)[i], &end_of_d);
+    if ((!before_d) || (!end_of_d) || (!d_name) || (!env_value))
+        cleanse(data);
+    if (subbing_cmd_str(str, before_d, env_value, end_of_d) == 1)
+        cleanse(data);
     i += ft_strlen(env_value) - 1;
     free(d_name);
     free(before_d);
@@ -285,7 +281,7 @@ int subout_dollar(char **str, int i)
     return (i);
 }
 
-void strcpy_wout_ind(char **str, unsigned int x)
+void strcpy_wout_ind(char **str, unsigned int x, t_data *data)
 {
     unsigned int i;
     unsigned int j;
@@ -293,7 +289,7 @@ void strcpy_wout_ind(char **str, unsigned int x)
         
     cpy = malloc(sizeof(char) * ft_strlen(*str));
     if (!cpy)
-        exit(1);
+        cleanse(data);
     i = 0;
     j = 0;
     while ((*str)[i])
@@ -326,7 +322,7 @@ void dollar_and_s_quotes(char **str)
         if ((*str)[i] == '$' && last_quote - 1 != i)//&& (*str)[i + 1] && (*str)[i + 1] != ' ' )
         {
             //if (i < last_quote)
-            i = subout_dollar(str, i);
+            i = subout_dollar(str, i, t_data *data);
         }  
         else if ((*str)[i] == '\'') // && last_quote - 1 < i) //muss noch gefixed werden
             i = single_quotes(str, i, '\'');
