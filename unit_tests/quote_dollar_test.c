@@ -31,7 +31,7 @@ void	add_test_back(t_test **lst, char *test, char *bash)
 	    return ;
     char *str = ft_strdup(test);
     dollar_and_s_quotes(&str, NULL);
-    
+    //printf("%s\n", test);
     new->next = NULL;
     new->test = test;
 	new->bash = bash;
@@ -48,17 +48,13 @@ void	add_test_back(t_test **lst, char *test, char *bash)
 
 void print_test(t_test node)
 {
-    
-    
-    
-
-    
     if (strcmp(node.bash, node.mini) == 0)
     {
         //printf("Test: %s\n", node.test);
         //printf("bash: %s\n", node.bash);
         //printf("mini: %s\n", node.mini);
         //printf("Success\n");
+        return ;
     }
     else
     {
@@ -109,6 +105,11 @@ int main()
         "b='"   
     );
 
+    add_test_back
+    (   &head, 
+        "(b=\"\"\"this\"\"isnotfun)",
+        "(b=this\"isnotfun)"   
+    );
          add_test_back
     (   &head, 
         "(b=\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\")",

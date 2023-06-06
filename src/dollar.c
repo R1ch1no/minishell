@@ -96,3 +96,4 @@ int subout_dollar(char **str, int i, t_data *data)
     four_free(d_name, before_d, env_value, NULL);
     return (i);
 }
+

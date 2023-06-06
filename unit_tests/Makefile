@@ -1,4 +1,4 @@
-NAME		= quote_dollar_test
+NAME		= quote_dollar_test.exe
 
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -g
@@ -11,6 +11,7 @@ TEST  		=	quote_dollar_test.c
 SRC			= 	init.c \
 				lexer.c \
 				init_cmd_line.c \
+				token.c \
 				signals.c \
 				env_cd_pwd.c \
 				echo_unset.c \
@@ -47,7 +48,7 @@ $(OBJ_PATH):
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(LIBFT) $(OBJS)
+$(NAME): $(LIBFT) $(OBJS) $(TEST)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(TEST) -lreadline -lhistory -o $(NAME) 
 	@echo "$(GREEN)Executable \"$(NAME)\" succesfully created.$(NC)"
 
@@ -74,7 +75,7 @@ re: fclean all
 
 aa: all
 	@echo "$(GREEN)Executing programm with \"TEST_INPUT\" of the Makefile.$(NC)"
-	./$(NAME) $(ARGV)
+	./$(NAME)
 
 va: all
 	make -C ./ clean

@@ -1,6 +1,8 @@
 
 #include "../minishell.h"
 
+
+
 //data->line_read is typecasted for shorter lines into char *str
 void	init_cmd_line(t_data *data)
 {
@@ -28,7 +30,6 @@ void	init_cmd_line(t_data *data)
 		while (str[i] == ' ')
 			i++;
 	}
-	//data->cmd_line[j] = NULL;
 }
 
 int	get_token_len(char *str)

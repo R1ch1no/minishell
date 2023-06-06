@@ -1,7 +1,7 @@
 
 #include "../minishell.h"
 
-void idintify_tokens(t_node *head)
+void identify_tokens(t_node *head)
 {
     t_node *current;
 
