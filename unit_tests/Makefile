@@ -16,7 +16,6 @@ SRC			= 	init.c \
 				echo_unset.c \
 				export.c \
 				export_utils.c \
-				export_utils_two.c \
 				dollar.c \
 				cutting_quotes.c \
 				executer.c \

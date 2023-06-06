@@ -55,7 +55,11 @@ int						get_non_quote_len(char *str);
 int						get_quote_len(char *str);
 void					init_cmd_line(t_data *data);
 
-//cutting_quotes.c not used yet maybe unneccassary 
+//pre_executer.c
+void					prep_for_executer(t_node *head, t_data *data);
+void					dollar_and_s_quotes(char **str, t_data *data);
+
+//cutting_quotes.c not used yet maybe unneccassary
 int						count_char(char *str, char c);
 void					cut_out_all(char *str, char c, char *cutted);
 void					cut_out_all_but_last(char *str, char c, char *cutted);
@@ -63,15 +67,12 @@ void					cut_out_quotes(char **str, char c);
 
 //quotes_and_dollar
 //dollar.c
-char *get_str_before_dollar(char *str, int i);
-char *get_end_of_dollar(char *str, int i);
-char *get_env_value(char c, char **end_of_d);
-int subbing_cmd_str(char **str, char *before_d, char *env_value, char *end_of_d);
-int subout_dollar(char **str, int i, t_data *data);
-
-
-
-
+char					*get_str_before_dollar(char *str, int i);
+char					*get_end_of_dollar(char *str, int i);
+char					*get_env_value(char c, char **end_of_d);
+int						subbing_cmd_str(char **str, char *before_d,
+							char *env_value, char *end_of_d);
+int						subout_dollar(char **str, int i, t_data *data);
 
 //__________________________GENERAL UTILS__________________________
 //
@@ -97,7 +98,6 @@ void					ft_unset(t_data *data, char *search, t_node **node);
 void					ft_export_na(char **env, t_node **node, int len);
 void					ft_export_a(t_data *data, char *var, t_node **node,
 							int len);
-int						ft_adjust_single_quotes(char **str, t_node *node);
 int						double_quotes_count(char *str);
 int						single_quotes_count(char *str);
 int						ft_replace_existing(t_data *data, t_node *node);
@@ -119,17 +119,15 @@ t_node					*create_node(char *str);
 //dollar_sign_file
 int						get_arr_len(char **arr);
 
-
-
 //string_utils
-char *strdup_without(char *src, char c, int len);
-void strcpy_wout_ind(char **str, unsigned int x, t_data *data);
-int check_if_char_in_row(char *str, char c); //check if actually called 
-void four_free(char *s1, char *s2, char *s3, char *s4);
+char					*strdup_without(char *src, char c, int len);
+void					strcpy_wout_ind(char **str, unsigned int x,
+							t_data *data);
+int	check_if_char_in_row(char *str, char c); //check if actually called
+void					four_free(char *s1, char *s2, char *s3, char *s4);
 
 //string_utils_2 aka "libft alike"
-char *ft_str_many_chr(char *str, char *set);
-char *ft_strjoin_3(char *s1, char *s2, char *s3);
-
+char					*ft_str_many_chr(char *str, char *set);
+char					*ft_strjoin_3(char *s1, char *s2, char *s3);
 
 #endif
