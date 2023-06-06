@@ -56,7 +56,7 @@ int						get_quote_len(char *str);
 void					init_cmd_line(t_data *data);
 
 //token.c
-void identify_tokens(t_node *head);
+void					identify_tokens(t_node *head);
 
 //pre_executer.c
 void					prep_for_executer(t_node *head, t_data *data);
@@ -107,6 +107,7 @@ int						ft_replace_existing(t_data *data, t_node *node);
 int						ft_strcmp_v2_until(char *s1, char *s2, char c);
 int						closed_with_double(char *str);
 int						closed_with_single(char *str);
+int						ft_append(t_data *data, t_node *node, int y);
 
 int						ft_strcmp_v2(char *s1, char *s2);
 int						syntaxer(t_node *cmd_line);

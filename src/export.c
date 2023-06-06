@@ -95,11 +95,22 @@ void	ft_export_na(char **env, t_node **node, int len)
 	(*node) = (*node)->next;
 }
 
-int	ft_append(t_data *data, t_node *node)
+int	ft_append(t_data *data, t_node *node, int y)
 {
-	int	i;
+	int		x;
+	char	*result;
 
-	i = 0;
+	x = 0;
+	while (node->cmd[x] != '=')
+		x++;
+	if (node->cmd[x] == '=')
+		x++;
+	result = ft_strjoin(data->env_copy[y], &node->cmd[x]);
+	if (result == NULL || !result)
+		return (0);
+	free(data->env_copy[y]);
+	data->env_copy[y] = result;
+	return (1);
 }
 
 //export function when there are arguments
@@ -109,9 +120,8 @@ void	ft_export_a(t_data *data, char *var, t_node **node, int len)
 	char	**new_env;
 
 	y = 0;
+	(*node) = (*node)->next;
 	if (ft_replace_existing(data, *node) == 1)
-		return ;
-	if (ft_append(data, node) == 1)
 		return ;
 	new_env = copy_2d_char_arr(data->env_copy, len);
 	if (new_env == NULL || !new_env)

@@ -23,6 +23,7 @@ SRC			= 	main.c \
 				ft_strcmp.c \
 				cleanup.c \
 				dup_utils.c \
+				token.c \
 				printing_utils.c \
 				string_utils.c \
 				string_utils_2.c \
