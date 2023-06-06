@@ -92,16 +92,17 @@ int	ft_replace_existing(t_data *data, t_node *node)
 	int		match;
 	char	*replace;
 
-	y = 0;
+	y = -1;
 	match = -1;
-	while (data->env_copy[y])
+	while (data->env_copy[++y])
 	{
 		if (ft_strcmp_v2_until(data->env_copy[y], node->cmd, '=') == 0)
 		{
 			match = y;
 			break ;
 		}
-		y++;
+		if (ft_strcmp_v2_until(data->env_copy[y], node->cmd, '=') == -9999)
+			return (ft_append(data, node, y));
 	}
 	if (match == -1)
 		return (0);
