@@ -19,6 +19,7 @@ SRC			= 	main.c \
 				cutting_quotes.c \
 				pre_executer.c \
 				executer.c \
+				execve.c \
 				syntaxer.c \
 				ft_strcmp.c \
 				cleanup.c \

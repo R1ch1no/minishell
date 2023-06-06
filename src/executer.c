@@ -19,6 +19,41 @@
 //any of the specials in quotes wont work --> "|", "<",
 //meaning it will mistake it and tries to pipe
 
+void	ft_bash(t_data *data, int command)
+{
+	int		x;
+	int		y;
+	int		lvl;
+	char	*shlvl;
+	char	*add;
+
+	x = 0;
+	y = -1;
+	while (data->env_copy[++y] != NULL)
+		if (ft_strcmp_v2_until(data->env_copy[y], "SHLVL=", '=') == 0)
+			break ;
+	if (data->env_copy[y] == NULL)
+		return ;
+	while (data->env_copy[y][x] != '=' && data->env_copy[y][x])
+		x++;
+	if (data->env_copy[y][x] == '=')
+		x++;
+	lvl = ft_atoi(&data->env_copy[y][x]);
+	lvl = lvl + command;
+	if (lvl == 0)
+	{
+		cleanse(data);
+		exit(0);
+	}
+	add = ft_itoa(lvl);
+	shlvl = ft_strjoin("SHLVL=", add);
+	if (!shlvl || shlvl == NULL)
+		return ;
+	free(data->env_copy[y]);
+	free(add);
+	data->env_copy[y] = shlvl;
+}
+
 void	executer(t_data *data)
 {
 	t_node	*current;
@@ -44,9 +79,11 @@ void	executer(t_data *data)
 			ft_unset(data, current->next->cmd, &current);
 		else if (ft_strcmp_node(current, "export") == 0 && current->next)
 			ft_export_a(data, current->next->cmd, &current,
-				get_arr_len(data->env_copy) + 1);
+			get_arr_len(data->env_copy) + 1);
 		else if (ft_strcmp_node(current, "export") == 0)
 			ft_export_na(data->env_copy, &current, get_arr_len(data->env_copy));
+		else
+			ft_exec(current, data);
 		if (current != NULL)
 			current = current->next;
 	}

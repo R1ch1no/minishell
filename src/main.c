@@ -12,6 +12,7 @@ int	main(int argc, char **argv, char **env)
 		return (write(2, "Data can't be allocated!\n", 25) && 0);
 	init_data(data, env); 
 	signal_set_up(data);
+	ft_bash(data, 1);
 	//deleted the run variable, to stop the program, press Ctrl + D
 	while (1)
 	{

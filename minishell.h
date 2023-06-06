@@ -97,17 +97,22 @@ void					ft_echo(t_node **node);
 void					ft_pwd(t_node **node);
 void					ft_env(char **env, t_node **node);
 void					ft_unset(t_data *data, char *search, t_node **node);
-//export
+//export functions
 void					ft_export_na(char **env, t_node **node, int len);
 void					ft_export_a(t_data *data, char *var, t_node **node,
 							int len);
-int						double_quotes_count(char *str);
-int						single_quotes_count(char *str);
 int						ft_replace_existing(t_data *data, t_node *node);
 int						ft_strcmp_v2_until(char *s1, char *s2, char c);
+int						ft_append(t_data *data, t_node *node, int y);
+void					ft_bash(t_data *data, int command);
+
+//execve
+void					ft_exec(t_node *node, t_data *data);
+//quotes utils
+int						double_quotes_count(char *str);
+int						single_quotes_count(char *str);
 int						closed_with_double(char *str);
 int						closed_with_single(char *str);
-int						ft_append(t_data *data, t_node *node, int y);
 
 int						ft_strcmp_v2(char *s1, char *s2);
 int						syntaxer(t_node *cmd_line);
