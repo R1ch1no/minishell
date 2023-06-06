@@ -10,6 +10,9 @@ void	prep_for_executer(t_node *head, t_data *data)
 	printf("PREP EXEC\n");
 	while (current)
 	{
+		if (count_char(current->cmd, '"'))
+			
+
 		if (count_char(current->cmd, '\'') > 1 || count_char(current->cmd,
 				'"') > 1 || ft_strchr(current->cmd, '$') != NULL)
 			dollar_and_s_quotes(&(current->cmd), data);

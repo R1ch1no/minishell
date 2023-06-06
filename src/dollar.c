@@ -16,7 +16,7 @@ char *get_str_before_dollar(char *str, int i)
 char *get_end_of_dollar(char *str, int i)
 {
     char *end;
-    
+
     if (count_char(str, '\'') == 1 || count_char(str, '\"') == 1)
         end = ft_str_many_chr(&str[i], "$?<>| ");
     else
@@ -92,8 +92,9 @@ int subout_dollar(char **str, int i, t_data *data)
         cleanse(data);
     if (subbing_cmd_str(str, before_d, env_value, end_of_d) == 1)
         cleanse(data);
-    i += ft_strlen(env_value) - 1;
+    i += ft_strlen(env_value) - 1;//
     four_free(d_name, before_d, env_value, NULL);
+    //return (ft_strlen(env_value) - 1)
     return (i);
 }
 
