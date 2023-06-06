@@ -95,15 +95,17 @@ int main()
     //richards test with quotes
     add_test_back
     (   &head, 
+        "b=\"'\"",
+        "b='"   
+    );
+
+    
+    add_test_back
+    (   &head, 
         "a='\"'",
         "a=\""   
     );
 
-     add_test_back
-    (   &head, 
-        "b=\"'\"",
-        "b='"   
-    );
 
     add_test_back
     (   &head, 
@@ -126,7 +128,7 @@ int main()
     add_test_back
     (   &head, 
         "(\"01'$USER'SHIT $USER$USER'''$'user\")",
-        "(01$USERSHIT qtranqtran$user)"   
+        "(01'qtran'SHIT qtranqtran'''$'user)"   
     );
     
 
@@ -243,6 +245,12 @@ int main()
 
     
     //$ sign and special instant afterwards
+    add_test_back
+    (   &head,
+        "$\"\"",
+        ""
+    );
+
     add_test_back
     (   &head,
         "text$|text",
