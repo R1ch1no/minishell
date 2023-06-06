@@ -48,14 +48,27 @@ void	add_node_back(t_node **lst, char *test, char *bash)
 
 void print_test(t_node node)
 {
-    printf("Test: %s\n", node.test);
-    printf("bash: %s\n", node.bash);
-    printf("mini: %s\n", node.mini);
+    
+    
+    
 
+    
     if (strcmp(node.bash, node.mini) == 0)
-        printf("Success\n");
+    {
+        //printf("Test: %s\n", node.test);
+        //printf("bash: %s\n", node.bash);
+        //printf("mini: %s\n", node.mini);
+        //printf("Success\n");
+    }
     else
+    {
+        printf("Test: %s\n", node.test);
+        printf("bash: %s\n", node.bash);
+        printf("mini: %s\n", node.mini);
         printf("Fail 🥲\n");
+        ft_printf("-------------------------------------------\n\n");
+    }
+
 }
 
 void	print_list(t_node *head)
@@ -68,9 +81,7 @@ void	print_list(t_node *head)
 	
 	while (print)
 	{
-        ft_printf("-------------------------------------------\n");
 		print_test(*print);
-        ft_printf("-------------------------------------------\n\n");
         print = print->next;
 	}
 }
