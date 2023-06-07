@@ -10,19 +10,7 @@ char *get_str_before_dollar(char *str, int i)
         before_dollar = ft_strdup("");
     return (before_dollar);
 }
-int get_index_of(char *str, char c)
-{
-    int i;
 
-    i = 0;
-    while (str && str[i])
-    {
-        if (str[i] == c)
-            return (i);
-        i++;
-    }
-    return (-1);
-}
 //it can have spaces and <> signs if its in double quotes, bash reads the name until the special chars
 //fixes bug if unclosed quote after $ sign: $name" or $"name 
 char *get_end_of_dollar(char *str, int i, int left_for_cut)
@@ -90,7 +78,7 @@ int subbing_cmd_str(char **str, char *before_d, char *env_value, char *end_of_d)
     return (0);
 }
 
-int check_if_quote_closed(char *str, int i)
+int check_if_quote_and_closed(char *str, int i)
 {
     if (str[i] == '\'' && ft_strchr(&str[i + 1], '\'') != NULL)
         return (TRUE);
@@ -111,11 +99,11 @@ int subout_dollar(char **str, int i, int left_f_cut, t_data *data)
     i++;
     if (ft_strchr("<>| \0", (*str)[i]) != NULL)
         return (1);
-    if (check_if_quote_closed((*str), i) == TRUE && left_f_cut == TRUE)
+    if (check_if_quote_and_closed((*str), i) == TRUE && left_f_cut == TRUE)
         return (1);
     if ((*str)[i] == '"' && left_f_cut == TRUE)
         return (1);
-    if (check_if_quote_closed((*str), i) == TRUE || (left_f_cut == TRUE && (*str)[i] == '"'))
+    if (check_if_quote_and_closed((*str), i) == TRUE || (left_f_cut == TRUE && (*str)[i] == '"'))
         return (strcpy_wout_ind(str, i - 1, data), 0);
     before_d = get_str_before_dollar(*str, i);
     end_of_d = get_end_of_dollar(*str, i, left_f_cut);

@@ -69,3 +69,17 @@ int check_if_char_in_row(char *str, char c)
     else
         return(FALSE);
 }
+
+int get_index_of(char *str, char c)
+{
+    int i;
+
+    i = 0;
+    while (str && str[i])
+    {
+        if (str[i] == c)
+            return (i);
+        i++;
+    }
+    return (-1);
+}
