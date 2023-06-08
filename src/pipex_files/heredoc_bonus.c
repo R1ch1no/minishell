@@ -6,7 +6,7 @@
 /*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 17:20:31 by qtran             #+#    #+#             */
-/*   Updated: 2023/06/07 18:36:51 by qtran            ###   ########.fr       */
+/*   Updated: 2023/06/08 19:03:15 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,21 @@ int	here_doc(t_data *data)
 {
 	char	*line;
 
-	data->here_doc = open(HERE_DOC, O_CREAT | O_WRONLY | O_TRUNC, 0666);
+	data->fd_heredoc = open(HERE_DOC, O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	if (data->here_doc == -1)
 		cleanup(data);
 	while (1)
 	{
-		ft_printf("> ");
-		line = get_next_line(STDIN_FILENO);
-		if (ft_strncmp(line, data->limiter, ft_strlen(data->limiter)) == 0)
+		line = readline("💩");
+		if (strcmp(line, data->limiter) == 0)
 		{
 			free(line);
 			break ;
 		}
-		write(data->here_doc, line, ft_strlen(line));
+		write(data->fd_heredoc, line, ft_strlen(line));
 		free(line);
 	}
-	close(data->here_doc);
+	close(data->fd_heredoc);
 	data->here_doc = open(HERE_DOC, O_RDONLY);
 	if (data->here_doc < 0)
 		unlink(".heredoc_tmp");
