@@ -47,7 +47,7 @@ void	ft_clean_cmd(t_data *data)
 	data->cmd_line = NULL;
 }
 
-void	add_node_back(t_node **lst, t_node *new)
+void	add_node_back_old(t_node **lst, t_node *new)
 {
 	t_node	*last;
 
@@ -62,8 +62,8 @@ void	add_node_back(t_node **lst, t_node *new)
 	last->next = new;
 }
 
-/* 
-void	add_node_back_2(t_node **lst, t_node *new)
+
+void	add_node_back(t_node **lst, t_node *new)
 {
 	t_node	*last;
 
@@ -77,7 +77,7 @@ void	add_node_back_2(t_node **lst, t_node *new)
 	last = lstlast(*lst);
 	last->next = new;
 	new->prev = last;
-} */
+}
 
 t_node	*create_node(char *str)
 {
@@ -90,7 +90,7 @@ t_node	*create_node(char *str)
 	new->special = 0;
 	new->cmd = str;
 	new->next = NULL;
-	//new->prev = NULL;
+	new->prev = NULL;
 	return (new);
 }
 

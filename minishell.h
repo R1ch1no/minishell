@@ -26,6 +26,7 @@ typedef struct s_node
 	int					special;
 	char				*cmd;
 	struct s_node		*next;
+	struct s_node		*prev;
 }						t_node;
 
 //fd_p_read, fd_p_write : not quite sure if i need the pipe fd's like this
@@ -125,6 +126,7 @@ void					ft_clean_cmd(t_data *data);
 void					add_node_back(t_node **lst, t_node *new);
 void					print_list(t_node *head);
 t_node					*create_node(char *str);
+void					delete_node(t_node *delete, t_node **head);
 
 //dollar_sign_file
 int						get_arr_len(char **arr);
