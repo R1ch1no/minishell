@@ -71,11 +71,12 @@ void					cut_out_quotes(char **str, char c);
 //quotes_and_dollar
 //dollar.c
 char					*get_str_before_dollar(char *str, int i);
-char					*get_end_of_dollar(char *str, int i);
+char					*get_end_of_dollar(char *str, int i, int left_for_cut);
 char					*get_env_value(char c, char **end_of_d);
 int						subbing_cmd_str(char **str, char *before_d,
 							char *env_value, char *end_of_d);
-int						subout_dollar(char **str, int i, t_data *data);
+int						subout_dollar(char **str, int i, int left_f_cut,
+							t_data *data);
 
 //__________________________GENERAL UTILS__________________________
 //

@@ -6,7 +6,7 @@
 /*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 17:20:31 by qtran             #+#    #+#             */
-/*   Updated: 2023/03/23 16:02:12 by qtran            ###   ########.fr       */
+/*   Updated: 2023/06/07 18:36:51 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	here_doc(t_data *data)
 		cleanup(data);
 	while (1)
 	{
-		ft_printf("heredoc> ");
+		ft_printf("> ");
 		line = get_next_line(STDIN_FILENO);
 		if (ft_strncmp(line, data->limiter, ft_strlen(data->limiter)) == 0)
 		{

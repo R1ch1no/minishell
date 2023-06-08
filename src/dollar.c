@@ -13,11 +13,26 @@ char *get_str_before_dollar(char *str, int i)
 
 //it can have spaces and <> signs if its in double quotes, bash reads the name until the special chars
 //fixes bug if unclosed quote after $ sign: $name" or $"name 
-char *get_end_of_dollar(char *str, int i)
+char *get_end_of_dollar(char *str, int i, int left_for_cut)
 {
     char *end;
+    int n_single;
+    int n_double;
+    int i_single;
+    int i_double;
+    
+    n_single = count_char(str, '\'');
+    i_single = get_index_of(str, '\'');
+    n_double = count_char(str, '"');
+    i_double = get_index_of(str, '"');
 
-    if (count_char(str, '\'') == 1 || count_char(str, '\"') == 1)
+    if (left_for_cut == TRUE && n_single > 1)
+        end = ft_str_many_chr(&str[i], "'\"$?<>| ");
+    else if (left_for_cut == TRUE)
+        end = ft_str_many_chr(&str[i], "\"$?<>| ");
+    else if (n_single == 0 && n_double > 1)
+        end = ft_str_many_chr(&str[i], "\"$?<>| ");
+    else if (n_single <= 1 && n_double <= 1)
         end = ft_str_many_chr(&str[i], "$?<>| ");
     else
         end = ft_str_many_chr(&str[i], "'\"$?<>| ");
@@ -63,7 +78,7 @@ int subbing_cmd_str(char **str, char *before_d, char *env_value, char *end_of_d)
     return (0);
 }
 
-int check_if_quote_closed(char *str, int i)
+int check_if_quote_and_closed(char *str, int i)
 {
     if (str[i] == '\'' && ft_strchr(&str[i + 1], '\'') != NULL)
         return (TRUE);
@@ -72,7 +87,9 @@ int check_if_quote_closed(char *str, int i)
     return (FALSE);
 }
 
-int subout_dollar(char **str, int i, t_data *data)
+//int edge_cases()
+
+int subout_dollar(char **str, int i, int left_f_cut, t_data *data)
 {
     char *before_d;
     char *d_name;
@@ -80,21 +97,23 @@ int subout_dollar(char **str, int i, t_data *data)
     char *end_of_d;
 
     i++;
-    if (!(*str)[i] || ft_strchr("<>| ", (*str)[i]) != NULL)
-        return (i);
-    if (check_if_quote_closed((*str), i))
-        return (strcpy_wout_ind(str, i - 1, data), i - 1);
+    if (ft_strchr("<>| \0", (*str)[i]) != NULL)
+        return (1);
+    if (check_if_quote_and_closed((*str), i) == TRUE && left_f_cut == TRUE)
+        return (1);
+    if ((*str)[i] == '"' && left_f_cut == TRUE)
+        return (1);
+    if (check_if_quote_and_closed((*str), i) == TRUE || (left_f_cut == TRUE && (*str)[i] == '"'))
+        return (strcpy_wout_ind(str, i - 1, data), 0);
     before_d = get_str_before_dollar(*str, i);
-    end_of_d = get_end_of_dollar(*str, i);
+    end_of_d = get_end_of_dollar(*str, i, left_f_cut);
     d_name = ft_substr(*str, i, end_of_d - &(*str)[i]);
     env_value = get_env_value((*str)[i], &end_of_d);
     if ((!before_d) || (!end_of_d) || (!d_name) || (!env_value))
         cleanse(data);
     if (subbing_cmd_str(str, before_d, env_value, end_of_d) == 1)
         cleanse(data);
-    i += ft_strlen(env_value) - 1;//
     four_free(d_name, before_d, env_value, NULL);
-    //return (ft_strlen(env_value) - 1)
-    return (i);
+    return (ft_strlen(env_value) - 1);
 }
 

@@ -169,6 +169,17 @@ int main()
         "(\"text$'USER\")",
         "(textqtran)"   
     );
+    
+    add_test_back
+    (   &head, 
+        "(\"text$USER'USER'\")",
+        "(textqtran'USER')"   
+    );
+
+    
+    
+    
+   
     //closed single quotes directly after but in double quotes
     add_test_back
     (   &head,
