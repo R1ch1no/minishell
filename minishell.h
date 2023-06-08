@@ -7,6 +7,8 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
 # define HERE_DOC ".here_doc.tmp"
@@ -41,6 +43,7 @@ typedef struct s_data
 	int					fd_p_write;
 	struct sigaction	sa;
 	t_node				*cmd_line;
+	int					pid;
 }						t_data;
 
 //init.c
@@ -109,7 +112,7 @@ int						ft_append(t_data *data, t_node *node, int y);
 void					ft_bash(t_data *data, int command);
 
 //execve
-void					ft_exec(t_node *node, t_data *data);
+void					ft_exec(t_node *node, t_data *data, char **env);
 //quotes utils
 int						double_quotes_count(char *str);
 int						single_quotes_count(char *str);
@@ -118,7 +121,7 @@ int						closed_with_single(char *str);
 
 int						ft_strcmp_v2(char *s1, char *s2);
 int						syntaxer(t_node *cmd_line);
-void					executer(t_data *data);
+void					executer(t_data *data, char **env);
 
 //lists
 int						ft_strcmp_node(t_node *node, char *s2);

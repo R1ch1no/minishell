@@ -25,8 +25,6 @@ void	init_cmd_line(t_data *data)
         	return (perror("mini hell malloc"), cleanse(data));
 		//evtl exit aus cleanup rausnehmen? und in solchen Fällen exit(1)?
 		add_node_back(&data->cmd_line, new_node);
-		if(new_node->prev != NULL)
-			printf("previous: %s\n", new_node->prev->cmd);
 		j++;
 		i += len;
 		while (str[i] == ' ')

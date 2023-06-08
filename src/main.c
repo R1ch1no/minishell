@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **env)
 			add_history(data->line_read);
 		lexer(data); //stopped_here
 		identify_tokens(data->cmd_line);
-		print_list(data->cmd_line);
+		//print_list(data->cmd_line);
 		free(data->line_read);
 		data->line_read = NULL;
 		if (syntaxer(data->cmd_line) == 0)
@@ -41,7 +41,7 @@ int	main(int argc, char **argv, char **env)
 			prep_for_executer(data->cmd_line, data);
 /* 			heredoc();
 			parser(); */
-			executer(data);
+			executer(data, env);
 		}
 		ft_clean_cmd(data);
 	}

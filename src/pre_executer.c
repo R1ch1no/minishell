@@ -7,7 +7,7 @@ void	prep_for_executer(t_node *head, t_data *data)
 
 	current = head;
 	current = head;
-	printf("PREP EXEC\n");
+	//printf("PREP EXEC\n");
 	while (current)
 	{
 		if (count_char(current->cmd, '\'') > 1 || count_char(current->cmd,
@@ -15,7 +15,7 @@ void	prep_for_executer(t_node *head, t_data *data)
 			dollar_and_s_quotes(&(current->cmd), data);
 		if (current->cmd == NULL)
 			cleanse(data);
-		printf("%s\n", current->cmd);
+		//printf("%s\n", current->cmd);
 		current = current->next;
 	}
 }

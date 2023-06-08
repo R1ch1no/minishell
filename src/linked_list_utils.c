@@ -86,7 +86,7 @@ t_node	*create_node(char *str)
 	new = malloc(sizeof(t_node));
 	if (new == NULL)
 		return (NULL);
-	printf("Node created\n");
+	//printf("Node created\n");
 	new->special = 0;
 	new->cmd = str;
 	new->next = NULL;

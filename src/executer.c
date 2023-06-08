@@ -54,7 +54,7 @@ void	ft_bash(t_data *data, int command)
 	data->env_copy[y] = shlvl;
 }
 
-void	executer(t_data *data)
+void	executer(t_data *data, char **env)
 {
 	t_node	*current;
 
@@ -83,7 +83,7 @@ void	executer(t_data *data)
 		else if (ft_strcmp_node(current, "export") == 0)
 			ft_export_na(data->env_copy, &current, get_arr_len(data->env_copy));
 		else
-			ft_exec(current, data);
+			ft_exec(current, data, env);
 		if (current != NULL)
 			current = current->next;
 	}
