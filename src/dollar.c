@@ -18,13 +18,13 @@ char *get_end_of_dollar(char *str, int i, int left_for_cut)
     char *end;
     int n_single;
     int n_double;
-    int i_single;
-    int i_double;
+    //int i_single;
+    //int i_double;
     
     n_single = count_char(str, '\'');
-    i_single = get_index_of(str, '\'');
+    //i_single = get_index_of(str, '\'');
     n_double = count_char(str, '"');
-    i_double = get_index_of(str, '"');
+    //i_double = get_index_of(str, '"');
 
     if (left_for_cut == TRUE && n_single > 1)
         end = ft_str_many_chr(&str[i], "'\"$?<>| ");

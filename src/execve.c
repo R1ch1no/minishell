@@ -17,9 +17,15 @@ void	ft_exec(t_node *node, t_data *data)
 		return ;
 	ft_strlcpy(path, "/usr/bin/", (ft_strlen("/usr/bin/") + 1));
 	path = ft_strjoin(path, node->cmd);
-	printf("PATH : %s\n", path);
 	if (!path || path == NULL)
 		return ;
+	if (access(path, F_OK) != 0)
+	{
+		printf("%s\n", path);
+		write(1, "File does not exist!\n", 21);
+		free(path);
+		return ;
+	}
 	while (current != NULL)
 	{
 		if (current->special == 1)
@@ -34,6 +40,7 @@ void	ft_exec(t_node *node, t_data *data)
 	{
 		if (current->special == 1)
 			break ;
+		args[count] = mallocft_strlen((current->cmd) + 1);
 		ft_strlcpy(args[count], current->cmd, ft_strlen(current->cmd) + 1);
 		current = current->next;
 		count++;

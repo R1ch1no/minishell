@@ -16,18 +16,18 @@ void	print_list(t_node *head)
 	}
 	ft_printf("----End-----\n");
 }
-
-void	delete_node(t_node *delete)
+//it is not doing anything, pointers are lost, node gets deleted
+/* void	delete_node(t_node *delete)
 {
 	t_node *prev;
 	t_node *next;
 
-	//prev = delete->prev;
+	prev = delete->prev;
 	next = delete->next;
 	prev->next = next;
-	//next->prev = prev;
+	next->prev = prev;
 	free(delete->cmd);
 	delete->cmd = NULL;
 	free(delete);
 	delete = NULL;
-}
+} */
