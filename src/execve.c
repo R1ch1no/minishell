@@ -1,23 +1,44 @@
 
 #include "../minishell.h"
 
+char	*exec_strjoin(char *str1, char *str2)
+{
+	char	*jstr;
+	int		i;
+	int		j;
+
+	if (!str1 || str1 == NULL || !str2 || str2 == NULL)
+		return (NULL);
+	jstr = (char *)malloc(sizeof(char) * (ft_strlen(str1) + ft_strlen(str2))
+			+ 1);
+	if (!jstr || jstr == NULL)
+		return (NULL);
+	j = 0;
+	i = -1;
+	while (str1[++i])
+		jstr[i] = str1[i];
+	while (str2[j])
+		jstr[i++] = str2[j++];
+	jstr[i] = '\0';
+	free(str1);
+	return (jstr);
+}
+
 void	ft_exec(t_node *node, t_data *data, char **env)
 {
-	int		count;
-	char	*path;
-	char	**args;
-	t_node	*current;
-	t_node	*start;
+	int			count;
+	char		*pre_path;
+	static char	*path;
+	char		**args;
+	t_node		*current;
 
-	(void)data;
 	current = node;
-	start = node;
 	count = 0;
-	path = malloc(ft_strlen("/usr/bin/") + ft_strlen(node->cmd) + 1);
-	if (!path || path == NULL)
+	pre_path = malloc(ft_strlen("/usr/bin/") + ft_strlen(node->cmd) + 1);
+	if (!pre_path || pre_path == NULL)
 		return ;
-	ft_strlcpy(path, "/usr/bin/", (ft_strlen("/usr/bin/") + 1));
-	path = ft_strjoin(path, node->cmd);
+	ft_strlcpy(pre_path, "/usr/bin/", (ft_strlen("/usr/bin/") + 1));
+	path = exec_strjoin(pre_path, node->cmd);
 	if (!path || path == NULL)
 		return ;
 	if (access(path, F_OK) != 0)
@@ -34,7 +55,7 @@ void	ft_exec(t_node *node, t_data *data, char **env)
 	}
 	args = malloc((count + 1) * sizeof(char *));
 	args[count] = NULL;
-	current = start;
+	current = node;
 	count = 0;
 	while (current != NULL)
 	{
@@ -46,19 +67,17 @@ void	ft_exec(t_node *node, t_data *data, char **env)
 		count++;
 	}
 	args[count] = NULL;
-	print_str_arr(args);
 	data->pid = fork();
 	if (data->pid == -1)
+	{
+		free(path);
+		free_2d_str_arr(&args);
 		return ;
+	}
 	else if (data->pid == 0)
-	{
-		if (execve(path, args, env) == -1)
-			return ;
-	}
+		execve(path, args, env);
 	else
-	{
 		wait(NULL);
-	}
 	free(path);
 	free_2d_str_arr(&args);
 }
