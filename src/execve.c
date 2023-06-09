@@ -76,7 +76,9 @@ int	forking(t_data *data, char *path, char **env, char **args)
 		return (1);
 	}
 	else if (data->pid == 0)
+	{
 		execve(path, args, env);
+	}
 	else
 	{
 		signal(SIGINT, SIG_IGN);
@@ -109,10 +111,7 @@ void	ft_exec(t_node *node, t_data *data, char **env)
 			return ;
 	}
 	if (access(path, F_OK) != 0)
-	{
-		free(path);
-		return ;
-	}
+		return (free(path));
 	args = malloc((arg_num(node) + 1) * sizeof(char *));
 	fill_args(node, args);
 	forking(data, path, env, args);
