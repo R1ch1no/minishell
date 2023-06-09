@@ -1,6 +1,8 @@
 
 #include "../minishell.h"
 
+t_data *data;
+
 typedef struct s_test
 {
 	char				*test;
@@ -30,7 +32,7 @@ void	add_test_back(t_test **lst, char *test, char *bash)
     if (new == NULL)
 	    return ;
     char *str = ft_strdup(test);
-    dollar_and_s_quotes(&str, NULL);
+    dollar_and_s_quotes(&str, data);
     //printf("%s\n", test);
     new->next = NULL;
     new->test = test;
@@ -82,13 +84,19 @@ void	print_test_list(t_test *head)
 	}
 }
 
-int main()
+
+int main(int argc, char **argv, char **env)
 {
     //TESTING ACTUAL IMPLEMENTATION FOR MINISHELL
     //test rules:
     //any $text_not_special evals-to: qtran even if it doesnt exist
     //$? evals-to: 1234
     //
+    if (argc != 1 || argv[0] == NULL)
+	    return (1);
+    data = malloc(sizeof(t_data));
+    init_data(data, env);
+
     t_test *head = NULL;
     
     
@@ -127,8 +135,20 @@ int main()
     //Quotes
     add_test_back
     (   &head, 
-        "(\"01'$USER'SHIT $USER$USER'''$'user\")",
-        "(01'qtran'SHIT qtranqtran'''$'user)"   
+        "\"$'user\"",
+        "$'user"   
+    );
+    
+    add_test_back
+    (   &head, 
+        "\"01'$USER'SHIT $USER$USER'''$'user\"",
+        "01'qtran'SHIT qtranqtran'''$'user"   
+    );
+
+    add_test_back
+    (   &head, 
+        "\"text$\"text",
+        "text$text"
     );
     
 
@@ -167,7 +187,7 @@ int main()
     add_test_back
     (   &head, 
         "(\"text$'USER\")",
-        "(textqtran)"   
+        "(text$'USER)"   
     );
     
     add_test_back
@@ -198,7 +218,7 @@ int main()
     add_test_back
     (   &head, 
         "text$USER\"",
-        "textqtran"
+        "text"
     );
     add_test_back
     (   &head,
@@ -251,7 +271,7 @@ int main()
     add_test_back
     (   &head,
         "$USER\"",
-        "qtran"
+        ""
     );
 
     
@@ -282,13 +302,13 @@ int main()
     //special not instant afterwards
     add_test_back
     (   &head,
-        "(text$te|xt)",
+        "(text$USER|xt)",
         "(textqtran|xt)"
     );
 
     add_test_back
     (   &head,
-        "(text$te>>xt)",
+        "(text$USER>>xt)",
         "(textqtran>>xt)"
     );
     
@@ -308,7 +328,12 @@ int main()
     add_test_back
     (   &head,
         "text$'?text",
-        "textqtran?text"
+        "text?text"
+    );
+    add_test_back
+    (   &head,
+        "text$non?text",
+        "text?text"
     );
 
     add_test_back

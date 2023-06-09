@@ -37,17 +37,34 @@ char	*get_end_of_dollar(char *str, int i, int left_for_cut)
 	return (end);
 }
 
-char	*get_env_value(char c, char **end_of_d)
+
+char	*get_env_value(char *look_for, char c, char **end_of_d, char **env)
 {
 	char	*env_value;
+	char *start;
+	int i;
 
+	env_value = "";
 	if (c == '?')
 	{
 		env_value = ft_strdup("1234");
 		(*end_of_d)++;
+		return (env_value);
 	}
-	else
-		env_value = ft_strdup("qtran");
+	i = -1;
+	while (env[++i])
+	{
+		if (ft_strncmp(look_for, env[i], ft_strlen(look_for)) == 0)
+		{
+			start = ft_strchr(env[i], '=');
+			env_value = ft_strdup(++start);
+			break;
+		}
+	}
+	if (env[i] == NULL)
+		env_value = ft_strdup("");
+	if (!env_value)
+		return (NULL);
 	return (env_value);
 }
 
@@ -95,21 +112,18 @@ int	subout_dollar(char **str, int i, int left_f_cut, t_data *data)
 	i++;
 	if (ft_strchr("<>| \0", (*str)[i]) != NULL)
 		return (1);
-	if (check_if_quote_and_closed((*str), i) == TRUE && left_f_cut == TRUE)
+	if (left_f_cut == TRUE && ((*str)[i] == '\'' || (*str)[i] == '"'))
 		return (1);
-	if ((*str)[i] == '"' && left_f_cut == TRUE)
-		return (1);
-	if (check_if_quote_and_closed((*str), i) == TRUE || (left_f_cut == TRUE
-			&& (*str)[i] == '"'))
+	if (check_if_quote_and_closed((*str), i) == TRUE)
 		return (strcpy_wout_ind(str, i - 1, data), 0);
 	before_d = get_str_before_dollar(*str, i);
 	end_of_d = get_end_of_dollar(*str, i, left_f_cut);
 	d_name = ft_substr(*str, i, end_of_d - &(*str)[i]);
-	env_value = get_env_value((*str)[i], &end_of_d);
+	env_value = get_env_value(d_name, (*str)[i], &end_of_d, data->env_copy);
 	if ((!before_d) || (!end_of_d) || (!d_name) || (!env_value))
 		cleanse(data);
 	if (subbing_cmd_str(str, before_d, env_value, end_of_d) == 1)
 		cleanse(data);
-	four_free(d_name, before_d, env_value, NULL);
-	return (ft_strlen(env_value) - 1);
+	i = ft_strlen(env_value);
+	return (four_free(d_name, before_d, env_value, NULL), i);
 }
