@@ -24,28 +24,15 @@ char	*exec_strjoin(char *str1, char *str2)
 	return (jstr);
 }
 
-void	ft_exec(t_node *node, t_data *data, char **env)
+int	arg_num(t_node *node)
 {
-	int			count;
-	char		*pre_path;
-	static char	*path;
-	char		**args;
-	t_node		*current;
+	int		count;
+	t_node	*current;
+	t_node	*start;
 
+	start = node;
 	current = node;
 	count = 0;
-	pre_path = malloc(ft_strlen("/usr/bin/") + ft_strlen(node->cmd) + 1);
-	if (!pre_path || pre_path == NULL)
-		return ;
-	ft_strlcpy(pre_path, "/usr/bin/", (ft_strlen("/usr/bin/") + 1));
-	path = exec_strjoin(pre_path, node->cmd);
-	if (!path || path == NULL)
-		return ;
-	if (access(path, F_OK) != 0)
-	{
-		free(path);
-		return ;
-	}
 	while (current != NULL)
 	{
 		if (current->special == 1)
@@ -53,8 +40,17 @@ void	ft_exec(t_node *node, t_data *data, char **env)
 		count++;
 		current = current->next;
 	}
-	args = malloc((count + 1) * sizeof(char *));
-	args[count] = NULL;
+	current = start;
+	return (count);
+}
+
+void	fill_args(t_node *node, char **args)
+{
+	int		count;
+	t_node	*current;
+	t_node	*start;
+
+	start = node;
 	current = node;
 	count = 0;
 	while (current != NULL)
@@ -67,17 +63,57 @@ void	ft_exec(t_node *node, t_data *data, char **env)
 		count++;
 	}
 	args[count] = NULL;
+	current = start;
+}
+
+int	forking(t_data *data, char *path, char **env, char **args)
+{
 	data->pid = fork();
 	if (data->pid == -1)
 	{
 		free(path);
 		free_2d_str_arr(&args);
-		return ;
+		return (1);
 	}
 	else if (data->pid == 0)
+	{
 		execve(path, args, env);
+	}
 	else
+	{
+		signal(SIGINT, SIG_IGN);
 		wait(NULL);
-	free(path);
-	free_2d_str_arr(&args);
+		free(path);
+		free_2d_str_arr(&args);
+	}
+	return (0);
+}
+
+void	ft_exec(t_node *node, t_data *data, char **env)
+{
+	char		*pre_path;
+	static char	*path;
+	char		**args;
+
+	if (ft_strcmp_v2_until(node->cmd, "./", '/') == 0)
+	{
+		path = malloc(ft_strlen(node->cmd) + 1);
+		ft_strlcpy(path, node->cmd, ft_strlen(node->cmd) + 1);
+	}
+	else
+	{
+		pre_path = malloc(ft_strlen("/usr/bin/") + ft_strlen(node->cmd) + 1);
+		if (!pre_path || pre_path == NULL)
+			return ;
+		ft_strlcpy(pre_path, "/usr/bin/", (ft_strlen("/usr/bin/") + 1));
+		path = exec_strjoin(pre_path, node->cmd);
+		if (!path || path == NULL)
+			return ;
+	}
+	if (access(path, F_OK) != 0)
+		return (free(path));
+	args = malloc((arg_num(node) + 1) * sizeof(char *));
+	fill_args(node, args);
+	forking(data, path, env, args);
+	signal_set_up(data);
 }

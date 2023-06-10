@@ -15,7 +15,7 @@ int	ft_cd(t_node **node)
 	return (0);
 }
 
-void	ft_pwd(t_node **node)
+void	ft_pwd(void)
 {
 	char	dir[500000];
 
@@ -23,7 +23,6 @@ void	ft_pwd(t_node **node)
 		perror(NULL);
 	else
 		printf("%s\n", dir);
-	(*node) = (*node)->next;
 }
 
 //dunno how to implement it or when :
@@ -47,4 +46,3 @@ int	get_arr_len(char **arr)
 		i++;
 	return (i);
 }
-

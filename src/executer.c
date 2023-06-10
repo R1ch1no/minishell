@@ -62,7 +62,7 @@ void	executer(t_data *data, char **env)
 	while (current != NULL)
 	{
 		if (ft_strcmp_node(current, "pwd") == 0)
-			ft_pwd(&current);
+			ft_pwd();
 		else if (ft_strcmp_node(current, "echo") == 0)
 		{
 			current = current->next;

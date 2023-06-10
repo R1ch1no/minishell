@@ -31,7 +31,7 @@ int	ft_strcmp_v2(char *s1, char *s2)
 	return ((int)(unsigned char)(*s1) - (int)(unsigned char)(*s2));
 }
 //compare two string, if they match unitl and including the character specified
-//it returns 0. If somebody says export += it returns -999- otherwise returns
+//it returns 0. If somebody says export += it returns -9999 otherwise returns
 //difference of s1 and s2 if they dont match at all
 int	ft_strcmp_v2_until(char *s1, char *s2, char c)
 {

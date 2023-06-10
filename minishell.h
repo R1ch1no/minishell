@@ -103,7 +103,7 @@ void					signal_set_up(t_data *data);
 //built-ins
 int						ft_cd(t_node **node);
 void					ft_echo(t_node **node);
-void					ft_pwd(t_node **node);
+void					ft_pwd(void);
 void					ft_env(char **env, t_node **node);
 void					ft_unset(t_data *data, char *search, t_node **node);
 //export functions
