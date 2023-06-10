@@ -82,8 +82,8 @@ void	executer(t_data *data, char **env)
 					get_arr_len(data->env_copy) + 1);
 		else if (ft_strcmp_node(current, "export") == 0)
 			ft_export_na(data->env_copy, &current, get_arr_len(data->env_copy));
-		//else
-		//	ft_exec(current, data, env);
+		else
+			ft_exec(current, data, env);
 		(void)env;
 		if (current != NULL)
 			current = current->next;

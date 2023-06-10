@@ -6,7 +6,7 @@
 /*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 17:20:31 by qtran             #+#    #+#             */
-/*   Updated: 2023/06/08 19:03:15 by qtran            ###   ########.fr       */
+/*   Updated: 2023/06/10 13:19:14 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	here_doc(t_data *data)
 	while (1)
 	{
 		line = readline("💩");
-		if (strcmp(line, data->limiter) == 0)
+		if (ft_strcmp(line, data->limiter) == 0)
 		{
 			free(line);
 			break ;

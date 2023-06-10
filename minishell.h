@@ -11,7 +11,10 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-# define HERE_DOC ".here_doc.tmp"
+#include <sys/stat.h>
+#include <fcntl.h>
+
+# define HERE_DOC ".heredoc"
 # define TRUE 1
 # define FALSE 0
 
@@ -41,6 +44,7 @@ typedef struct s_data
 	int					fd_outfile;
 	int					fd_p_read;
 	int					fd_p_write;
+	int					fd_heredoc;
 	struct sigaction	sa;
 	t_node				*cmd_line;
 	int					pid;
@@ -63,7 +67,7 @@ void					init_cmd_line(t_data *data);
 void					identify_tokens(t_node *head);
 
 //pre_executer.c
-void					prep_for_executer(t_node *head, t_data *data);
+void					prep_for_executer(t_node **head, t_data *data);
 void					dollar_and_s_quotes(char **str, t_data *data);
 
 //cutting_quotes.c not used yet maybe unneccassary

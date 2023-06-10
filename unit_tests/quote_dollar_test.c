@@ -99,39 +99,28 @@ int main(int argc, char **argv, char **env)
 
     t_test *head = NULL;
     
-    
-    //richards test with quotes
-    add_test_back
-    (   &head, 
-        "b=\"'\"",
-        "b='"   
-    );
-
-    
-    add_test_back
-    (   &head, 
-        "a='\"'",
-        "a=\""   
-    );
+    //string array test
+    char test [][2][100] = 
+    {
+        {"b=\"'\""                                          , "b='"},
+        {"a='\"'"                                           , "a=\""},
+        {"(b=\"\"\"this\"\"isnotfun)"                       , "(b=this\"isnotfun)"},
+        {"(b=\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\")"     , "(b=thisisnotfun)"},
+        {"(c='\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\"')"   , "(c=\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\")"},
+    };
 
 
-    add_test_back
-    (   &head, 
-        "(b=\"\"\"this\"\"isnotfun)",
-        "(b=this\"isnotfun)"   
-    );
-         add_test_back
-    (   &head, 
-        "(b=\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\")",
-        "(b=thisisnotfun)"   
-    );
+    unsigned long j = 0;
+    while (j < sizeof(test) / sizeof(test[0]))
+    {        
+        add_test_back
+        (   &head, 
+            test[j][0],
+            test[j][1]
+        );
+        j++;
+    }
 
-         add_test_back
-    (   &head, 
-        "(c='\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\"')",
-        "(c=\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\")"   
-    );
-    
     //Quotes
     add_test_back
     (   &head, 
@@ -226,12 +215,6 @@ int main(int argc, char **argv, char **env)
         "textqtranthreequo\"tes"
     );
 
-    
-    
-    
-    
-    
-    
     add_test_back
     (   &head,
         "text$USER\"NAME\"",
@@ -274,7 +257,6 @@ int main(int argc, char **argv, char **env)
         ""
     );
 
-    
     //$ sign and special instant afterwards
     add_test_back
     (   &head,
@@ -347,7 +329,6 @@ int main(int argc, char **argv, char **env)
         "(\"text$?text\")",
         "(text1234text)"
     );
-
 
     print_test_list(head);
     return 0;
