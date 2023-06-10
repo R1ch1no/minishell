@@ -104,9 +104,9 @@ int main(int argc, char **argv, char **env)
     {
         {"b=\"'\""                                          , "b='"},
         {"a='\"'"                                           , "a=\""},
-        {"(b=\"\"\"this\"\"isnotfun)"                       , "(b=this\"isnotfun)"},
-        {"(b=\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\")"     , "(b=thisisnotfun)"},
-        {"(c='\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\"')"   , "(c=\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\")"},
+        {"[b=\"\"\"this\"\"isnotfun]"                       , "[b=this\"isnotfun]"},
+        {"[b=\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\"]"     , "[b=thisisnotfun]"},
+        {"[c='\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\"']"   , "[c=\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\"]"},
     };
 
 
