@@ -108,7 +108,7 @@ int	ft_replace_existing(t_data *data, t_node *node)
 		return (0);
 	replace = malloc(ft_strlen(node->cmd) + 1);
 	if (!replace || replace == NULL)
-		return (1);
+		return (write(2, "Allocation (export_a) error !\n", 30) && 1);
 	ft_strlcpy(replace, node->cmd, ft_strlen(node->cmd) + 1);
 	free(data->env_copy[match]);
 	data->env_copy[match] = replace;

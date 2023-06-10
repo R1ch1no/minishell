@@ -2,7 +2,7 @@
 #include "../minishell.h"
 
 //echo receives node that comes after the node containing cmd "echo"
-void	ft_echo(t_node **node)
+int	ft_echo(t_node **node)
 {
 	int	i;
 	int	n;
@@ -10,25 +10,21 @@ void	ft_echo(t_node **node)
 	i = -1;
 	n = 0;
 	if ((*node) == NULL)
-	{
-		write(1, "\n", 1);
-		return ;
-	}
+		return (write(1, "\n", 1) && 0);
 	if (ft_strcmp_v2((*node)->cmd, "-n") == 0)
 	{
 		n = 1;
 		(*node) = (*node)->next;
 	}
 	if ((*node) == NULL && n == 1)
-		return ;
+		return (0);
 	while ((*node)->cmd[++i])
 	{
 		if (n == 1 && (*node)->cmd[i + 1] == '\0' && (*node)->cmd[i] == '\n')
-			return ;
+			return (0);
 		write(1, &(*node)->cmd[i], 1);
 	}
-	write(1, "\n", 1);
-	(*node) = (*node)->next;
+	return (write(1, "\n", 1) && 0);
 }
 
 int	ft_find_match(t_data *data, char *search, int y)
@@ -70,7 +66,7 @@ int	ft_core(t_data *data, char **new_env, int y, int z)
 	return (0);
 }
 
-void	ft_unset(t_data *data, char *search, t_node **node)
+int	ft_unset(t_data *data, char *search)
 {
 	int		y;
 	int		z;
@@ -82,13 +78,13 @@ void	ft_unset(t_data *data, char *search, t_node **node)
 		y++;
 	new_env = malloc((y) * sizeof(char *));
 	if (!new_env)
-		return (perror(NULL));
+		return (write(2, "Allocation error (unset) !\n", 27) && 0);
 	y = 0;
 	while (data->env_copy[y] != NULL)
 	{
 		if (ft_find_match(data, search, y) == 0)
 			if (ft_core(data, new_env, y, ++z) == 1)
-				return (perror(NULL));
+				return (0);
 		if (data->env_copy[y] == NULL)
 			break ;
 		y++;
@@ -96,5 +92,5 @@ void	ft_unset(t_data *data, char *search, t_node **node)
 	free_2d_str_arr(&data->env_copy);
 	new_env[z + 1] = NULL;
 	data->env_copy = new_env;
-	(*node) = (*node)->next;
+	return (0);
 }

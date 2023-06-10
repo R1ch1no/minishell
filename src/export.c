@@ -67,7 +67,7 @@ void	print_quotes(char **print, char c, int y, int x)
 }
 
 //export function with no arguments
-void	ft_export_na(char **env, t_node **node, int len)
+int	ft_export_na(char **env, int len)
 {
 	int		row;
 	char	*tmp;
@@ -75,7 +75,7 @@ void	ft_export_na(char **env, t_node **node, int len)
 
 	print = copy_2d_char_arr(env, len);
 	if (print == NULL)
-		return (perror(NULL));
+		return (write(2, "Allocation (export_na) problem!\n", 32) && 0);
 	while (--len > 0)
 	{
 		row = -1;
@@ -92,7 +92,7 @@ void	ft_export_na(char **env, t_node **node, int len)
 	}
 	print_quotes(print, '"', -1, -1);
 	free_2d_str_arr(&print);
-	(*node) = (*node)->next;
+	return (0);
 }
 
 int	ft_append(t_data *data, t_node *node, int y)
@@ -114,7 +114,7 @@ int	ft_append(t_data *data, t_node *node, int y)
 }
 
 //export function when there are arguments
-void	ft_export_a(t_data *data, char *var, t_node **node, int len)
+int	ft_export_a(t_data *data, char *var, t_node **node, int len)
 {
 	int		y;
 	char	**new_env;
@@ -122,21 +122,21 @@ void	ft_export_a(t_data *data, char *var, t_node **node, int len)
 	y = 0;
 	(*node) = (*node)->next;
 	if (ft_replace_existing(data, *node) == 1)
-		return ;
+		return (0);
 	new_env = copy_2d_char_arr(data->env_copy, len);
 	if (new_env == NULL || !new_env)
-		return ;
+		return (write(2, "Allocation (export_a) problem\n", 30) && 0);
 	while (new_env[y] != NULL)
 		y++;
 	new_env[y] = malloc(ft_strlen(var) + 1);
 	if (new_env[y] == NULL || !new_env[y])
 	{
 		free_2d_str_arr(&new_env);
-		return (perror(NULL));
+		return (write(2, "Allocation (export_a) problem\n", 30) && 0);
 	}
 	ft_strlcpy(new_env[y], var, ft_strlen(var) + 1);
 	new_env[y + 1] = NULL;
 	free_2d_str_arr(&data->env_copy);
 	data->env_copy = new_env;
-	(*node) = (*node)->next;
+	return (0);
 }

@@ -54,84 +54,55 @@ void	ft_bash(t_data *data, int command)
 	data->env_copy[y] = shlvl;
 }
 
+int	ft_commands(t_node *current, char **env, t_data *data)
+{
+	if (ft_strcmp_node(current, "pwd") == 0)
+		return (ft_pwd());
+	else if (ft_strcmp_node(current, "echo") == 0)
+	{
+		current = current->next;
+		return (ft_echo(&current));
+	}
+	else if (ft_strcmp_node(current, "cd") == 0)
+	{
+		current = current->next;
+		return (ft_cd(&current));
+	}
+	else if (ft_strcmp_node(current, "env") == 0)
+		return (ft_env(data->env_copy));
+	else if (ft_strcmp_node(current, "unset") == 0 && current->next)
+		return (ft_unset(data, current->next->cmd));
+	else if (ft_strcmp_node(current, "export") == 0 && current->next)
+		return (ft_export_a(data, current->next->cmd, &current,
+				get_arr_len(data->env_copy) + 1));
+	else if (ft_strcmp_node(current, "export") == 0)
+		return (ft_export_na(data->env_copy, get_arr_len(data->env_copy)));
+	else
+		return (ft_exec(current, env));
+	return (0);
+}
+
 void	executer(t_data *data, char **env)
 {
 	t_node	*current;
 
 	current = data->cmd_line;
-	while (current != NULL)
+	data->pid = fork();
+	if (data->pid == -1)
 	{
-		if (ft_strcmp_node(current, "pwd") == 0)
-			ft_pwd();
-		else if (ft_strcmp_node(current, "echo") == 0)
-		{
-			current = current->next;
-			ft_echo(&current);
-		}
-		else if (ft_strcmp_node(current, "cd") == 0)
-		{
-			current = current->next;
-			ft_cd(&current);
-		}
-		else if (ft_strcmp_node(current, "env") == 0)
-			ft_env(data->env_copy, &current);
-		else if (ft_strcmp_node(current, "unset") == 0 && current->next)
-			ft_unset(data, current->next->cmd, &current);
-		else if (ft_strcmp_node(current, "export") == 0 && current->next)
-			ft_export_a(data, current->next->cmd, &current,
-					get_arr_len(data->env_copy) + 1);
-		else if (ft_strcmp_node(current, "export") == 0)
-			ft_export_na(data->env_copy, &current, get_arr_len(data->env_copy));
-		else
-			ft_exec(current, data, env);
-		(void)env;
-		if (current != NULL)
-			current = current->next;
+		write(2, "Fork problem!\n", 14);
+		return ;
+	}
+	else if (data->pid == 0)
+	{
+		ft_commands(current, env, data);
+		/*printf("command not found : %s", current->cmd); */
+		exit(0);
+	}
+	else
+	{
+		signal(SIGINT, SIG_IGN);
+		wait(NULL);
+		signal_set_up(data);
 	}
 }
-
-/* void	set_stdin_out(t_data *data)
-{
-	if
-		if (dup2(data->fd_in, STDIN_FILENO) == -1)
-			cleanup(data);
-	if (dup2(data->fd_out, STDOUT_FILENO) == -1)
-		cleanup(data);
-}
-
-static int	get_cmd(char *cmd, t_data *data)
-{
-	int		i;
-	char	*env_path;
-
-	i = 0;
-	env_path = data->path[i];
-	printf("%s\n", env_path);
-	while (env_path)
-	{
-		data->cmd_flags = ft_split(cmd, ' ');
-		data->cmd_path = ft_strjoin(env_path, data->cmd_flags[0]);
-		if (data->cmd_flags == NULL || data->cmd_path == NULL)
-			return (-1);
-		if (access(data->cmd_path, X_OK) == -1)
-		{
-			i++;
-			env_path = data->path[i];
-			if (env_path == NULL)
-				return (-1);
-		}
-		else
-			return (0);
-	}
-	return (0);
-}
-
-void	run_cmd(char *cmd, t_data *data)
-{
-	if (get_cmd(cmd, data) == -1)
-		cleanup(data);
-	execve(data->cmd_path, data->cmd_flags, data->env_copy);
-	perror("execve");
-	cleanup(data);
-	exit(1);
-} */

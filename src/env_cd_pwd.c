@@ -8,14 +8,12 @@ int	ft_cd(t_node **node)
 	{
 		(*node) = (*node)->next;
 		perror(NULL);
-		return (1);
+		return (0);
 	}
-	else
-		(*node) = (*node)->next;
 	return (0);
 }
 
-void	ft_pwd(void)
+int	ft_pwd(void)
 {
 	char	dir[500000];
 
@@ -23,16 +21,17 @@ void	ft_pwd(void)
 		perror(NULL);
 	else
 		printf("%s\n", dir);
+	return (0);
 }
 
 //dunno how to implement it or when :
 //if the command is for example - env HELLO="HELLO"
 //env prints the env and HELLO="HELLO" at the end
 //but it is not saved in env
-void	ft_env(char **env, t_node **node)
+int	ft_env(char **env)
 {
 	print_str_arr(env);
-	(*node) = (*node)->next;
+	return (0);
 }
 
 int	get_arr_len(char **arr)

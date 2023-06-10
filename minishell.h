@@ -3,16 +3,15 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-
-#include <sys/stat.h>
-#include <fcntl.h>
 
 # define HERE_DOC ".heredoc"
 # define TRUE 1
@@ -29,6 +28,7 @@
 typedef struct s_node
 {
 	int					special;
+	int					runnable;
 	char				*cmd;
 	struct s_node		*next;
 	struct s_node		*prev;
@@ -80,7 +80,8 @@ void					cut_out_quotes(char **str, char c);
 //dollar.c
 char					*get_str_before_dollar(char *str, int i);
 char					*get_end_of_dollar(char *str, int i, int left_for_cut);
-char					*get_env_value(char *look_for, char c, char **end_of_d, char **env);
+char					*get_env_value(char *look_for, char c, char **end_of_d,
+							char **env);
 int						subbing_cmd_str(char **str, char *before_d,
 							char *env_value, char *end_of_d);
 int						subout_dollar(char **str, int i, int left_f_cut,
@@ -100,23 +101,24 @@ void					free_2d_str_arr_v2(char **arr);
 void					free_2d_str_until(char **arr, int end);
 //signals handling;
 void					signal_set_up(t_data *data);
+void					ft_sig_quit(int signal_num);
 //built-ins
 int						ft_cd(t_node **node);
-void					ft_echo(t_node **node);
-void					ft_pwd(void);
-void					ft_env(char **env, t_node **node);
-void					ft_unset(t_data *data, char *search, t_node **node);
+int						ft_pwd(void);
+int						ft_echo(t_node **node);
+int						ft_env(char **env);
+int						ft_unset(t_data *data, char *search);
 //export functions
-void					ft_export_na(char **env, t_node **node, int len);
-void					ft_export_a(t_data *data, char *var, t_node **node,
+void					ft_bash(t_data *data, int command);
+int						ft_export_na(char **env, int len);
+int						ft_export_a(t_data *data, char *var, t_node **node,
 							int len);
 int						ft_replace_existing(t_data *data, t_node *node);
 int						ft_strcmp_v2_until(char *s1, char *s2, char c);
 int						ft_append(t_data *data, t_node *node, int y);
-void					ft_bash(t_data *data, int command);
 
 //execve
-void					ft_exec(t_node *node, t_data *data, char **env);
+int						ft_exec(t_node *node, char **env);
 //quotes utils
 int						double_quotes_count(char *str);
 int						single_quotes_count(char *str);
