@@ -119,6 +119,11 @@ int						ft_append(t_data *data, t_node *node, int y);
 
 //execve
 int						ft_exec(t_node *node, char **env);
+int						ft_exec_here(char **path, t_node *node, char ***args);
+int						ft_exec_path(char **pre_path, char **path, t_node *node,
+							char ***args);
+char					*exec_strjoin(char *str1, char *str2);
+int						arg_num(t_node *node);
 //quotes utils
 int						double_quotes_count(char *str);
 int						single_quotes_count(char *str);
@@ -127,7 +132,7 @@ int						closed_with_single(char *str);
 
 int						ft_strcmp_v2(char *s1, char *s2);
 int						syntaxer(t_node *cmd_line);
-void					executer(t_data *data, char **env);
+int						executer(t_data *data);
 
 //lists
 int						ft_strcmp_node(t_node *node, char *s2);

@@ -20,6 +20,7 @@ SRC			= 	main.c \
 				pre_executer.c \
 				executer.c \
 				execve.c \
+				execve_utils.c\
 				syntaxer.c \
 				ft_strcmp.c \
 				cleanup.c \

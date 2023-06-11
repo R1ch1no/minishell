@@ -16,5 +16,6 @@ void	prep_for_executer(t_node **head, t_data *data)
 			cleanse(data);
 		printf("%s\n", current->cmd);
 		current = current->next;
+		printf("------------\n");
 	}
 }

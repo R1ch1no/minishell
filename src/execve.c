@@ -46,7 +46,7 @@ int	arg_num(t_node *node)
 }
 
 //fill the 2d array with arguments to be passted to executable
-void	fill_args(t_node *node, char **args)
+void	fill_args(t_node *node, char ***args)
 {
 	int		count;
 	t_node	*current;
@@ -59,12 +59,12 @@ void	fill_args(t_node *node, char **args)
 	{
 		if (current->special == 1)
 			break ;
-		args[count] = malloc(ft_strlen(current->cmd) + 1);
-		ft_strlcpy(args[count], current->cmd, ft_strlen(current->cmd) + 1);
+		(*args)[count] = malloc(ft_strlen(current->cmd) + 1);
+		ft_strlcpy((*args)[count], current->cmd, ft_strlen(current->cmd) + 1);
 		current = current->next;
 		count++;
 	}
-	args[count] = NULL;
+	(*args)[count] = NULL;
 	current = start;
 }
 
@@ -72,7 +72,7 @@ void	fill_args(t_node *node, char **args)
 int	forking(char *path, char **env, char **args)
 {
 	if (execve(path, args, env) != 0)
-		perror(NULL);
+		printf("%s: command not found\n", args[0]);
 	free(path);
 	free_2d_str_arr(&args);
 	return (0);
@@ -81,36 +81,24 @@ int	forking(char *path, char **env, char **args)
 //execve function
 int	ft_exec(t_node *node, char **env)
 {
-	char		*pre_path;
-	static char	*path;
-	char		**args;
+	char	*pre_path;
+	char	*path;
+	char	**args;
 
+	path = NULL;
+	pre_path = NULL;
+	args = NULL;
 	if (ft_strcmp_v2_until(node->cmd, "./", '/') == 0)
 	{
-		path = malloc(ft_strlen(node->cmd) + 1);
-		if (!path || path == NULL)
-			return (write(2, "Allocation (ft_exec) problem!\n", 30) && 0);
-		ft_strlcpy(path, node->cmd, ft_strlen(node->cmd) + 1);
+		if (ft_exec_here(&path, node, &args) == 1)
+			return (0);
 	}
 	else
 	{
-		pre_path = malloc(ft_strlen("/usr/bin/") + ft_strlen(node->cmd) + 1);
-		if (!pre_path || pre_path == NULL)
-			return (write(2, "Allocation (ft_exec) problem!\n", 30) && 0);
-		ft_strlcpy(pre_path, "/usr/bin/", (ft_strlen("/usr/bin/") + 1));
-		path = exec_strjoin(pre_path, node->cmd);
-		if (!path || path == NULL)
-			return (write(2, "Allocation (ft_exec) problem!\n", 30) && 0);
+		if (ft_exec_path(&pre_path, &path, node, &args) == 1)
+			return (0);
 	}
-	if (access(path, F_OK) != 0)
-	{
-		free(path);
-		return (0);
-	}
-	args = malloc((arg_num(node) + 1) * sizeof(char *));
-	if (!args || args == NULL)
-		return (write(2, "Allocation (ft_exec) problem!\n", 30) && 0);
-	fill_args(node, args);
+	fill_args(node, &args);
 	forking(path, env, args);
 	return (0);
 }

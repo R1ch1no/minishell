@@ -19,27 +19,38 @@
 //any of the specials in quotes wont work --> "|", "<",
 //meaning it will mistake it and tries to pipe
 
-void	ft_bash(t_data *data, int command)
+int	ft_getlvl(t_data *data, int y)
 {
-	int		x;
-	int		y;
-	int		lvl;
-	char	*shlvl;
-	char	*add;
+	int	lvl;
+	int	x;
 
 	x = 0;
-	y = -1;
 	while (data->env_copy[++y] != NULL)
 		if (ft_strcmp_v2_until(data->env_copy[y], "SHLVL=", '=') == 0)
 			break ;
 	if (data->env_copy[y] == NULL)
-		return ;
+		return (-1);
 	while (data->env_copy[y][x] != '=' && data->env_copy[y][x])
 		x++;
 	if (data->env_copy[y][x] == '=')
 		x++;
 	lvl = ft_atoi(&data->env_copy[y][x]);
-	lvl = lvl + command;
+	if (lvl <= 0)
+		return (0);
+	return (lvl);
+}
+
+void	ft_bash(t_data *data, int command)
+{
+	int		y;
+	int		lvl;
+	char	*shlvl;
+	char	*add;
+
+	y = -1;
+	lvl = ft_getlvl(data, y) + command;
+	if (lvl == -1)
+		return ;
 	if (lvl == 0)
 	{
 		cleanse(data);
@@ -49,6 +60,9 @@ void	ft_bash(t_data *data, int command)
 	shlvl = ft_strjoin("SHLVL=", add);
 	if (!shlvl || shlvl == NULL)
 		return ;
+	while (data->env_copy[++y] != NULL)
+		if (ft_strcmp_v2_until(data->env_copy[y], "SHLVL=", '=') == 0)
+			break ;
 	free(data->env_copy[y]);
 	free(add);
 	data->env_copy[y] = shlvl;
@@ -70,7 +84,14 @@ int	ft_commands(t_node *current, char **env, t_data *data)
 	}
 	else if (ft_strcmp_node(current, "env") == 0)
 		return (ft_env(data->env_copy));
-	else if (ft_strcmp_node(current, "unset") == 0 && current->next)
+	else
+		return (ft_exec(current, env));
+	return (0);
+}
+
+int	ft_no_child(t_node *current, t_data *data)
+{
+	if (ft_strcmp_node(current, "unset") == 0 && current->next)
 		return (ft_unset(data, current->next->cmd));
 	else if (ft_strcmp_node(current, "export") == 0 && current->next)
 		return (ft_export_a(data, current->next->cmd, &current,
@@ -78,25 +99,23 @@ int	ft_commands(t_node *current, char **env, t_data *data)
 	else if (ft_strcmp_node(current, "export") == 0)
 		return (ft_export_na(data->env_copy, get_arr_len(data->env_copy)));
 	else
-		return (ft_exec(current, env));
-	return (0);
+		return (1);
 }
 
-void	executer(t_data *data, char **env)
+int	executer(t_data *data)
 {
 	t_node	*current;
 
 	current = data->cmd_line;
+	if (ft_no_child(current, data) == 0)
+		return (0);
 	data->pid = fork();
 	if (data->pid == -1)
-	{
-		write(2, "Fork problem!\n", 14);
-		return ;
-	}
+		return (write(2, "Fork problem!\n", 14) && 0);
 	else if (data->pid == 0)
 	{
-		ft_commands(current, env, data);
-		/*printf("command not found : %s", current->cmd); */
+		if (ft_commands(current, data->env_copy, data) == 1)
+			printf("command not found : %s", current->cmd);
 		exit(0);
 	}
 	else
@@ -105,4 +124,5 @@ void	executer(t_data *data, char **env)
 		wait(NULL);
 		signal_set_up(data);
 	}
+	return (0);
 }

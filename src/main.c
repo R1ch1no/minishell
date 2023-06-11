@@ -41,7 +41,7 @@ int	main(int argc, char **argv, char **env)
 			prep_for_executer(&data->cmd_line, data);
 /* 			heredoc();
 			parser(); */
-			executer(data, env);
+			executer(data);
 		}
 		ft_clean_cmd(data);
 	}
