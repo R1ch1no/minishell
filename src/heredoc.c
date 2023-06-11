@@ -28,6 +28,22 @@ int	here_doc(t_data *data, char *limiter)
 	return (0);
 }
 
+char	*look_for_heredoc(t_node *head)
+{
+	if (!head)
+		return (NULL);
+	while (head && head->cmd != "|" && head->special != TRUE)
+	{
+		if (head->cmd == "<<" && head->special == TRUE)
+		{
+			head = head->next;
+			return (head->cmd);
+		}
+		head = head->next;
+	}
+	return (NULL);
+}
+
 
 
 
