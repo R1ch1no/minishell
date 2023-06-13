@@ -21,7 +21,7 @@ int	ft_strcmp_node(t_node *node, char *s2)
 
 int	ft_strcmp_v2(char *s1, char *s2)
 {
-	if (s1 == NULL || s2 == NULL)
+	if (!s1 || s1 == NULL || !s2 || s2 == NULL)
 		return (9999);
 	while (*s1 && *s2 && *s1 == *s2)
 	{

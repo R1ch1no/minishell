@@ -87,6 +87,18 @@ int						subbing_cmd_str(char **str, char *before_d,
 int						subout_dollar(char **str, int i, int left_f_cut,
 							t_data *data);
 
+//heredoc.c
+int look_for_heredoc(t_data *data, t_node *head);
+
+//redirections.c
+int set_redirections(t_node *head, t_data *data);
+
+//redirection_utils.c
+int close_prev_fd(int *fd);
+int reset_in_out_stream(t_data *data);
+
+
+
 //__________________________GENERAL UTILS__________________________
 //
 //printing_utils.c

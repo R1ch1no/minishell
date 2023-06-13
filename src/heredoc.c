@@ -1,53 +1,50 @@
 
 #include "../minishell.h"
 
-//O_TRUNC truncates size to 0: empties out file content (if its exist) 
+// O_TRUNC truncates size to 0: empties out file content (if its exist)
 int	here_doc(t_data *data, char *limiter)
 {
+	printf("HEREDOC function\n");
 	char	*line;
 
-    if (data->fd_heredoc != -1)
-    {
-        close(data->fd_heredoc);
-        data->fd_heredoc = -1;
-    }
+	if (limiter == NULL)
+		return (0);
+	if (close_prev_fd(&data->fd_heredoc))
+		return (-1);
 	data->fd_heredoc = open(HERE_DOC, O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	if (data->fd_heredoc == -1)
 		return (-1);
-    line = NULL;
+	line = NULL;
 	while (ft_strcmp_v2(line, limiter) != 0)
 	{
-		line = readline("💩");
+		if (line != NULL)
+			free(line);
+		line = readline("💩 ");
+		if (line == NULL)
+			return (-1);
 		write(data->fd_heredoc, line, ft_strlen(line));
-		free(line);
 	}
 	close(data->fd_heredoc);
 	data->fd_heredoc = open(HERE_DOC, O_RDONLY);
 	if (data->fd_heredoc == -1)
-		return(unlink(HERE_DOC), -1);
-	return (0);
+		return (unlink(HERE_DOC), -1);
+	return (free(line), 0);
 }
 
-char	*look_for_heredoc(t_node *head)
+int look_for_heredoc(t_data *data, t_node *head)
 {
 	if (!head)
-		return (NULL);
-	while (head && head->cmd != "|" && head->special != TRUE)
+		return (-1);
+	printf("Look for HEREDOC\n");
+	while (head && !(ft_strcmp_v2(head->cmd, "|") == 0 && head->special == TRUE))
 	{
-		if (head->cmd == "<<" && head->special == TRUE)
+		if (ft_strcmp_v2(head->cmd, "<<") == 0 && head->special == TRUE)
 		{
 			head = head->next;
-			return (head->cmd);
+			if (here_doc(data, head->cmd) == -1)
+				return (-1);
 		}
 		head = head->next;
 	}
-	return (NULL);
+	return (0);
 }
-
-
-
-
-
-
-
-

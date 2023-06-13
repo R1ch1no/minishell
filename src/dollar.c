@@ -44,7 +44,7 @@ char	*get_env_value(char *look_for, char c, char **end_of_d, char **env)
 	char *start;
 	int i;
 
-	env_value = "";
+	//env_value = "";
 	if (c == '?')
 	{
 		env_value = ft_strdup("1234");

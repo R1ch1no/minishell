@@ -32,6 +32,9 @@ SRC			= 	main.c \
 				linked_list_utils.c\
 				linked_list_utils_two.c\
 				quotes_and_dollar.c \
+				heredoc.c \
+				redirections.c \
+				redirection_utils.c
 
 
 SRCS 		= $(addprefix $(SRC_PATH)/, $(SRC))

@@ -39,10 +39,13 @@ int	main(int argc, char **argv, char **env)
 		if (syntaxer(data->cmd_line) == 0)
 		{
 			prep_for_executer(&data->cmd_line, data);
+			look_for_heredoc(data, data->cmd_line);
+			set_redirections(data->cmd_line, data);
 /* 			heredoc();
 			parser(); */
 			executer(data);
 		}
+		unlink(HERE_DOC);
 		ft_clean_cmd(data);
 	}
 	//the following block ONLY WRITTEN FOR TESTING PURPOSES

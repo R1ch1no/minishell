@@ -30,6 +30,8 @@ SRC			= 	init.c \
 				linked_list_utils.c\
 				linked_list_utils_two.c\
 				quotes_and_dollar.c \
+				execve.c \
+				execve_utils.c
 
 
 SRCS 		= $(addprefix $(SRC_PATH)/, $(SRC))
