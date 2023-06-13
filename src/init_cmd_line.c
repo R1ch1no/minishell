@@ -52,21 +52,6 @@ int	get_token_len(char *str)
 	return (i);
 }
 
-//int get_non_quote_len(char *str, int i)
-//{
-//    if (str[i] == '<' || str[i] == '>')
-//    {
-//        i++;
-//        if (str[i - 1] == '<' && str[i] == '<')
-//            i++;
-//        else if (str[i - 1] == '>' && str[i] == '>')
-//            i++;
-//    }
-//    else
-//        i++;
-//    return (i);
-//}
-
 //either returns 1 or 2
 int	get_non_quote_len(char *str)
 {
@@ -86,7 +71,7 @@ int	get_non_quote_len(char *str)
 	return (i);
 }
 
-//
+//return the len of the str in quotes
 int	get_quote_len(char *str)
 {
 	int		i;
@@ -109,5 +94,5 @@ int	get_quote_len(char *str)
 			return (closing_quote - &str[i] + 1);
 		}
 	}
-	return (1);
+	return (0);
 }

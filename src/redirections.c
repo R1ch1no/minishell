@@ -78,8 +78,8 @@ void cut_out_redirection(t_node **head)
     current = *head;
     while (current && !(ft_strcmp_v2(current->cmd, "|") == 0 && current->special == TRUE))
     {
-        if (current->special == TRUE 
-            && (ft_strcmp_v2(current->cmd, "<") == 0 || 
+        if (current->special == TRUE && 
+            (ft_strcmp_v2(current->cmd, "<") == 0 || 
             ft_strcmp_v2(current->cmd, ">") == 0  || 
             ft_strcmp_v2(current->cmd, ">>") == 0))
         {
