@@ -1,4 +1,4 @@
-NAME		= minishell
+NAME		= minishell.exe
 
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -g

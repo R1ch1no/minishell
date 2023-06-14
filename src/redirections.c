@@ -66,6 +66,14 @@ int set_redirections(t_node *head, t_data *data)
             return (status);
         current = current->next;
 	}
+    if (data->fd_infile == -1)
+    {
+        data->fd_infile = dup(STDIN_FILENO);
+    }
+    if (data->fd_outfile == -1)
+    {
+        data->fd_outfile = dup(STDOUT_FILENO);
+    }    
 	return (0);
 }
 

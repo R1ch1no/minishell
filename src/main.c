@@ -1,8 +1,8 @@
 
 #include "../minishell.h"
 
-//pipe[0] = write
-//pipe[1] = read
+//pipe[0] = read
+//pipe[1] = write
 
 int	main(int argc, char **argv, char **env)
 {
@@ -41,23 +41,39 @@ int	main(int argc, char **argv, char **env)
 		data->line_read = NULL;
 		if (syntaxer(data->cmd_line) == 0)
 		{
-			prep_for_executer(&data->cmd_line, data);
-			//look for pipe
-			//pipe
-			//and set fd_outfile to pipe[0] write
-
+			prep_for_executer(&data->cmd_line, data); //quotes and dollar
+			
+			/*
+			//FOLLOWING PART SHOULD BE LOOP
+			//look for pipe if needed:
+			if (pipe(data->fd_pipe) == -1)
+				cleanse(data); //exit()
+			data->fd_outfile = data->fd_pipe[1];
 			look_for_heredoc(data, data->cmd_line); //only saves an fd but doesnt set fd_infile
- 			//parser();
-			//set_redirections(data->cmd_line, data);
-			//get 2d array for cmd 
-			//dup2 to change STDIN AND OUT according to fd_in and fd_out - IN CHILD PROCESS
+ 			//parser(); //
+			//redirections
+
+
 			executer(data);
+			//in executer:
+			//set_redirections(data->cmd_line, data);
+			//get 2d array for cmd
+			
+			
+			
 			//reset ONLY redirections
 			//dup2 pipe[1] into fd_infile
-			//close pipe[0]
+			close_prev_fd(data->fd_outfile);
+			close_prev_fd(data->fd_infile);
+			data->fd_infile = dup(data->fd_pipe[0]);
+			close_prev_fd(data->fd_pipe[0]);
+			close_prev_fd(data->fd_pipe[1]);
+			*/
+			loop_each_cmd(data);
+			print_list(data->cmd_line);
 		}
 		unlink(HERE_DOC);
-		ft_clean_cmd(data);
+		//ft_clean_cmd(data);
 	}
 	//the following block ONLY WRITTEN FOR TESTING PURPOSES
 	//free(data.line_read);
@@ -65,3 +81,66 @@ int	main(int argc, char **argv, char **env)
 	exit(0);
 	return (1);
 }
+
+t_node *look_for_pipe(t_node *head)
+{
+	while (head)
+	{
+		if (ft_strcmp_v2(head->cmd, "|") == 0 && head->special == 1)
+			return (head);
+		head = head->next;
+	}
+	return (NULL);
+}
+
+void delete_cmd(t_node *pipe_ptr, t_node **head)
+{
+	t_node *temp;
+
+	temp = *head;
+	while (temp && temp != pipe_ptr)
+	{
+		delete_node(temp, head);
+		temp = *head;
+	}
+	delete_node(pipe_ptr, head);
+}
+
+void loop_each_cmd(t_data *data)
+{
+	t_node *current;
+	t_node *pipe_ptr;
+
+	current = data->cmd_line;
+	
+	while (current != NULL)
+	{
+		pipe_ptr = look_for_pipe(current);
+		if (pipe_ptr != NULL)
+		{
+			if (pipe(data->fd_pipe) == -1)
+				cleanse(data); //exit()
+		}
+		data->fd_outfile = data->fd_pipe[1];
+		//look_for_heredoc(data, data->cmd_line); //only saves an fd but doesnt set fd_infile
+		//parser(); //
+		set_redirections(current, data);
+		cut_out_redirection(&data->cmd_line);
+		executer(data);
+		close_prev_fd(&data->fd_outfile);
+		close_prev_fd(&data->fd_infile);
+		data->fd_infile = dup(data->fd_pipe[0]);
+		close_prev_fd(&data->fd_pipe[0]);
+		close_prev_fd(&data->fd_pipe[1]);
+		delete_cmd(pipe_ptr, &data->cmd_line);
+		current = data->cmd_line;
+	}
+}
+
+
+
+// 0 - STDIN
+// 1 - STDOUT
+// 2 - STDERR
+//fd_infile = -1; --> dup(STDIN) --> 3 - STDIN
+//fd_outfile = -1;

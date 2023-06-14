@@ -101,6 +101,13 @@ int	ft_no_child(t_node *current, t_data *data)
 	else
 		return (1);
 }
+void	set_stdin_out(int fd_in, int fd_out, t_data *data)
+{
+	if (dup2(fd_in, STDIN_FILENO) == -1)
+		cleanse(data);
+	if (dup2(fd_out, STDOUT_FILENO) == -1)
+		cleanse(data);
+}
 
 int	executer(t_data *data)
 {
@@ -114,6 +121,7 @@ int	executer(t_data *data)
 		return (write(2, "Fork problem!\n", 14) && 0);
 	else if (data->pid == 0)
 	{
+		set_stdin_out(data->fd_infile, data->fd_outfile, data);
 		if (ft_commands(current, data->env_copy, data) == 1)
 			printf("command not found : %s", current->cmd);
 		exit(0);

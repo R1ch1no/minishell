@@ -42,13 +42,15 @@ typedef struct s_data
 	char				*line_read;
 	int					fd_infile;
 	int					fd_outfile;
-	int					fd_p_read;
-	int					fd_p_write;
+	int					fd_pipe[2];
 	int					fd_heredoc;
 	struct sigaction	sa;
 	t_node				*cmd_line;
 	int					pid;
 }						t_data;
+
+//main.c
+void loop_each_cmd(t_data *data);
 
 //init.c
 void					init_data(t_data *data, char **env);
@@ -92,6 +94,7 @@ int look_for_heredoc(t_data *data, t_node *head);
 
 //redirections.c
 int set_redirections(t_node *head, t_data *data);
+void cut_out_redirection(t_node **head);
 
 //redirection_utils.c
 int close_prev_fd(int *fd);

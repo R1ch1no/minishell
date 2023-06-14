@@ -1,6 +1,7 @@
 
 #include "../minishell.h"
 
+//cleanse all shit but doesnt exit
 void	cleanse(t_data *data)
 {
 	if (data->line_read != NULL)

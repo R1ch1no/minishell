@@ -69,10 +69,10 @@ void	fill_args(t_node *node, char ***args)
 }
 
 //responsible for creating child processes for the execve
-int	forking(char *path, char **env, char **args)
+int	execute_cmd(char *path, char **env, char **args)
 {
 	if (execve(path, args, env) != 0)
-		printf("%s: command not found\n", args[0]);
+		printf("%s: command not found\n", args[0]);//write to STDERROR either perror or putstr_fd
 	free(path);
 	free_2d_str_arr(&args);
 	return (0);
@@ -99,6 +99,6 @@ int	ft_exec(t_node *node, char **env)
 			return (0);
 	}
 	fill_args(node, &args);
-	forking(path, env, args);
+	execute_cmd(path, env, args);
 	return (0);
 }

@@ -30,9 +30,7 @@ void	delete_node(t_node *delete, t_node **head)
 	if (prev == NULL)
 		*head = next;
 	else if (next == NULL)
-	{
 		prev->next = NULL;
-	}
 	else
 	{
 		next->prev = prev;

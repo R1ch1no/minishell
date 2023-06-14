@@ -9,7 +9,5 @@ void	init_data(t_data *data, char **env)
 	data->cmd_line = NULL;
 	data->fd_infile = -1;
 	data->fd_outfile = -1;
-	data->fd_p_read = -1;
-	data->fd_p_write = -1;
 	data->fd_heredoc = -1;
 }
