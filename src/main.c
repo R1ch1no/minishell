@@ -1,6 +1,9 @@
 
 #include "../minishell.h"
 
+//pipe[0] = write
+//pipe[1] = read
+
 int	main(int argc, char **argv, char **env)
 {
 	t_data	*data;
@@ -39,11 +42,19 @@ int	main(int argc, char **argv, char **env)
 		if (syntaxer(data->cmd_line) == 0)
 		{
 			prep_for_executer(&data->cmd_line, data);
-			look_for_heredoc(data, data->cmd_line);
-			set_redirections(data->cmd_line, data);
-/* 			heredoc();
-			parser(); */
+			//look for pipe
+			//pipe
+			//and set fd_outfile to pipe[0] write
+
+			look_for_heredoc(data, data->cmd_line); //only saves an fd but doesnt set fd_infile
+ 			//parser();
+			//set_redirections(data->cmd_line, data);
+			//get 2d array for cmd 
+			//dup2 to change STDIN AND OUT according to fd_in and fd_out - IN CHILD PROCESS
 			executer(data);
+			//reset ONLY redirections
+			//dup2 pipe[1] into fd_infile
+			//close pipe[0]
 		}
 		unlink(HERE_DOC);
 		ft_clean_cmd(data);
