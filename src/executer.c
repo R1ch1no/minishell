@@ -101,12 +101,16 @@ int	ft_no_child(t_node *current, t_data *data)
 	else
 		return (1);
 }
+
 void	set_stdin_out(int fd_in, int fd_out, t_data *data)
 {
-	if (dup2(fd_in, STDIN_FILENO) == -1)
-		cleanse(data);
-	if (dup2(fd_out, STDOUT_FILENO) == -1)
-		cleanse(data);
+	if (fd_in != -1 && fd_out != -1)
+	{
+		if (dup2(fd_in, STDIN_FILENO) == -1)
+			cleanse(data);
+		if (dup2(fd_out, STDOUT_FILENO) == -1)
+			cleanse(data);
+	}
 }
 
 int	executer(t_data *data)
@@ -114,6 +118,7 @@ int	executer(t_data *data)
 	t_node	*current;
 
 	current = data->cmd_line;
+	print_list(data->cmd_line);
 	if (ft_no_child(current, data) == 0)
 		return (0);
 	data->pid = fork();

@@ -50,7 +50,7 @@ typedef struct s_data
 }						t_data;
 
 //main.c
-void loop_each_cmd(t_data *data);
+void					loop_each_cmd(t_data *data);
 
 //init.c
 void					init_data(t_data *data, char **env);
@@ -90,17 +90,15 @@ int						subout_dollar(char **str, int i, int left_f_cut,
 							t_data *data);
 
 //heredoc.c
-int look_for_heredoc(t_data *data, t_node *head);
+int						look_for_heredoc(t_data *data, t_node *head);
 
 //redirections.c
-int set_redirections(t_node *head, t_data *data);
-void cut_out_redirection(t_node **head);
+int						set_redirections(t_node *head, t_data *data);
+void					cut_out_redirection(t_node **head);
 
 //redirection_utils.c
-int close_prev_fd(int *fd);
-int reset_in_out_stream(t_data *data);
-
-
+int						close_prev_fd(int *fd);
+int						reset_in_out_stream(t_data *data);
 
 //__________________________GENERAL UTILS__________________________
 //
@@ -164,7 +162,7 @@ int						get_arr_len(char **arr);
 char					*strdup_without(char *src, char c, int len);
 void					strcpy_wout_ind(char **str, unsigned int x,
 							t_data *data);
-int	check_if_char_in_row(char *str, char c); //check if actually called
+int						check_if_char_in_row(char *str, char c); //check if actually called
 void					four_free(char *s1, char *s2, char *s3, char *s4);
 
 //string_utils_2 aka "libft alike"

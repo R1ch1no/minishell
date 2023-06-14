@@ -72,7 +72,10 @@ void	fill_args(t_node *node, char ***args)
 int	execute_cmd(char *path, char **env, char **args)
 {
 	if (execve(path, args, env) != 0)
-		printf("%s: command not found\n", args[0]);//write to STDERROR either perror or putstr_fd
+	{
+		ft_putstr_fd(args[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+	}
 	free(path);
 	free_2d_str_arr(&args);
 	return (0);

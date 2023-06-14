@@ -5,7 +5,7 @@ void	print_list(t_node *head)
 {
 	t_node	*print;
 
-	if (!head)
+	if (!head || head == NULL)
 		return ;
 	print = head;
 	ft_printf("----Start-----\n");

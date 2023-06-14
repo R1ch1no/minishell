@@ -13,7 +13,7 @@ int	main(int argc, char **argv, char **env)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (write(2, "Data can't be allocated!\n", 25) && 0);
-	init_data(data, env); 
+	init_data(data, env);
 	signal_set_up(data);
 	ft_bash(data, 1);
 	//deleted the run variable, to stop the program, press Ctrl + D
@@ -48,11 +48,10 @@ int	main(int argc, char **argv, char **env)
 			if (pipe(data->fd_pipe) == -1)
 				cleanse(data); //exit()
 			data->fd_outfile = data->fd_pipe[1];
-			look_for_heredoc(data, data->cmd_line); //only saves an fd but doesnt set fd_infile
+			look_for_heredoc(data, data->cmd_line);
+				//only saves an fd but doesnt set fd_infile
  			//parser(); //
 			//redirections
-
-
 			executer(data);
 			//in executer:
 			//set_redirections(data->cmd_line, data);
@@ -76,12 +75,12 @@ int	main(int argc, char **argv, char **env)
 	}
 	//the following block ONLY WRITTEN FOR TESTING PURPOSES
 	//free(data.line_read);
-	cleanse(data); 
+	cleanse(data);
 	exit(0);
 	return (1);
 }
 
-t_node *look_for_pipe(t_node *head)
+t_node	*look_for_pipe(t_node *head)
 {
 	while (head)
 	{
@@ -92,9 +91,9 @@ t_node *look_for_pipe(t_node *head)
 	return (NULL);
 }
 
-void delete_cmd(t_node *pipe_ptr, t_node **head)
+void	delete_cmd(t_node *pipe_ptr, t_node **head)
 {
-	t_node *temp;
+	t_node	*temp;
 
 	temp = *head;
 	while (temp && temp != pipe_ptr)
@@ -105,13 +104,12 @@ void delete_cmd(t_node *pipe_ptr, t_node **head)
 	delete_node(pipe_ptr, head);
 }
 
-void loop_each_cmd(t_data *data)
+void	loop_each_cmd(t_data *data)
 {
-	t_node *current;
-	t_node *pipe_ptr;
+	t_node	*current;
+	t_node	*pipe_ptr;
 
 	current = data->cmd_line;
-	
 	while (current != NULL)
 	{
 		pipe_ptr = look_for_pipe(current);
@@ -121,22 +119,26 @@ void loop_each_cmd(t_data *data)
 				cleanse(data); //exit()
 		}
 		data->fd_outfile = data->fd_pipe[1];
-		//look_for_heredoc(data, data->cmd_line); //only saves an fd but doesnt set fd_infile
-		//parser(); //
+		write(1, "heredoc\n", 8);
+		look_for_heredoc(data, data->cmd_line);
+		//only saves an fd but doesnt set fd_infile
+		//parser();
+		write(1, "set_red\n", 8);
 		set_redirections(current, data);
+		write(1, "cut_put\n", 8);
 		cut_out_redirection(&data->cmd_line);
+		write(1, "executr\n", 8);
 		executer(data);
+		write(1, "closefd\n", 8);
 		close_prev_fd(&data->fd_outfile);
 		close_prev_fd(&data->fd_infile);
 		data->fd_infile = dup(data->fd_pipe[0]);
 		close_prev_fd(&data->fd_pipe[0]);
 		close_prev_fd(&data->fd_pipe[1]);
 		delete_cmd(pipe_ptr, &data->cmd_line);
-		current = data->cmd_line;
+		current = current->next;
 	}
 }
-
-
 
 // 0 - STDIN
 // 1 - STDOUT

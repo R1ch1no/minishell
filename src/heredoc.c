@@ -4,9 +4,9 @@
 // O_TRUNC truncates size to 0: empties out file content (if its exist)
 int	here_doc(t_data *data, char *limiter)
 {
-	printf("HEREDOC function\n");
 	char	*line;
 
+	printf("HEREDOC function\n");
 	if (limiter == NULL)
 		return (0);
 	if (close_prev_fd(&data->fd_heredoc))
@@ -30,7 +30,7 @@ int	here_doc(t_data *data, char *limiter)
 		if (line == NULL)
 			return (-1);
 		if (ft_strcmp_v2(line, limiter) == 0)
-			break;
+			break ;
 		write(data->fd_heredoc, line, ft_strlen(line));
 	}
 	close(data->fd_heredoc);
@@ -40,12 +40,15 @@ int	here_doc(t_data *data, char *limiter)
 	return (free(line), 0);
 }
 
-int look_for_heredoc(t_data *data, t_node *head)
+int	look_for_heredoc(t_data *data, t_node *head)
 {
+	t_node	*start;
+
 	if (!head)
 		return (-1);
+	start = head;
 	printf("Look for HEREDOC\n");
-	while (head)
+	while (head != NULL)
 	{
 		if ((ft_strcmp_v2(head->cmd, "|") == 0 && head->special == TRUE))
 			return (0);
@@ -55,7 +58,9 @@ int look_for_heredoc(t_data *data, t_node *head)
 			if (here_doc(data, head->cmd) == -1)
 				return (-1);
 		}
-		head = head->next;
+		else
+			head = head->next;
 	}
+	head = start;
 	return (0);
 }
