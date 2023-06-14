@@ -42,7 +42,6 @@ int	main(int argc, char **argv, char **env)
 		if (syntaxer(data->cmd_line) == 0)
 		{
 			prep_for_executer(&data->cmd_line, data); //quotes and dollar
-			
 			/*
 			//FOLLOWING PART SHOULD BE LOOP
 			//look for pipe if needed:
