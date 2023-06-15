@@ -133,23 +133,16 @@ void	loop_each_cmd(t_data *data)
 			close_prev_fd(&data->fd_outfile);
 			data->fd_outfile = data->fd_pipe[1];
 		}	
-		write(1, "heredoc\n", 8);
 		look_for_heredoc(data, data->cmd_line);
 		set_redirections(current, data);
 		cut_out_redirection(&data->cmd_line);
 		//only saves an fd but doesnt set fd_infile
 		//parser();
-		write(1, "set_red\n", 8);
-		write(1, "cut_put\n", 8);
-		write(1, "executr\n", 8);
 		executer(data);
-		write(1, "closefd\n", 8);
 		if (pipe_check == TRUE)
 		{
-			write(1, "closefd1\n", 9);
 			close_prev_fd(&data->fd_infile);
 			data->fd_infile = dup(data->fd_pipe[0]);
-			write(1, "closefd2\n", 9);
 			close_prev_fd(&data->fd_pipe[0]);
 			close_prev_fd(&data->fd_pipe[1]);
 		}
@@ -157,7 +150,6 @@ void	loop_each_cmd(t_data *data)
 		print_list(data->cmd_line);
 		current = data->cmd_line;
 	}
-	write(1, "closefd3\n", 9);
 	close_prev_fd(&data->fd_infile);
 	//write(1, "closefd4\n", 9);
 	//close_prev_fd(&data->fd_outfile);

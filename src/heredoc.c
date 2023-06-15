@@ -55,6 +55,8 @@ int	look_for_heredoc(t_data *data, t_node *head)
 		if (ft_strcmp_v2(head->cmd, "<<") == 0 && head->special == TRUE)
 		{
 			head = head->next;
+			if (!head || head == NULL)
+				return (-1);
 			if (here_doc(data, head->cmd) == -1)
 				return (-1);
 		}
