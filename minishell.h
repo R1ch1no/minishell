@@ -119,6 +119,7 @@ void					ft_sig_quit(int signal_num);
 int						ft_cd(t_node **node);
 int						ft_pwd(void);
 int						ft_echo(t_node **node);
+void					echo_print(t_node **node, int n);
 int						ft_env(char **env);
 int						ft_unset(t_data *data, char *search);
 //export functions
@@ -162,7 +163,7 @@ int						get_arr_len(char **arr);
 char					*strdup_without(char *src, char c, int len);
 void					strcpy_wout_ind(char **str, unsigned int x,
 							t_data *data);
-int						check_if_char_in_row(char *str, char c); //check if actually called
+int	check_if_char_in_row(char *str, char c); //check if actually called
 void					four_free(char *s1, char *s2, char *s3, char *s4);
 
 //string_utils_2 aka "libft alike"

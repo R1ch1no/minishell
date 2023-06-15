@@ -13,6 +13,7 @@ SRC			= 	main.c \
 				signals.c \
 				env_cd_pwd.c \
 				echo_unset.c \
+				built-in_utils.c \
 				export.c \
 				export_utils.c \
 				dollar.c \

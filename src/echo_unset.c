@@ -4,10 +4,8 @@
 //echo receives node that comes after the node containing cmd "echo"
 int	ft_echo(t_node **node)
 {
-	int	i;
 	int	n;
 
-	i = -1;
 	n = 0;
 	if ((*node) == NULL)
 		return (write(1, "\n", 1) && 0);
@@ -18,12 +16,9 @@ int	ft_echo(t_node **node)
 	}
 	if ((*node) == NULL && n == 1)
 		return (0);
-	while ((*node)->cmd[++i])
-	{
-		if (n == 1 && (*node)->cmd[i + 1] == '\0' && (*node)->cmd[i] == '\n')
-			return (0);
-		write(1, &(*node)->cmd[i], 1);
-	}
+	echo_print(node, n);
+	if (n == 1)
+		return (0);
 	return (write(1, "\n", 1) && 0);
 }
 
@@ -61,7 +56,7 @@ int	ft_core(t_data *data, char **new_env, int y, int z)
 			return (1);
 		}
 		ft_strlcpy(new_env[z], data->env_copy[y], ft_strlen(data->env_copy[y])
-			+ 1);
+				+ 1);
 	}
 	return (0);
 }
