@@ -84,6 +84,8 @@ int	ft_commands(t_node *current, char **env, t_data *data)
 	}
 	else if (ft_strcmp_node(current, "env") == 0)
 		return (ft_env(data->env_copy));
+	else if (ft_strcmp_node(current, "export") == 0)
+		return (ft_export_na(data->env_copy, get_arr_len(data->env_copy)));
 	else
 		return (ft_exec(current, env));
 	return (0);
@@ -96,8 +98,6 @@ int	ft_no_child(t_node *current, t_data *data)
 	else if (ft_strcmp_node(current, "export") == 0 && current->next)
 		return (ft_export_a(data, current->next->cmd, &current,
 				get_arr_len(data->env_copy) + 1));
-	else if (ft_strcmp_node(current, "export") == 0)
-		return (ft_export_na(data->env_copy, get_arr_len(data->env_copy)));
 	else
 		return (1);
 }
@@ -138,7 +138,7 @@ int	executer(t_data *data)
 			exit(0);
 		if (ft_commands(current, data->env_copy, data) == 1)
 			printf("command not found : %s", current->cmd);
-		exit (0);
+		exit(0);
 	}
 	else
 	{
