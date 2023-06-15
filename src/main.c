@@ -119,8 +119,8 @@ void	loop_each_cmd(t_data *data)
 	int pipe_check;
 
 	current = data->cmd_line;
-	data->fd_infile = dup(STDIN_FILENO);
-	data->fd_outfile = dup(STDOUT_FILENO);
+	//data->fd_infile = dup(STDIN_FILENO);
+	//data->fd_outfile = dup(STDOUT_FILENO);
 	while (current != NULL)
 	{
 		pipe_check = FALSE;
@@ -159,6 +159,7 @@ void	loop_each_cmd(t_data *data)
 	}
 	write(1, "closefd3\n", 9);
 	close_prev_fd(&data->fd_infile);
+	//close_prev_fd(&data->fd_infile);
 	//write(1, "closefd4\n", 9);
 	//close_prev_fd(&data->fd_outfile);
 }
