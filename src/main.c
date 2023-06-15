@@ -142,7 +142,7 @@ void	loop_each_cmd(t_data *data)
 		write(1, "set_red\n", 8);
 		write(1, "cut_put\n", 8);
 		write(1, "executr\n", 8);
-		//executer(data);
+		executer(data);
 		write(1, "closefd\n", 8);
 		if (pipe_check == TRUE)
 		{
