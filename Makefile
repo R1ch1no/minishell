@@ -1,4 +1,4 @@
-NAME		= minishell.exe
+NAME		= minishell
 
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -g
@@ -57,10 +57,8 @@ $(NAME): $(LIBFT) $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -lhistory -o $(NAME) 
 	@echo "$(GREEN)Executable \"$(NAME)\" succesfully created.$(NC)"
 
-
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR)
-
 
 #General
 clean:

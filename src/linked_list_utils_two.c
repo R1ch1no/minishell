@@ -20,21 +20,32 @@ void	print_list(t_node *head)
 //it is not doing anything, pointers are lost, node gets deleted
 void	delete_node(t_node *delete, t_node **head)
 {
-	t_node	*prev;
-	t_node	*next;
+	//t_node	*prev;
+	//t_node	*next;
 
 	if (!delete || delete == NULL || *head == NULL)
 		return ;
-	prev = delete->prev;
-	next = delete->next;
-	if (prev == NULL)
-		*head = next;
-	else if (next == NULL)
-		prev->next = NULL;
+	//prev = delete->prev;
+	//next = delete->next;
+	//if (prev == NULL)
+	//	*head = next;
+	//else if (next == NULL)
+	//	prev->next = NULL;
+	//else
+	//{
+	//	next->prev = prev;
+	//	prev->next = next;
+	//}
+
+
+	if (delete == *head)
+		*head = (*head)->next;
+	else if (delete->next == NULL)
+		delete->prev->next = NULL;
 	else
 	{
-		next->prev = prev;
-		prev->next = next;
+		delete->prev->next = delete->next;
+		delete->next->prev = delete->prev;
 	}
 	free(delete->cmd);
 	free(delete);

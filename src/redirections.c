@@ -56,7 +56,12 @@ int	set_redirections(t_node *head, t_data *data)
 			status = open_infile(current->next->cmd, &data->fd_infile);
 		else if (ft_strcmp_v2(current->cmd, "<<") == 0
 				&& current->special == TRUE)
-			data->fd_infile = data->fd_heredoc;
+		{
+			status = close_prev_fd(&data->fd_infile);	
+			if (status == -1)
+				return (status);
+			data->fd_infile = data->fd_heredoc; //um keine fds zu verlieren
+		}
 		else if (ft_strcmp_v2(current->cmd, ">") == 0
 				&& current->special == TRUE)
 			status = open_outfile(current->next->cmd, &data->fd_outfile);
@@ -64,17 +69,13 @@ int	set_redirections(t_node *head, t_data *data)
 				&& current->special == TRUE)
 			status = open_outfile_in_append(current->next->cmd,
 											&data->fd_outfile);
+		//if (data->fd_infile == -1)
+		//	data->fd_infile = dup(STDIN_FILENO);
+		if (data->fd_outfile == -1)
+			data->fd_outfile = dup(STDOUT_FILENO);
 		if (status == -1)
 			return (status);
 		current = current->next;
-	}
-	if (data->fd_infile == -1)
-	{
-		data->fd_infile = dup(STDIN_FILENO);
-	}
-	if (data->fd_outfile == -1)
-	{
-		data->fd_outfile = dup(STDOUT_FILENO);
 	}
 	return (0);
 }

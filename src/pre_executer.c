@@ -14,9 +14,9 @@ void	prep_for_executer(t_node **head, t_data *data)
 			dollar_and_s_quotes(&(current->cmd), data);
 		//if (current->cmd == NULL)
 		//	cleanse(data);
-		printf("quotes and dollar: %s\n", current->cmd);
-		printf("special value: %d\n", current->special);
-		printf("------------\n");
+		//printf("quotes and dollar: %s\n", current->cmd);
+		//printf("special value: %d\n", current->special);
+		//printf("------------\n");
 		current = current->next;
 	}
 }
