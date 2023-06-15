@@ -84,6 +84,8 @@ int	ft_commands(t_node *current, char **env, t_data *data)
 	}
 	else if (ft_strcmp_node(current, "env") == 0)
 		return (ft_env(data->env_copy));
+	else if (ft_strcmp_node(current, "export") == 0)
+		return (ft_export_na(data->env_copy, get_arr_len(data->env_copy)));
 	else
 		return (ft_exec(current, env));
 	return (0);
@@ -96,21 +98,27 @@ int	ft_no_child(t_node *current, t_data *data)
 	else if (ft_strcmp_node(current, "export") == 0 && current->next)
 		return (ft_export_a(data, current->next->cmd, &current,
 				get_arr_len(data->env_copy) + 1));
-	else if (ft_strcmp_node(current, "export") == 0)
-		return (ft_export_na(data->env_copy, get_arr_len(data->env_copy)));
 	else
 		return (1);
 }
 
-void	set_stdin_out(int fd_in, int fd_out, t_data *data)
+int	set_stdin_out(int fd_in, int fd_out, t_data *data)
 {
 	if (fd_in != -1 && fd_out != -1)
 	{
 		if (dup2(fd_in, STDIN_FILENO) == -1)
+		{
 			cleanse(data);
+			return (1);
+		}
 		if (dup2(fd_out, STDOUT_FILENO) == -1)
+		{
 			cleanse(data);
+			return (1);
+		}
+		return (0);
 	}
+	return (0);
 }
 
 int	executer(t_data *data)
@@ -126,7 +134,8 @@ int	executer(t_data *data)
 		return (write(2, "Fork problem!\n", 14) && 0);
 	else if (data->pid == 0)
 	{
-		set_stdin_out(data->fd_infile, data->fd_outfile, data);
+		if (set_stdin_out(data->fd_infile, data->fd_outfile, data))
+			exit(0);
 		if (ft_commands(current, data->env_copy, data) == 1)
 			printf("command not found : %s", current->cmd);
 		exit(0);
