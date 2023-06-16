@@ -23,3 +23,26 @@ void	echo_print(t_node **node, int n)
 				write(1, " ", 1);
 	}
 }
+
+int	set_stdin_out(int fd_in, int fd_out, t_data *data)
+{
+	if (fd_in != -1)
+	{
+		if (dup2(fd_in, STDIN_FILENO) == -1)
+		{
+			printf("fail 1\n");
+			cleanse(data);
+			return (1);
+		}
+	}
+	if (fd_out != -1)
+	{
+		if (dup2(fd_out, STDOUT_FILENO) == -1)
+		{
+			printf("fail 2\n");
+			cleanse(data);
+			return (1);
+		}
+	}
+	return (0);
+}
