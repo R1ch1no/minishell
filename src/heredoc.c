@@ -9,7 +9,7 @@ int	here_doc(t_data *data, char *limiter)
 	printf("HEREDOC function\n");
 	if (limiter == NULL)
 		return (0);
-	if (close_prev_fd(&data->fd_heredoc))
+	if (close_prev_fd(&data->fd_heredoc) == -1)
 		return (-1);
 	data->fd_heredoc = open(HERE_DOC, O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	if (data->fd_heredoc == -1)
@@ -32,6 +32,7 @@ int	here_doc(t_data *data, char *limiter)
 		if (ft_strcmp_v2(line, limiter) == 0)
 			break ;
 		write(data->fd_heredoc, line, ft_strlen(line));
+		write(data->fd_heredoc, "\n", 1);
 	}
 	close(data->fd_heredoc);
 	data->fd_heredoc = open(HERE_DOC, O_RDONLY);

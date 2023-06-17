@@ -10,4 +10,6 @@ void	init_data(t_data *data, char **env)
 	data->fd_infile = -1;
 	data->fd_outfile = -1;
 	data->fd_heredoc = -1;
+	data->fd_pipe[0] = -1;
+	data->fd_pipe[1] = -1;
 }

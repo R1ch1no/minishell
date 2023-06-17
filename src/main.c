@@ -42,44 +42,11 @@ int	main(int argc, char **argv, char **env)
 		if (syntaxer(data->cmd_line) == 0)
 		{
 			prep_for_executer(&data->cmd_line, data); //quotes and dollar
-			// t_node *current = data->cmd_line->next->next;
-			// delete_node(current->prev->prev, &data->cmd_line);
-			// delete_node(current->prev, &data->cmd_line);
-			// delete_node(current, &data->cmd_line);
-			// if (data->cmd_line == NULL)
-				// printf ("data->cmd_line = %p (hopefully NULL)\n", data->cmd_line);
-			
-			/*
-			//FOLLOWING PART SHOULD BE LOOP
-			//look for pipe if needed:
-			if (pipe(data->fd_pipe) == -1)
-				cleanse(data); //exit()
-			data->fd_outfile = data->fd_pipe[1];
-			look_for_heredoc(data, data->cmd_line);
-				//only saves an fd but doesnt set fd_infile
- 			//parser(); //
-			//redirections
-			executer(data);
-			//in executer:
-			//set_redirections(data->cmd_line, data);
-			//get 2d array for cmd
-			
-			
-			
-			//reset ONLY redirections
-			//dup2 pipe[1] into fd_infile
-			close_prev_fd(data->fd_outfile);
-			close_prev_fd(data->fd_infile);
-			data->fd_infile = dup(data->fd_pipe[0]);
-			close_prev_fd(data->fd_pipe[0]);
-			close_prev_fd(data->fd_pipe[1]);
-			*/
-			
 			loop_each_cmd(data);
+			ft_clean_cmd(data);
 			//print_list(data->cmd_line);
 		}
 		unlink(HERE_DOC);
-		//ft_clean_cmd(data);
 	}
 	//the following block ONLY WRITTEN FOR TESTING PURPOSES
 	//free(data.line_read);
@@ -88,68 +55,61 @@ int	main(int argc, char **argv, char **env)
 	return (1);
 }
 
-t_node	*look_for_pipe(t_node *head)
+int set_pipe_status(t_node *head)
 {
 	while (head)
 	{
 		if (ft_strcmp_v2(head->cmd, "|") == 0 && head->special == 1)
-			return (head);
+			return (TRUE);
 		head = head->next;
 	}
-	return (NULL);
+	return (FALSE);
 }
 
-void	delete_cmd(t_node *pipe_ptr, t_node **head)
+void	delete_cmd(t_node **head)
 {
 	t_node	*temp;
 
 	temp = *head;
-	while (temp && temp != pipe_ptr)
+	while (temp && !(ft_strcmp_v2(temp->cmd, "|") == 0 && temp->special == 1))
 	{
 		delete_node(temp, head);
 		temp = *head;
 	}
-	delete_node(pipe_ptr, head);
+	delete_node(temp, head);
 }
 
 void	loop_each_cmd(t_data *data)
 {
 	t_node	*current;
-	t_node	*pipe_ptr;
-	int pipe_check;
+	int pipe_status;
 
 	current = data->cmd_line;
 	while (current != NULL)
 	{
-		pipe_check = FALSE;
-		pipe_ptr = look_for_pipe(current);
-		if (pipe_ptr != NULL)
-		{
-			if (pipe(data->fd_pipe) == -1)
-				cleanse(data); //exit()
-			pipe_check = TRUE;
-			data->fd_outfile = data->fd_pipe[1];
-		}	
 		look_for_heredoc(data, data->cmd_line);
-		set_redirections(current, data);
-		cut_out_redirection(&data->cmd_line);
-		//only saves an fd but doesnt set fd_infile
 		//parser();
-		executer(data);
-		if (pipe_check == TRUE)
+		if (set_redirections(current, data) == -1)
 		{
-			close_prev_fd(&data->fd_infile);
-			data->fd_infile = dup(data->fd_pipe[0]);
-			close_prev_fd(&data->fd_pipe[0]);
-			close_prev_fd(&data->fd_pipe[1]);
+			printf("Broke out cuz set_redirections\n");
+			break;
 		}
-		delete_cmd(pipe_ptr, &data->cmd_line);
+		pipe_status = set_pipe_status(current);
+		if (pipe_status == TRUE)
+			open_pipe(data);
+		cut_out_redirection(&data->cmd_line);
+		printf("No redirections until first pipe at least\n");
+		print_list(data->cmd_line);
+		executer(data);
+   		close_prev_fd(&data->fd_infile);
+		//reset_in_out_stream(data);
+		if (pipe_status == TRUE)
+			close_pipe(data);
+		delete_cmd(&data->cmd_line); //including pipe
 		print_list(data->cmd_line);
 		current = data->cmd_line;
 	}
-	close_prev_fd(&data->fd_infile);
-	//write(1, "closefd4\n", 9);
-	//close_prev_fd(&data->fd_outfile);
+    //close_prev_fd(&data->fd_infile);
 }
 
 // 0 - STDIN
@@ -157,9 +117,6 @@ void	loop_each_cmd(t_data *data)
 // 2 - STDERR
 //fd_in: STDIN
 //fd_out: STDOUT
-
-
-
 
 //fd_infile = -1; --> dup(STDIN) --> 3 - STDIN
 //fd_outfile = -1;
