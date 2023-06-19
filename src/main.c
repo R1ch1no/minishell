@@ -16,7 +16,6 @@ int	main(int argc, char **argv, char **env)
 	init_data(data, env);
 	signal_set_up(data);
 	ft_bash(data, 1);
-	//deleted the run variable, to stop the program, press Ctrl + D
 	while (1)
 	{
 		data->line_read = readline("\e[0;93m⮡\e[0;91m mini_hell \e[0m");
@@ -34,11 +33,11 @@ int	main(int argc, char **argv, char **env)
 		if (data->line_read)
 			//checks if str is not NULL and not empty
 			add_history(data->line_read);
-		lexer(data); //stopped_here
-		identify_tokens(data->cmd_line);
-		//print_list(data->cmd_line);
+		lexer(data);
 		free(data->line_read);
 		data->line_read = NULL;
+		identify_tokens(data->cmd_line);
+		//print_list(data->cmd_line);
 		if (syntaxer(data->cmd_line) == 0)
 		{
 			prep_for_executer(&data->cmd_line, data); //quotes and dollar
@@ -95,7 +94,7 @@ void	loop_each_cmd(t_data *data)
 			close_prev_fd(&data->fd_heredoc);
 			break;
 		}	
-		if (set_redirections(current, data) == -1)
+		if (set_redirections(current, data) == ERROR)
 		{
 			printf("Broke out cuz set_redirections\n");
 			break;

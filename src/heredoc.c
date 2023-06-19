@@ -1,10 +1,38 @@
 
 #include "../minishell.h"
 
+
+void	heredoc_response(int signal_num)
+{
+	if (signal_num == SIGINT)
+	{
+		//close_heredoc
+		//unlink heredoc
+		//free(line) falls es jz ctrl + c drinnen hat
+		//free cmd line 
+		//go back to main for loop
+		write(1, "\n", 1);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+}
+
+
+void heredoc_eof(t_data *data)
+{
+	printf("warning: here-document at line X delimited by end-of-file (wanted `eof')\n");
+	ft_clean_cmd(data);
+}
 // O_TRUNC truncates size to 0: empties out file content (if its exist)
 int	here_doc(t_data *data, char *limiter)
 {
 	char	*line;
+	//______signals for heredoc___________
+	//signal(SIGINT, response); but only for heredoc, will this change the other sognal?
+	//
+	//
+
+
 
 	//printf("HEREDOC function\n");
 	if (limiter == NULL)
@@ -18,7 +46,7 @@ int	here_doc(t_data *data, char *limiter)
 	{
 		line = readline("💩 ");
 		if (line == NULL)
-			return (ERROR);
+			return (heredoc_eof(data), ERROR);
 		if (ft_strcmp_v2(line, limiter) == 0)
 			break ;
 		write(data->fd_heredoc, line, ft_strlen(line));
