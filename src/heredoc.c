@@ -17,12 +17,13 @@ void	heredoc_response(int signal_num)
 	}
 }
 
-
 void heredoc_eof(t_data *data)
 {
-	printf("warning: here-document at line X delimited by end-of-file (wanted `eof')\n");
+	printf("warning: ");
+	printf("here-document at line X delimited by end-of-file (wanted `eof')\n");
 	ft_clean_cmd(data);
 }
+
 // O_TRUNC truncates size to 0: empties out file content (if its exist)
 int	here_doc(t_data *data, char *limiter)
 {
@@ -32,7 +33,7 @@ int	here_doc(t_data *data, char *limiter)
 	//
 	//
 
-
+	signal(SIGINT, response);
 
 	//printf("HEREDOC function\n");
 	if (limiter == NULL)

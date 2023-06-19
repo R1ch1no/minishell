@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: qtran <qtran@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/26 16:53:14 by qtran             #+#    #+#              #
-#    Updated: 2023/05/25 14:43:57 by rkurnava         ###   ########.fr        #
+#    Updated: 2023/06/19 19:20:13 by qtran            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,9 +25,19 @@ Sources = ft_atoi.c ft_bzero.c ft_tolower.c ft_toupper.c \
 bon_src = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c 
 
 PRINTF_DIR = printf
-PRINTF_SRC = $(PRINTF_DIR)/*.c
+
+PRINTF_SRC = $(PRINTF_DIR)/ft_itohex.c \
+				$(PRINTF_DIR)/ft_pointer.c \
+				$(PRINTF_DIR)/ft_printf.c \
+				$(PRINTF_DIR)/ft_u.c \
+				$(PRINTF_DIR)/len_itoa.c \
+				$(PRINTF_DIR)/len_putchar.c \
+				$(PRINTF_DIR)/len_putstr.c \
+				$(PRINTF_DIR)/printf_itoa.c
+
 PRINTF_OBJ = $(PRINTF_SRC:.c=.o)
 
+#next line unneccessary 
 Cur_dir = $(shell pwd)
 
 Objects = $(Sources:.c=.o)
