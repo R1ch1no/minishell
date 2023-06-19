@@ -46,7 +46,7 @@ int	main(int argc, char **argv, char **env)
 			ft_clean_cmd(data);
 			//print_list(data->cmd_line);
 		}
-		unlink(HERE_DOC);
+		//unlink(HERE_DOC);
 	}
 	//the following block ONLY WRITTEN FOR TESTING PURPOSES
 	//free(data.line_read);
@@ -70,6 +70,8 @@ void	delete_cmd(t_node **head)
 {
 	t_node	*temp;
 
+	if (*head == NULL)
+		return ;
 	temp = *head;
 	while (temp && !(ft_strcmp_v2(temp->cmd, "|") == 0 && temp->special == 1))
 	{
@@ -104,9 +106,9 @@ void	loop_each_cmd(t_data *data)
 		cut_out_redirection(&data->cmd_line);
 		//printf("No redirections until first pipe at least\n");
 		//print_list(data->cmd_line);
-		if (check_if_token(data->cmd_line, "|") == FALSE)
+		if (data->cmd_line && check_if_token(data->cmd_line, "|") == FALSE)
 		{
-			printf("cmd: %s\n", data->cmd_line->cmd);
+			//printf("cmd: %s\n", data->cmd_line->cmd);
 			executer(data);
 		}
    		close_prev_fd(&data->fd_infile);

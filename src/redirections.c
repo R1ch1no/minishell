@@ -61,7 +61,6 @@ int	set_redirections(t_node *head, t_data *data)
 				return (status);
 			//data->fd_infile = data->fd_heredoc;
 			data->fd_infile = dup(data->fd_heredoc); //davor: infile = heredeoc; um keine fds zu verlieren
-			close_prev_fd(&data->fd_heredoc);
 		}
 		else if (check_if_token(current, ">") == TRUE)
 			status = open_outfile(current->next->cmd, &data->fd_outfile);
@@ -72,6 +71,7 @@ int	set_redirections(t_node *head, t_data *data)
 			return (status);
 		current = current->next;
 	}
+	close_prev_fd(&data->fd_heredoc);
 	return (0);
 }
 

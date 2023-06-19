@@ -63,7 +63,7 @@ int parser(t_node *list)
     }    
     while (list->next)
     {
-        if (check_if_any_token(list) == TRUE && check_if_any_token(list->next) == TRUE)
+        if (check_if_any_token(list) == TRUE && check_if_token(list, "|") == FALSE && check_if_any_token(list->next) == TRUE)
         {
             ft_putstr_fd("\e[0;93m⮡\e[0;91m mini_hell \e[0m: error near unexpected token `", STDERR_FILENO);
             ft_putstr_fd(list->next->cmd, STDERR_FILENO);
