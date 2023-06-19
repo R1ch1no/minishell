@@ -1,0 +1,12 @@
+total 152
+drwxr-xr-x 3 qtran 2022_vienna   4096 Jun 19 14:26 libft
+-rw-r--r-- 1 qtran 2022_vienna   2705 Jun 19 12:01 Makefile
+-rwxr-xr-x 1 qtran 2022_vienna 109352 Jun 19 14:26 minishell
+-rw-r--r-- 1 qtran 2022_vienna   5064 Jun 19 13:01 minishell.h
+drwxr-xr-x 2 qtran 2022_vienna   4096 Jun 19 14:26 obj
+-rw-r--r-- 1 qtran 2022_vienna     85 Jun 19 14:28 OUT
+-rw-r--r-- 1 qtran 2022_vienna    974 Jun 19 14:28 OUT1
+-rw-r--r-- 1 qtran 2022_vienna      0 Jun 19 14:28 OUT3
+drwxr-xr-x 4 qtran 2022_vienna   4096 Jun 17 15:13 src
+drwxr-xr-x 2 qtran 2022_vienna   4096 Jun 14 14:15 unit_tests
+-rw-r--r-- 1 qtran 2022_vienna    135 Jun 13 12:34 val_suppression_file.txt

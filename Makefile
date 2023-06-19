@@ -9,6 +9,7 @@ OBJ_PATH 	= obj
 SRC			= 	main.c \
 				init.c \
 				lexer.c \
+				parser.c \
 				init_cmd_line.c \
 				signals.c \
 				env_cd_pwd.c \

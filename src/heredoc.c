@@ -6,7 +6,7 @@ int	here_doc(t_data *data, char *limiter)
 {
 	char	*line;
 
-	printf("HEREDOC function\n");
+	//printf("HEREDOC function\n");
 	if (limiter == NULL)
 		return (0);
 	if (close_prev_fd(&data->fd_heredoc) == -1)
@@ -14,16 +14,6 @@ int	here_doc(t_data *data, char *limiter)
 	data->fd_heredoc = open(HERE_DOC, O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	if (data->fd_heredoc == -1)
 		return (-1);
-	//line = NULL;
-	//while (ft_strcmp_v2(line, limiter) != 0)
-	//{
-	//	if (line != NULL)
-	//		free(line);
-	//	line = readline("💩 ");
-	//	if (line == NULL)
-	//		return (-1);
-	//	write(data->fd_heredoc, line, ft_strlen(line));
-	//}
 	while (1)
 	{
 		line = readline("💩 ");

@@ -88,7 +88,11 @@ void	loop_each_cmd(t_data *data)
 	while (current != NULL)
 	{
 		look_for_heredoc(data, data->cmd_line);
-		//parser();
+		if (parser(data->cmd_line) == ERROR)
+		{
+			close_prev_fd(&data->fd_heredoc);
+			break;
+		}	
 		if (set_redirections(current, data) == -1)
 		{
 			printf("Broke out cuz set_redirections\n");
@@ -98,15 +102,20 @@ void	loop_each_cmd(t_data *data)
 		if (pipe_status == TRUE)
 			open_pipe(data);
 		cut_out_redirection(&data->cmd_line);
-		printf("No redirections until first pipe at least\n");
-		print_list(data->cmd_line);
-		executer(data);
+		//printf("No redirections until first pipe at least\n");
+		//print_list(data->cmd_line);
+		if (check_if_token(data->cmd_line, "|") == FALSE)
+		{
+			printf("cmd: %s\n", data->cmd_line->cmd);
+			executer(data);
+		}
    		close_prev_fd(&data->fd_infile);
 		//reset_in_out_stream(data);
 		if (pipe_status == TRUE)
 			close_pipe(data);
+		close_prev_fd(&data->fd_outfile);
 		delete_cmd(&data->cmd_line); //including pipe
-		print_list(data->cmd_line);
+		//print_list(data->cmd_line);
 		current = data->cmd_line;
 	}
     //close_prev_fd(&data->fd_infile);

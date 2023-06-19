@@ -1,0 +1,9 @@
+libft
+Makefile
+minishell
+minishell.h
+obj
+OUT
+src
+unit_tests
+val_suppression_file.txt

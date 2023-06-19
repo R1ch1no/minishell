@@ -16,6 +16,7 @@
 # define HERE_DOC ".heredoc"
 # define TRUE 1
 # define FALSE 0
+# define ERROR -1
 
 # define SPECIALS "\"\'|<>"
 
@@ -55,9 +56,14 @@ void					loop_each_cmd(t_data *data);
 // init.c
 void					init_data(t_data *data, char **env);
 
-// lexer.c  ______LEXER________
+// lexer.c  
 int						trim_spaces(t_data *data);
 void					lexer(t_data *data);
+
+// parser.c
+int parser(t_node *list);
+int check_if_token(t_node *node, char *token);
+int check_if_any_token(t_node *node);
 
 // init_cmd_line.c
 int						get_token_len(char *str);
