@@ -6,14 +6,19 @@
 
 void	ft_wait_children(t_data *data)
 {
+	int	status;
+
 	if (data->children > 0)
 	{
 		while (data->children > 0)
 		{
-			wait(NULL);
+			waitpid(0, &status, 0);
 			data->children--;
 		}
+		if (status == 0)
+			write(1, "\n", 1);
 	}
+	signal(SIGINT, response);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -127,6 +132,8 @@ void	loop_each_cmd(t_data *data)
 		if (pipe_status == TRUE)
 			close_pipe(data);
 		close_prev_fd(&data->fd_outfile);
+		if (data->pid == 0)
+			exit(0);
 		delete_cmd(&data->cmd_line); //including pipe
 		//print_list(data->cmd_line);
 		current = data->cmd_line;

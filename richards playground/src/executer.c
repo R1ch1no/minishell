@@ -120,7 +120,7 @@ int	executer(t_data *data)
 			exit(0);
 		if (ft_commands(current, data->env_copy, data) == 1)
 			printf("command not found : %s", current->cmd);
-		exit(0);
+		return (0);
 	}
 	else
 		signal(SIGINT, SIG_IGN);
