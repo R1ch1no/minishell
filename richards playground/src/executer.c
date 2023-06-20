@@ -116,6 +116,7 @@ int	executer(t_data *data)
 	data->children += 1;
 	if (data->pid == 0)
 	{
+		close_prev_fd(&data->fd_pipe[0]);
 		if (set_stdin_out(data->fd_infile, data->fd_outfile, data))
 			exit(0);
 		if (ft_commands(current, data->env_copy, data) == 1)

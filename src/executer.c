@@ -113,19 +113,16 @@ int	executer(t_data *data)
 	data->pid = fork();
 	if (data->pid == -1)
 		return (write(2, "Fork problem!\n", 14) && 0);
-	else if (data->pid == 0)
+	data->children += 1;
+	if (data->pid == 0)
 	{
+		close_prev_fd(&data->fd_pipe[0]);
 		if (set_stdin_out(data->fd_infile, data->fd_outfile, data))
 			exit(0);
 		if (ft_commands(current, data->env_copy, data) == 1)
 			printf("command not found : %s", current->cmd);
 		exit(0);
 	}
-	else
-	{
-		signal(SIGINT, SIG_IGN);
-		wait(NULL);
-		signal_set_up(data);
-	}
+	signal(SIGINT, SIG_IGN);
 	return (0);
 }

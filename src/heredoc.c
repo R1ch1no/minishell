@@ -42,7 +42,7 @@ int	here_doc(t_data *data, char *limiter)
 		if (line == NULL)
 			return (heredoc_eof(data), ERROR);
 		if (quit_heredoc == TRUE)
-			return (stop_heredoc(data));
+			return (1);
 		if (ft_strcmp_v2(line, limiter) == 0)
 			break ;
 		write(data->fd_heredoc, line, ft_strlen(line));
@@ -60,7 +60,7 @@ int	here_doc(t_data *data, char *limiter)
 
 int stop_heredoc(t_data *data)
 {
-	close_prev_fd(data->fd_heredoc);
+	close_prev_fd(&data->fd_heredoc);
 	unlink(HERE_DOC);
 	return (ERROR);
 }

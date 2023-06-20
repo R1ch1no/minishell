@@ -19,6 +19,23 @@ void	response(int signal_num)
 	}
 }
 
+void	ft_wait_children(t_data *data)
+{
+	int	status;
+
+	if (data->children > 0)
+	{
+		while (data->children > 0)
+		{
+			waitpid(0, &status, 0);
+			data->children--;
+		}
+		if (status == 0)
+			write(1, "\n", 1);
+	}
+	signal(SIGINT, response);
+}
+
 //this function sets up incoming signals to be ignored,
 //instead of the SIGINT with comes with a promt in new line
 void	signal_set_up(t_data *data)

@@ -34,15 +34,18 @@ int	set_stdin_out(int fd_in, int fd_out, t_data *data)
 			cleanse(data);
 			return (1);
 		}
+		//close(fd_in);
 	}
 	if (fd_out != -1)
 	{
 		if (dup2(fd_out, STDOUT_FILENO) == -1)
 		{
+			close(STDOUT_FILENO);
 			printf("fail 2\n");
 			cleanse(data);
 			return (1);
 		}
+		//close(fd_out);
 	}
 	return (0);
 }

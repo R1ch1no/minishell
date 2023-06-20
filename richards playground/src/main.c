@@ -122,6 +122,7 @@ void	loop_each_cmd(t_data *data)
 		cut_out_redirection(&data->cmd_line);
 		//printf("No redirections until first pipe at least\n");
 		//print_list(data->cmd_line);
+		printf("fd_in : %d && fd_out : %d\n", data->fd_infile, data->fd_outfile);
 		if (check_if_token(data->cmd_line, "|") == FALSE)
 		{
 			printf("cmd: %s\n", data->cmd_line->cmd);

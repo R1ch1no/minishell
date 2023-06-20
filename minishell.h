@@ -24,9 +24,8 @@
 //	fd = open("nonexistent.txt", O_RDONLY);
 //	CHECK(fd);
 //Global variable
-int quit_heredoc;
 
-quit_heredoc = FALSE;
+extern int quit_heredoc; 
 
 // Structures
 typedef struct s_node
@@ -43,6 +42,7 @@ typedef struct s_data
 {
 	char				**env_copy;
 	char				*line_read;
+	int					children;
 	int					fd_infile;
 	int					fd_outfile;
 	int					fd_pipe[2];
@@ -126,6 +126,7 @@ void					free_2d_str_until(char **arr, int end);
 void					signal_set_up(t_data *data);
 void					ft_sig_quit(int signal_num);
 void					response(int signal_num);
+void					ft_wait_children(t_data *data);
 
 // built-ins
 int						ft_cd(t_node **node);

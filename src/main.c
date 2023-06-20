@@ -4,7 +4,7 @@
 //pipe[0] = read
 //pipe[1] = write
 
-
+int quit_heredoc = FALSE;
 
 int	main(int argc, char **argv, char **env)
 {
@@ -44,15 +44,12 @@ int	main(int argc, char **argv, char **env)
 		{
 			prep_for_executer(&data->cmd_line, data); //quotes and dollar
 			loop_each_cmd(data);
+			ft_wait_children(data);
 			ft_clean_cmd(data);
 			//print_list(data->cmd_line);
 		}
 		//unlink(HERE_DOC);
 	}
-	//the following block ONLY WRITTEN FOR TESTING PURPOSES
-	//free(data.line_read);
-	cleanse(data);
-	exit(0);
 	return (1);
 }
 

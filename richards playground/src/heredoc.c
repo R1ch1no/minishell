@@ -48,7 +48,7 @@ int	look_for_heredoc(t_data *data, t_node *head)
 			if (!head || head == NULL)
 				return (-1);
 			if (here_doc(data, head->cmd) == -1)	
-				return (signal(SIGINT, response()), -1);
+				return (signal(SIGINT, response), -1);
 		}
 		else
 			head = head->next;
