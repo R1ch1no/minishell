@@ -127,6 +127,8 @@ void					signal_set_up(t_data *data);
 void					ft_sig_quit(int signal_num);
 void					response(int signal_num);
 void					ft_wait_children(t_data *data);
+void					child_response(int signal_num);
+void					ft_sig_quit(int signal_num);
 
 // built-ins
 int						ft_cd(t_node **node);

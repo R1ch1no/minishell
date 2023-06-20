@@ -116,6 +116,8 @@ int	executer(t_data *data)
 	data->children += 1;
 	if (data->pid == 0)
 	{
+		data->sa.sa_handler = ft_sig_quit;
+		signal(SIGINT, child_response);
 		close_prev_fd(&data->fd_pipe[0]);
 		if (set_stdin_out(data->fd_infile, data->fd_outfile, data))
 			exit(0);
