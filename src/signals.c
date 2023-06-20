@@ -3,9 +3,8 @@
 
 void	ft_sig_quit(int signal_num)
 {
-	printf("%i\n", signal_num);
-	if (signal_num == SIGQUIT)
-		exit(1);
+	(void)signal_num;
+	exit(1);
 }
 
 void	response(int signal_num)
@@ -14,7 +13,6 @@ void	response(int signal_num)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
-		//rl_replace_line("", 1);
 		rl_redisplay();
 	}
 }
@@ -25,7 +23,6 @@ void	child_response(int signal_num)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
-		//rl_replace_line("", 1);
 		rl_redisplay();
 		exit(1);
 	}
@@ -42,7 +39,11 @@ void	ft_wait_children(t_data *data)
 			waitpid(0, &status, 0);
 			data->children--;
 		}
-		if (status == 1)
+		if (status == 131)
+		{
+			write(2, "Quit (core dumped)\n", 19);
+		}
+		else if (status == 2)
 			write(1, "\n", 1);
 	}
 	signal(SIGINT, response);
