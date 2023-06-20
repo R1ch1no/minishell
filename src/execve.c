@@ -102,6 +102,5 @@ int	ft_exec(t_node *node, char **env)
 			return (0);
 	}
 	fill_args(node, &args);
-	execute_cmd(path, env, args);
-	return (0);
+	return (execute_cmd(path, env, args) && 0);
 }
