@@ -23,9 +23,12 @@
 //	int fd;
 //	fd = open("nonexistent.txt", O_RDONLY);
 //	CHECK(fd);
+//Global variable
+int quit_heredoc;
+
+quit_heredoc = FALSE;
 
 // Structures
-
 typedef struct s_node
 {
 	int					special;
@@ -36,7 +39,6 @@ typedef struct s_node
 }						t_node;
 
 // fd_p_read, fd_p_write : not quite sure if i need the pipe fd's like this
-
 typedef struct s_data
 {
 	char				**env_copy;
@@ -56,14 +58,14 @@ void					loop_each_cmd(t_data *data);
 // init.c
 void					init_data(t_data *data, char **env);
 
-// lexer.c  
+// lexer.c
 int						trim_spaces(t_data *data);
 void					lexer(t_data *data);
 
 // parser.c
-int parser(t_node *list);
-int check_if_token(t_node *node, char *token);
-int check_if_any_token(t_node *node);
+int						parser(t_node *list);
+int						check_if_token(t_node *node, char *token);
+int						check_if_any_token(t_node *node);
 
 // init_cmd_line.c
 int						get_token_len(char *str);
@@ -123,6 +125,8 @@ void					free_2d_str_until(char **arr, int end);
 // signals handling;
 void					signal_set_up(t_data *data);
 void					ft_sig_quit(int signal_num);
+void					response(int signal_num);
+
 // built-ins
 int						ft_cd(t_node **node);
 int						ft_pwd(void);

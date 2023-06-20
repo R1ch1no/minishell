@@ -4,6 +4,8 @@
 //pipe[0] = read
 //pipe[1] = write
 
+
+
 int	main(int argc, char **argv, char **env)
 {
 	t_data	*data;
@@ -89,6 +91,7 @@ void	loop_each_cmd(t_data *data)
 	while (current != NULL)
 	{
 		look_for_heredoc(data, data->cmd_line);
+		//signal(SIGINT, response);
 		if (parser(data->cmd_line) == ERROR)
 		{
 			close_prev_fd(&data->fd_heredoc);

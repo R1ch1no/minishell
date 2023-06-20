@@ -6,14 +6,16 @@ void	heredoc_response(int signal_num)
 {
 	if (signal_num == SIGINT)
 	{
+		quit_heredoc = TRUE;
 		//close_heredoc
 		//unlink heredoc
 		//free(line) falls es jz ctrl + c drinnen hat
 		//free cmd line 
-		//go back to main for loop
+		printf("ending heredoc");
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_redisplay();
+		signal(SIGINT, response);
 	}
 }
 
@@ -28,37 +30,42 @@ void heredoc_eof(t_data *data)
 int	here_doc(t_data *data, char *limiter)
 {
 	char	*line;
-	//______signals for heredoc___________
-	//signal(SIGINT, response); but only for heredoc, will this change the other sognal?
-	//
-	//
-
-	signal(SIGINT, response);
-
-	//printf("HEREDOC function\n");
-	if (limiter == NULL)
-		return (ERROR);
-	if (close_prev_fd(&data->fd_heredoc) == -1)
+	if (limiter == NULL || close_prev_fd(&data->fd_heredoc) == -1)
 		return (ERROR);
 	data->fd_heredoc = open(HERE_DOC, O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	if (data->fd_heredoc == -1)
 		return (ERROR);
+	signal(SIGINT, heredoc_response);
 	while (1)
 	{
 		line = readline("💩 ");
 		if (line == NULL)
 			return (heredoc_eof(data), ERROR);
+		if (quit_heredoc == TRUE)
+			return (stop_heredoc(data));
 		if (ft_strcmp_v2(line, limiter) == 0)
 			break ;
 		write(data->fd_heredoc, line, ft_strlen(line));
 		write(data->fd_heredoc, "\n", 1);
 	}
-	close_prev_fd(&data->fd_heredoc);
+	if (close_prev_fd(&data->fd_heredoc) == -1)
+		return (ERROR);
 	data->fd_heredoc = open(HERE_DOC, O_RDONLY, 0666);
 	if (data->fd_heredoc == -1)
 		return (unlink(HERE_DOC), ERROR);
+	signal(SIGINT, response);
 	return (free(line), 0);
 }
+
+
+int stop_heredoc(t_data *data)
+{
+	close_prev_fd(data->fd_heredoc);
+	unlink(HERE_DOC);
+	return (ERROR);
+}
+
+
 
 int	look_for_heredoc(t_data *data, t_node *head)
 {
@@ -67,7 +74,6 @@ int	look_for_heredoc(t_data *data, t_node *head)
 	if (!head)
 		return (-1);
 	start = head;
-	printf("Look for HEREDOC\n");
 	while (head != NULL)
 	{
 		if (check_if_token(head, "|") == TRUE)
