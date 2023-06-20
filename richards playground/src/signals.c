@@ -5,7 +5,7 @@ void	ft_sig_quit(int signal_num)
 {
 	printf("%i\n", signal_num);
 	if (signal_num == SIGQUIT)
-		exit(0);
+		exit(1);
 }
 
 void	response(int signal_num)
