@@ -25,7 +25,7 @@
 //	CHECK(fd);
 //Global variable
 
-extern int quit_heredoc; 
+extern int g_quit_heredoc; 
 
 // Structures
 typedef struct s_node

@@ -4,7 +4,7 @@
 //pipe[0] = read
 //pipe[1] = write
 
-int quit_heredoc = FALSE;
+int g_quit_heredoc = FALSE;
 
 int	main(int argc, char **argv, char **env)
 {

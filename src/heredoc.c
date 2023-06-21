@@ -2,13 +2,13 @@
 #include "../minishell.h"
 
 void	heredoc_response(int signal_num)
-{
+{	
 	if (signal_num == SIGINT)
 	{
 		write(1, "\n", 1);
 		rl_redisplay();
 		close_prev_fd(&quit_heredoc);
-		quit_heredoc = TRUE;
+		g_quit_heredoc = TRUE;
 		exit(1);
 	}
 }
@@ -89,7 +89,16 @@ int	look_for_heredoc(t_data *data, t_node *head)
 			if (!head || head == NULL)
 				return (ERROR);
 			if (here_doc(data, head->cmd) == ERROR)
-				return (ERROR);
+			{
+				if (g_quit_heredoc == TRUE)
+				{
+					//write(STDIN_FILENO, "\n", 1);
+					rl_on_new_line();
+					rl_redisplay();
+					g_quit_heredoc = FALSE;
+				}
+				return (signal(SIGINT, response), ERROR);
+			}
 		}
 		else
 			head = head->next;
