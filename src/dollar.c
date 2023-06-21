@@ -38,19 +38,18 @@ char	*get_end_of_dollar(char *str, int i, int left_for_cut)
 }
 
 
-char	*get_env_value(char *look_for, char c, char **end_of_d, char **env)
+char	*get_env_value(char *look_for, char c, char **env)
 {
 	char	*env_value;
-	char *start;
+	char 	*start;
 	int i;
 
-	//env_value = "";
-	if (c == '?')
-	{
-		env_value = ft_strdup("1234");
-		(*end_of_d)++;
-		return (env_value);
-	}
+	//if (c == '?')
+	//{
+	//	env_value = ft_strdup("1234");
+	//	(*end_of_d)++;
+	//	return (env_value);
+	//}
 	i = -1;
 	while (env[++i])
 	{
@@ -66,6 +65,17 @@ char	*get_env_value(char *look_for, char c, char **end_of_d, char **env)
 	if (!env_value)
 		return (NULL);
 	return (env_value);
+}
+
+char 	*get_last_exit_status(char **end_of_d)//int ret_value
+{
+	char	*status;
+
+	if (!end_of_d)
+		return (NULL);
+	status = ft_itoa(1234);
+	(*end_of_d)++;
+	return (status);
 }
 
 int	subbing_cmd_str(char **str, char *before_d, char *env_value, char *end_of_d)
@@ -119,7 +129,10 @@ int	subout_dollar(char **str, int i, int left_f_cut, t_data *data)
 	before_d = get_str_before_dollar(*str, i);
 	end_of_d = get_end_of_dollar(*str, i, left_f_cut);
 	d_name = ft_substr(*str, i, end_of_d - &(*str)[i]);
-	env_value = get_env_value(d_name, (*str)[i], &end_of_d, data->env_copy);
+	if ((*str)[i] == '?')
+		env_value = get_last_exit_status(&end_of_d);//data->status
+	else
+		env_value = get_env_value(d_name, (*str)[i], data->env_copy);
 	if ((!before_d) || (!end_of_d) || (!d_name) || (!env_value))
 		cleanse(data);
 	if (subbing_cmd_str(str, before_d, env_value, end_of_d) == 1)

@@ -90,8 +90,7 @@ void					cut_out_quotes(char **str, char c);
 // dollar.c
 char					*get_str_before_dollar(char *str, int i);
 char					*get_end_of_dollar(char *str, int i, int left_for_cut);
-char					*get_env_value(char *look_for, char c, char **end_of_d,
-							char **env);
+char					*get_env_value(char *look_for, char c, char **env);
 int						subbing_cmd_str(char **str, char *before_d,
 							char *env_value, char *end_of_d);
 int						subout_dollar(char **str, int i, int left_f_cut,
