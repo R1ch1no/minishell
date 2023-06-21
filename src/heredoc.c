@@ -1,71 +1,76 @@
 
 #include "../minishell.h"
 
-
 void	heredoc_response(int signal_num)
 {
 	if (signal_num == SIGINT)
 	{
-		quit_heredoc = TRUE;
-		//close_heredoc
-		//unlink heredoc
-		//free(line) falls es jz ctrl + c drinnen hat
-		//free cmd line 
-		printf("ending heredoc");
 		write(1, "\n", 1);
-		rl_on_new_line();
 		rl_redisplay();
-		signal(SIGINT, response);
+		close_prev_fd(&quit_heredoc);
+		quit_heredoc = TRUE;
+		exit(1);
 	}
 }
 
-void heredoc_eof(t_data *data)
+void	heredoc_eof(t_data *data)
 {
 	printf("warning: ");
 	printf("here-document at line X delimited by end-of-file (wanted `eof')\n");
 	ft_clean_cmd(data);
+	exit(0);
 }
 
 // O_TRUNC truncates size to 0: empties out file content (if its exist)
 int	here_doc(t_data *data, char *limiter)
 {
 	char	*line;
+	int		pid;
+	int		status;
+
 	if (limiter == NULL || close_prev_fd(&data->fd_heredoc) == -1)
 		return (ERROR);
 	data->fd_heredoc = open(HERE_DOC, O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	if (data->fd_heredoc == -1)
 		return (ERROR);
-	signal(SIGINT, heredoc_response);
-	while (1)
-	{
-		line = readline("💩 ");
-		if (line == NULL)
-			return (heredoc_eof(data), ERROR);
-		if (quit_heredoc == TRUE)
-			return (1);
-		if (ft_strcmp_v2(line, limiter) == 0)
-			break ;
-		write(data->fd_heredoc, line, ft_strlen(line));
-		write(data->fd_heredoc, "\n", 1);
-	}
-	if (close_prev_fd(&data->fd_heredoc) == -1)
+	quit_heredoc = data->fd_heredoc;
+	pid = fork();
+	if (pid == -1)
 		return (ERROR);
+	if (pid == 0)
+	{
+		signal(SIGINT, heredoc_response);
+		while (1)
+		{
+			line = readline("💩 ");
+			if (line == NULL)
+				return (heredoc_eof(data), ERROR);
+			if (ft_strcmp_v2(line, limiter) == 0)
+				break ;
+			write(data->fd_heredoc, line, ft_strlen(line));
+			write(data->fd_heredoc, "\n", 1);
+		}
+		free(line);
+		exit(0);
+	}
+	signal(SIGINT, SIG_IGN);
+	waitpid(0, &status, 0);
+	if(status == 256)
+		quit_heredoc = TRUE;
+	if (close_prev_fd(&data->fd_heredoc) == -1)
+		return (1);
 	data->fd_heredoc = open(HERE_DOC, O_RDONLY, 0666);
 	if (data->fd_heredoc == -1)
 		return (unlink(HERE_DOC), ERROR);
-	signal(SIGINT, response);
-	return (free(line), 0);
+	return (0);
 }
 
-
-int stop_heredoc(t_data *data)
+int	stop_heredoc(t_data *data)
 {
 	close_prev_fd(&data->fd_heredoc);
 	unlink(HERE_DOC);
 	return (ERROR);
 }
-
-
 
 int	look_for_heredoc(t_data *data, t_node *head)
 {

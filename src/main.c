@@ -21,7 +21,7 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		data->line_read = readline("\e[0;93m⮡\e[0;91m mini_hell \e[0m");
-		if (data->line_read == NULL)
+		if (data->line_read == NULL && quit_heredoc == FALSE)
 		{
 			printf("exit\n");
 			cleanse(data);
@@ -88,6 +88,11 @@ void	loop_each_cmd(t_data *data)
 	while (current != NULL)
 	{
 		look_for_heredoc(data, data->cmd_line);
+		if (quit_heredoc == TRUE)
+		{
+			quit_heredoc = FALSE;
+			break;
+		}
 		//signal(SIGINT, response);
 		if (parser(data->cmd_line) == ERROR)
 		{
