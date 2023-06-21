@@ -2,12 +2,12 @@
 #include "../minishell.h"
 
 void	heredoc_response(int signal_num)
-{	
+{
 	if (signal_num == SIGINT)
 	{
 		write(1, "\n", 1);
 		rl_redisplay();
-		close_prev_fd(&quit_heredoc);
+		close_prev_fd(&g_quit_heredoc);
 		g_quit_heredoc = TRUE;
 		exit(1);
 	}
@@ -33,7 +33,7 @@ int	here_doc(t_data *data, char *limiter)
 	data->fd_heredoc = open(HERE_DOC, O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	if (data->fd_heredoc == -1)
 		return (ERROR);
-	quit_heredoc = data->fd_heredoc;
+	g_quit_heredoc = data->fd_heredoc;
 	pid = fork();
 	if (pid == -1)
 		return (ERROR);
@@ -55,8 +55,8 @@ int	here_doc(t_data *data, char *limiter)
 	}
 	signal(SIGINT, SIG_IGN);
 	waitpid(0, &status, 0);
-	if(status == 256)
-		quit_heredoc = TRUE;
+	if (status == 256)
+		g_quit_heredoc = TRUE;
 	if (close_prev_fd(&data->fd_heredoc) == -1)
 		return (1);
 	data->fd_heredoc = open(HERE_DOC, O_RDONLY, 0666);
