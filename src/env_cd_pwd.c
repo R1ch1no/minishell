@@ -3,10 +3,9 @@
 int	ft_cd(t_node **node)
 {
 	if ((*node) == NULL)
-		return (1);
+		return (0);
 	if (chdir((*node)->cmd) != 0)
 	{
-		(*node) = (*node)->next;
 		perror(NULL);
 		return (0);
 	}
