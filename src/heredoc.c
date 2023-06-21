@@ -49,8 +49,10 @@ int	here_doc(t_data *data, char *limiter)
 				break ;
 			write(data->fd_heredoc, line, ft_strlen(line));
 			write(data->fd_heredoc, "\n", 1);
+			free(line);
 		}
-		free(line);
+		free(line); 
+		close_prev_fd(&data->fd_heredoc);
 		exit(0);
 	}
 	signal(SIGINT, SIG_IGN);
