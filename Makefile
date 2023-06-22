@@ -87,11 +87,11 @@ va: all
 	make -C ./ clean
 	valgrind \
 	--leak-check=full \
+	--show-leak-kinds=all \
 	--track-fds=yes \
 	--suppressions=val_suppression_file.txt \
 	./$(NAME)
 
-#--show-leak-kinds=all \
 #--track-origins=yes \
 #code valgrind_output.txt
 

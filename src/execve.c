@@ -84,12 +84,10 @@ int	execute_cmd(char *path, char **env, char **args)
 //execve function
 int	ft_exec(t_node *node, char **env)
 {
-	char	*pre_path;
 	char	*path;
 	char	**args;
 
 	path = NULL;
-	pre_path = NULL;
 	args = NULL;
 	if (ft_strcmp_v2_until(node->cmd, "./", '/') == 0)
 	{
@@ -98,7 +96,7 @@ int	ft_exec(t_node *node, char **env)
 	}
 	else
 	{
-		if (ft_exec_path(&pre_path, &path, node, &args) == 1)
+		if (ft_exec_path(env, &path, node, &args) == 1)
 			return (0);
 	}
 	fill_args(node, &args);
