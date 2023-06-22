@@ -27,9 +27,9 @@ int	single_quotes(char **str, int i, char quote)
 	free(rest);
 	return (len);
 }
-//if fail then str = NULL and it will be detected
 
 //only works with malloc'd str
+//if fail then str = NULL and it will be detected
 void	dollar_and_s_quotes(char **str, t_data *data)
 {
 	int	i;
@@ -57,4 +57,14 @@ void	dollar_and_s_quotes(char **str, t_data *data)
 		else
 			i++;
 	}
+}
+
+//used in dollar.c
+int	check_if_quote_and_closed(char *str, int i)
+{
+	if (str[i] == '\'' && ft_strchr(&str[i + 1], '\'') != NULL)
+		return (TRUE);
+	else if (str[i] == '\"' && ft_strchr(&str[i + 1], '\"') != NULL)
+		return (TRUE);
+	return (FALSE);
 }

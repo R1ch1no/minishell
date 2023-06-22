@@ -8,7 +8,7 @@ void	heredoc_response(int signal_num)
 		write(1, "\n", 1);
 		rl_redisplay();
 		close_prev_fd(&g_quit_heredoc);
-		g_quit_heredoc = TRUE;
+		g_quit_heredoc = FALSE;
 		exit(1);
 	}
 }
@@ -17,7 +17,8 @@ void	heredoc_eof(t_data *data)
 {
 	printf("warning: ");
 	printf("here-document at line X delimited by end-of-file (wanted `eof')\n");
-	ft_clean_cmd(data);
+	close_prev_fd(&data->fd_heredoc);//
+	ft_clean_cmd(data);//
 	exit(0);
 }
 
@@ -27,7 +28,7 @@ int	here_doc(t_data *data, char *limiter)
 	char	*line;
 	int		pid;
 	int		status;
-
+	printf("HERE DAWG\n");
 	if (limiter == NULL || close_prev_fd(&data->fd_heredoc) == -1)
 		return (ERROR);
 	data->fd_heredoc = open(HERE_DOC, O_CREAT | O_WRONLY | O_TRUNC, 0666);
@@ -47,6 +48,7 @@ int	here_doc(t_data *data, char *limiter)
 				return (heredoc_eof(data), ERROR);
 			if (ft_strcmp_v2(line, limiter) == 0)
 				break ;
+			//check if line is in env and subout
 			write(data->fd_heredoc, line, ft_strlen(line));
 			write(data->fd_heredoc, "\n", 1);
 			free(line);
@@ -58,7 +60,7 @@ int	here_doc(t_data *data, char *limiter)
 	signal(SIGINT, SIG_IGN);
 	waitpid(0, &status, 0);
 	if (status == 256)
-		g_quit_heredoc = TRUE;
+		return (close_prev_fd(&data->fd_heredoc), ERROR);
 	if (close_prev_fd(&data->fd_heredoc) == -1)
 		return (1);
 	data->fd_heredoc = open(HERE_DOC, O_RDONLY, 0666);
@@ -91,16 +93,7 @@ int	look_for_heredoc(t_data *data, t_node *head)
 			if (!head || head == NULL)
 				return (ERROR);
 			if (here_doc(data, head->cmd) == ERROR)
-			{
-				if (g_quit_heredoc == TRUE)
-				{
-					//write(STDIN_FILENO, "\n", 1);
-					rl_on_new_line();
-					rl_redisplay();
-					g_quit_heredoc = FALSE;
-				}
 				return (signal(SIGINT, response), ERROR);
-			}
 		}
 		else
 			head = head->next;
