@@ -121,8 +121,7 @@ int	executer(t_data *data)
 		close_prev_fd(&data->fd_pipe[0]);
 		if (set_stdin_out(data->fd_infile, data->fd_outfile, data))
 			exit(0);
-		if (ft_commands(current, data->env_copy, data) == 1)
-			printf("command not found : %s", current->cmd);
+		ft_commands(current, data->env_copy, data);
 		cleanse(data);
 		exit(0);
 	}

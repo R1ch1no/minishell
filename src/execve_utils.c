@@ -21,6 +21,8 @@ char	*check_access(char **tmp, t_node *node)
 			return (path);
 		free(path);
 	}
+	ft_putstr_fd(node->cmd, 2);
+	ft_putstr_fd(": command not found\n", 2);
 	path = NULL;
 	return (path);
 }
@@ -80,6 +82,14 @@ int	ft_exec_here(char **path, t_node *node, char ***args)
 	{
 		free(*path);
 		return (write(2, "Allocation (ft_exec) problem!\n", 30) && 1);
+	}
+	if (access(*path, X_OK | F_OK) != 0)
+	{
+		free(*path);
+		free(*args);
+		ft_putstr_fd(node->cmd, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		return (1);
 	}
 	return (0);
 }

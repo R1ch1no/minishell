@@ -59,7 +59,7 @@ void	fill_args(t_node *node, char ***args)
 	{
 		if (current->special == 1)
 			break ;
-		(*args)[count] = malloc(ft_strlen(current->cmd) + 1);
+		(*args)[count] = (char *)malloc(ft_strlen(current->cmd) + 1);
 		ft_strlcpy((*args)[count], current->cmd, ft_strlen(current->cmd) + 1);
 		current = current->next;
 		count++;
@@ -71,11 +71,7 @@ void	fill_args(t_node *node, char ***args)
 //responsible for creating child processes for the execve
 int	execute_cmd(char *path, char **env, char **args)
 {
-	if (execve(path, args, env) != 0)
-	{
-		ft_putstr_fd(args[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-	}
+	execve(path, args, env);
 	free(path);
 	free_2d_str_arr(&args);
 	return (0);
