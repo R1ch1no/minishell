@@ -86,11 +86,11 @@ aa: all
 va: all
 	make -C ./ clean
 	valgrind \
+	--leak-check=full \
 	--track-fds=yes \
 	--suppressions=val_suppression_file.txt \
 	./$(NAME)
 
-#--leak-check=full \
 #--show-leak-kinds=all \
 #--track-origins=yes \
 #code valgrind_output.txt

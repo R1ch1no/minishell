@@ -17,19 +17,49 @@ void	heredoc_eof(t_data *data)
 {
 	printf("warning: ");
 	printf("here-document at line X delimited by end-of-file (wanted `eof')\n");
-	close_prev_fd(&data->fd_heredoc);//
-	ft_clean_cmd(data);//
+	close_prev_fd(&data->fd_heredoc); //
+	ft_clean_cmd(data);               //
+	exit(0);
+}
+
+int	heredoc_child(t_data *data, char *limiter)
+{
+	char	*line;
+	int		i;
+
+	signal(SIGINT, heredoc_response);
+	while (1)
+	{
+		i = 0;
+		line = readline("💩 ");
+		if (line == NULL)
+			return (heredoc_eof(data), ERROR);
+		if (ft_strcmp_v2(line, limiter) == 0)
+			break ;
+		while (line[i])
+		{
+			if (line[i] == '$')
+				i += subout_dollar(&line, i, FALSE, data);
+			else
+				i++;
+		}
+		write(data->fd_heredoc, line, ft_strlen(line));
+		write(data->fd_heredoc, "\n", 1);
+		free(line);
+	}
+	free(line);
+	close_prev_fd(&data->fd_heredoc);
 	exit(0);
 }
 
 // O_TRUNC truncates size to 0: empties out file content (if its exist)
 int	here_doc(t_data *data, char *limiter)
 {
-	char	*line;
 	int		pid;
 	int		status;
+
 	printf("HERE DAWG\n");
-	if (limiter == NULL || close_prev_fd(&data->fd_heredoc) == -1)
+	if (!data || limiter == NULL || close_prev_fd(&data->fd_heredoc) == -1)
 		return (ERROR);
 	data->fd_heredoc = open(HERE_DOC, O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	if (data->fd_heredoc == -1)
@@ -40,22 +70,24 @@ int	here_doc(t_data *data, char *limiter)
 		return (ERROR);
 	if (pid == 0)
 	{
-		signal(SIGINT, heredoc_response);
-		while (1)
-		{
-			line = readline("💩 ");
-			if (line == NULL)
-				return (heredoc_eof(data), ERROR);
-			if (ft_strcmp_v2(line, limiter) == 0)
-				break ;
-			//check if line is in env and subout
-			write(data->fd_heredoc, line, ft_strlen(line));
-			write(data->fd_heredoc, "\n", 1);
-			free(line);
-		}
-		free(line); 
-		close_prev_fd(&data->fd_heredoc);
-		exit(0);
+		heredoc_child(data, limiter);
+		//signal(SIGINT, heredoc_response);
+		//while (1)
+		//{
+		//	i = 0;
+		//	line = readline("💩 ");
+		//	if (line == NULL)
+		//		return (heredoc_eof(data), ERROR);
+		//	if (ft_strcmp_v2(line, limiter) == 0)
+		//		break ;
+		//	// check if line is in env and subout
+		//	write(data->fd_heredoc, line, ft_strlen(line));
+		//	write(data->fd_heredoc, "\n", 1);
+		//	free(line);
+		//}
+		//free(line);
+		//close_prev_fd(&data->fd_heredoc);
+		//exit(0);
 	}
 	signal(SIGINT, SIG_IGN);
 	waitpid(0, &status, 0);
