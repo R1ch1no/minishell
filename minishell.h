@@ -131,7 +131,7 @@ void					child_response(int signal_num);
 void					ft_sig_quit(int signal_num);
 
 // built-ins
-int						ft_cd(t_node **node);
+int						ft_cd(t_node **node, t_data *data);
 int						ft_pwd(void);
 int						ft_echo(t_node **node);
 void					echo_print(t_node **node, int n);

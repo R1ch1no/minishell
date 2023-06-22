@@ -77,11 +77,6 @@ int	ft_commands(t_node *current, char **env, t_data *data)
 		current = current->next;
 		return (ft_echo(&current));
 	}
-	else if (ft_strcmp_node(current, "cd") == 0)
-	{
-		current = current->next;
-		return (ft_cd(&current));
-	}
 	else if (ft_strcmp_node(current, "env") == 0)
 		return (ft_env(data->env_copy));
 	else if (ft_strcmp_node(current, "export") == 0)
@@ -95,6 +90,11 @@ int	ft_no_child(t_node *current, t_data *data)
 {
 	if (ft_strcmp_node(current, "unset") == 0 && current->next)
 		return (ft_unset(data, current->next->cmd));
+	else if (ft_strcmp_node(current, "cd") == 0)
+	{
+		current = current->next;
+		return (ft_cd(&current, data));
+	}
 	else if (ft_strcmp_node(current, "export") == 0 && current->next)
 		return (ft_export_a(data, current->next->cmd, &current,
 				get_arr_len(data->env_copy) + 1));

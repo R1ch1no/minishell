@@ -1,14 +1,39 @@
 #include "../minishell.h"
 
-int	ft_cd(t_node **node)
+int	ft_cd(t_node **node, t_data *data)
 {
+	char	*home;
+	int		x;
+	int		i;
+	int		found;
+
+	x = -1;
+	i = 0;
+	found = 0;
 	if ((*node) == NULL)
-		return (0);
-	if (chdir((*node)->cmd) != 0)
 	{
-		perror(NULL);
-		return (0);
+		while (data->env_copy[++x])
+		{
+			if (ft_strcmp_v2_until("HOME=", data->env_copy[x], '=') == 0)
+			{
+				found = 1;
+				break ;
+			}
+		}
+		if (found == 0)
+			return (write(1, "cd: HOME not set\n", 17) && 0);
+		while (data->env_copy[x][i] != '=')
+			i++;
+		home = malloc(ft_strlen(&data->env_copy[x][i + 1]) + 1);
+		ft_strlcpy(home, &data->env_copy[x][i + 1],
+			ft_strlen(&data->env_copy[x][i + 1]) + 1);
+		if (chdir(home) != 0)
+			perror(NULL);
+		free(home);
 	}
+	else
+		if (chdir((*node)->cmd) != 0)
+			perror(NULL);
 	return (0);
 }
 
