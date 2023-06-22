@@ -57,7 +57,7 @@ int set_pipe_status(t_node *head)
 {
 	while (head)
 	{
-		if (ft_strcmp_v2(head->cmd, "|") == 0 && head->special == 1)
+		if (check_if_token(head, "|") == TRUE)
 			return (TRUE);
 		head = head->next;
 	}
@@ -71,7 +71,7 @@ void	delete_cmd(t_node **head)
 	if (*head == NULL)
 		return ;
 	temp = *head;
-	while (temp && !(ft_strcmp_v2(temp->cmd, "|") == 0 && temp->special == 1))
+	while (temp && check_if_token(temp, "|") == FALSE)
 	{
 		delete_node(temp, head);
 		temp = *head;
@@ -87,12 +87,13 @@ void	loop_each_cmd(t_data *data)
 	current = data->cmd_line;
 	while (current != NULL)
 	{
-		look_for_heredoc(data, data->cmd_line);
-		if (g_quit_heredoc == TRUE)
-		{
-			g_quit_heredoc = FALSE;
+		if (look_for_heredoc(data, data->cmd_line) == ERROR)
 			break;
-		}
+		//if (g_quit_heredoc == TRUE)
+		//{
+		//	g_quit_heredoc = FALSE;
+		//	break;
+		//}
 		//signal(SIGINT, response);
 		if (parser(data->cmd_line) == ERROR)
 		{
