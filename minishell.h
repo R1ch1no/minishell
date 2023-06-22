@@ -23,9 +23,9 @@
 //	int fd;
 //	fd = open("nonexistent.txt", O_RDONLY);
 //	CHECK(fd);
-//Global variable
+// Global variable
 
-extern int g_quit_heredoc; 
+extern int				g_quit_heredoc;
 
 // Structures
 typedef struct s_node
@@ -50,6 +50,7 @@ typedef struct s_data
 	struct sigaction	sa;
 	t_node				*cmd_line;
 	int					pid;
+	int					status;
 }						t_data;
 
 // main.c
@@ -87,14 +88,18 @@ void					cut_out_all_but_last(char *str, char c, char *cutted);
 void					cut_out_quotes(char **str, char c);
 
 // quotes_and_dollar
+int						check_if_quote_and_closed(char *str, int i);
 // dollar.c
 char					*get_str_before_dollar(char *str, int i);
 char					*get_end_of_dollar(char *str, int i, int left_for_cut);
-char					*get_env_value(char *look_for, char c, char **env);
 int						subbing_cmd_str(char **str, char *before_d,
 							char *env_value, char *end_of_d);
 int						subout_dollar(char **str, int i, int left_f_cut,
 							t_data *data);
+
+// dollar_env.c
+char					*get_env_value(char *look_for, char **env);
+char					*get_last_exit_status(char **end_of_d, int ret_value);
 
 // heredoc.c
 int						look_for_heredoc(t_data *data, t_node *head);

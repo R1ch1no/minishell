@@ -30,20 +30,19 @@ void	child_response(int signal_num)
 
 void	ft_wait_children(t_data *data)
 {
-	int	status;
 
 	if (data->children > 0)
 	{
 		while (data->children > 0)
 		{
-			waitpid(0, &status, 0);
+			waitpid(0, &data->status, 0);
 			data->children--;
 		}
-		if (status == 131)
+		if (data->status == 131)
 		{
 			write(2, "Quit (core dumped)\n", 19);
 		}
-		else if (status == 2)
+		else if (data->status == 2)
 			write(1, "\n", 1);
 	}
 	signal(SIGINT, response);
