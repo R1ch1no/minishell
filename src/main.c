@@ -5,7 +5,11 @@
 //pipe[1] = write
 
 int g_quit_heredoc = FALSE;
-
+/*
+After line_read:
+- its being checked for eof
+- empty string (instant carriage return by user)
+*/
 int	main(int argc, char **argv, char **env)
 {
 	t_data	*data;
@@ -27,28 +31,26 @@ int	main(int argc, char **argv, char **env)
 			cleanse(data);
 			exit(0); //exit && free (cleanup exits for now)
 		}
-		if (data->line_read[0] == '\0') //empty string
+		if (data->line_read[0] == '\0')
 		{
 			free(data->line_read);
 			continue ;
 		}
-		if (data->line_read)
-			//checks if str is not NULL and not empty
+		if (data->line_read) //checks if str is not NULL and not empty, THIS LINE USELESS
 			add_history(data->line_read);
-		lexer(data);
-		free(data->line_read);
-		data->line_read = NULL;
+		lexer(data); //line_read is freed in lexer
 		identify_tokens(data->cmd_line);
 		//print_list(data->cmd_line);
 		if (syntaxer(data->cmd_line) == 0)
 		{
 			prep_for_executer(&data->cmd_line, data); //quotes and dollar
-			loop_each_cmd(data);
+			if (loop_each_cmd(data) == ERROR)
+				reset_fds(data);
 			ft_wait_children(data);
 			ft_clean_cmd(data);
+			//unlink(HERE_DOC);
 			//print_list(data->cmd_line);
 		}
-		//unlink(HERE_DOC);
 	}
 	return (1);
 }
@@ -79,7 +81,7 @@ void	delete_cmd(t_node **head)
 	delete_node(temp, head);
 }
 
-void	loop_each_cmd(t_data *data)
+int	loop_each_cmd(t_data *data)
 {
 	t_node	*current;
 	int pipe_status;
@@ -87,29 +89,16 @@ void	loop_each_cmd(t_data *data)
 	current = data->cmd_line;
 	while (current != NULL)
 	{
-		if (look_for_heredoc(data, data->cmd_line) == ERROR)
-			break;
-		//if (g_quit_heredoc == TRUE)
-		//{
-		//	g_quit_heredoc = FALSE;
-		//	break;
-		//}
-		//signal(SIGINT, response);
+		if (look_for_heredoc(data, data->cmd_line) == ERROR)//evtl parser und heredoc tauschen, bash DUMM
+			return (ERROR);
 		if (parser(data->cmd_line) == ERROR)
-		{
-			close_prev_fd(&data->fd_heredoc);
-			break;
-		}	
+			return (ERROR);
 		if (set_redirections(current, data) == ERROR)
-		{
-			printf("Broke out cuz set_redirections\n");
-			break;
-		}
+			return (perror("In set_redirections") , ERROR);
 		pipe_status = set_pipe_status(current);
 		if (pipe_status == TRUE)
 			open_pipe(data);
 		cut_out_redirection(&data->cmd_line);
-		//printf("No redirections until first pipe at least\n");
 		//print_list(data->cmd_line);
 		if (data->cmd_line && check_if_token(data->cmd_line, "|") == FALSE)
 		{
@@ -117,7 +106,6 @@ void	loop_each_cmd(t_data *data)
 			executer(data);
 		}
    		close_prev_fd(&data->fd_infile);
-		//reset_in_out_stream(data);
 		if (pipe_status == TRUE)
 			close_pipe(data);
 		close_prev_fd(&data->fd_outfile);
@@ -125,7 +113,7 @@ void	loop_each_cmd(t_data *data)
 		//print_list(data->cmd_line);
 		current = data->cmd_line;
 	}
-    //close_prev_fd(&data->fd_infile);
+	return (0); //close_prev_fd(&data->fd_infile);
 }
 
 // 0 - STDIN

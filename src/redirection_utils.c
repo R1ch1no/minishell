@@ -15,12 +15,18 @@ int close_prev_fd(int *fd)
     return (0);
 }
 
-int reset_in_out_stream(t_data *data)
+int reset_fds(t_data *data)
 {
     if (close_prev_fd(&data->fd_infile) == -1)
-        return (-1);
+        return (ERROR);
+    if (close_prev_fd(&data->fd_outfile) == -1)
+        return (ERROR);
     if (close_prev_fd(&data->fd_heredoc) == -1)
-        return (-1);
+        return (ERROR);
+    if (close_prev_fd(&data->fd_pipe[0]) == -1)
+        return (ERROR);
+    if (close_prev_fd(&data->fd_pipe[1]) == -1)
+        return (ERROR);
     return (0);
 }
 

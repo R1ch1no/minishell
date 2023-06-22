@@ -18,7 +18,9 @@
 # define FALSE 0
 # define ERROR -1
 
-# define SPECIALS "\"\'|<>"
+//# define SPECIALS "\"\'|<>"
+
+# define PROMPT "\e[0;93m⮡\e[0;91m mini_hell \e[0m"
 
 //	int fd;
 //	fd = open("nonexistent.txt", O_RDONLY);
@@ -54,7 +56,7 @@ typedef struct s_data
 }						t_data;
 
 // main.c
-void					loop_each_cmd(t_data *data);
+int						loop_each_cmd(t_data *data);
 
 // init.c
 void					init_data(t_data *data, char **env);
@@ -110,7 +112,7 @@ void					cut_out_redirection(t_node **head);
 
 // redirection_utils.c
 int						close_prev_fd(int *fd);
-int						reset_in_out_stream(t_data *data);
+int						reset_fds(t_data *data);
 int						open_pipe(t_data *data);
 int						close_pipe(t_data *data);
 

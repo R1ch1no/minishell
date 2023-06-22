@@ -9,6 +9,8 @@ void	lexer(t_data *data)
 	if (trim_spaces(data) == 1)
 		return ;
 	init_cmd_line(data);
+	free(data->line_read);
+	data->line_read = NULL;
 }
 
 int	trim_spaces(t_data *data)
