@@ -1,6 +1,73 @@
 
 #include "../minishell.h"
 
+char	*check_access(char **tmp, t_node *node)
+{
+	char	*path;
+	int		i;
+	int		cmdlen;
+	int		tlen;
+
+	i = -1;
+	cmdlen = ft_strlen(node->cmd);
+	while (tmp[++i])
+	{
+		tlen = ft_strlen(tmp[i]);
+		path = malloc(tlen + 1 + cmdlen + 1);
+		ft_strlcpy(path, tmp[i], tlen + 1);
+		ft_strlcpy(&path[tlen], "/", 2);
+		ft_strlcpy(&path[tlen + 1], node->cmd, tlen + 1 + cmdlen);
+		if (access(path, X_OK | F_OK) == 0)
+			return (path);
+		free(path);
+	}
+	path = NULL;
+	return (path);
+}
+
+char	*ft_exec_access(char *env, t_node *node)
+{
+	char	**tmp;
+	char	*path;
+	int		i;
+
+	i = 0;
+	while (env[i] != '=' && env[i])
+		i++;
+	if (env[i] == '=')
+		i++;
+	if (env[i] == '\0')
+		return (NULL);
+	tmp = ft_split(&env[i], ':');
+	path = check_access(tmp, node);
+	free_2d_str_arr(&tmp);
+	return (path);
+}
+
+char	*search_path(char **env, t_node *node)
+{
+	int	y;
+	int	found;
+
+	y = -1;
+	found = 0;
+	while (env[++y])
+	{
+		if (ft_strcmp_v2_until(env[y], "PATH=", '=') == 0)
+		{
+			found = 1;
+			break ;
+		}
+	}
+	if (found == 0)
+	{
+		ft_putstr_fd(node->cmd, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		return (NULL);
+	}
+	return (ft_exec_access(env[y], node));
+}
+
 //runs an executable from the current folder with ./
 int	ft_exec_here(char **path, t_node *node, char ***args)
 {
@@ -17,20 +84,15 @@ int	ft_exec_here(char **path, t_node *node, char ***args)
 	return (0);
 }
 
-int	ft_exec_path(char **pre_path, char **path, t_node *node, char ***args)
+int	ft_exec_path(char **env, char **path, t_node *node, char ***args)
 {
-	*pre_path = malloc(ft_strlen("/usr/bin/") + ft_strlen(node->cmd) + 1);
-	if (!pre_path || pre_path == NULL)
-		return (write(2, "Allocation (ft_exec) problem!\n", 30) && 1);
-	ft_strlcpy(*pre_path, "/usr/bin/", (ft_strlen("/usr/bin/") + 1));
-	*path = exec_strjoin(*pre_path, node->cmd);
-	if (!path || path == NULL)
-		return (write(2, "Allocation (ft_exec) problem!\n", 30) && 1);
+	*path = search_path(env, node);
+	if (*path == NULL)
+		return (1);
 	*args = malloc((arg_num(node) + 1) * sizeof(char *));
 	if (!args || args == NULL)
 	{
 		free(*path);
-		free(*pre_path);
 		return (write(2, "Allocation (ft_exec) problem!\n", 30) && 1);
 	}
 	return (0);

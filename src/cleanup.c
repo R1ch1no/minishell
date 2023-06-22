@@ -12,6 +12,7 @@ void	cleanse(t_data *data)
 	rl_clear_history();
 	free_2d_str_arr(&data->env_copy);
 	ft_clean_cmd(data);
+	free(data);
 	printf("finished cleanup\n");
 }
 

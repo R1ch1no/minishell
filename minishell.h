@@ -155,7 +155,7 @@ int						ft_append(t_data *data, t_node *node, int y);
 // execve
 int						ft_exec(t_node *node, char **env);
 int						ft_exec_here(char **path, t_node *node, char ***args);
-int						ft_exec_path(char **pre_path, char **path, t_node *node,
+int						ft_exec_path(char **env, char **path, t_node *node,
 							char ***args);
 char					*exec_strjoin(char *str1, char *str2);
 int						arg_num(t_node *node);
