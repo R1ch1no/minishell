@@ -93,7 +93,7 @@ int	ft_no_child(t_node *current, t_data *data)
 	else if (ft_strcmp_node(current, "cd") == 0)
 	{
 		current = current->next;
-		return (ft_cd(&current));
+		return (ft_cd(&current, data));
 	}
 	else if (ft_strcmp_node(current, "export") == 0 && current->next)
 		return (ft_export_a(data, current->next->cmd, &current,
