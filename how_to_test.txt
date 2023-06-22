@@ -1,0 +1,5 @@
+1. open minishel_tester foled
+2. make executable
+2. inside the folder open terminal
+3. inside the terminal run ./tester
+

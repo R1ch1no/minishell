@@ -107,7 +107,6 @@ int	executer(t_data *data)
 	t_node	*current;
 
 	current = data->cmd_line;
-	print_list(data->cmd_line);
 	if (ft_no_child(current, data) == 0)
 		return (0);
 	data->pid = fork();
