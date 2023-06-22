@@ -24,7 +24,7 @@ int	main(int argc, char **argv, char **env)
 	ft_bash(data, 1);
 	while (1)
 	{
-		data->line_read = readline("\e[0;93m⮡\e[0;91m mini_hell \e[0m");
+		data->line_read = readline(PROMPT);
 		if (data->line_read == NULL)
 		{
 			printf("exit\n");
@@ -39,6 +39,8 @@ int	main(int argc, char **argv, char **env)
 		if (data->line_read) //checks if str is not NULL and not empty, THIS LINE USELESS
 			add_history(data->line_read);
 		lexer(data); //line_read is freed in lexer
+		free(data->line_read);
+		data->line_read = NULL;
 		identify_tokens(data->cmd_line);
 		//print_list(data->cmd_line);
 		if (syntaxer(data->cmd_line) == 0)
