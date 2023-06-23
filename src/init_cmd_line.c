@@ -72,25 +72,24 @@ int	get_non_quote_len(char *str)
 }
 
 //return the len of the str in quotes
+//if this ret-value is added to the first quote then u will land on the second quote
 int	get_quote_len(char *str)
 {
 	int		i;
 	char	*closing_quote;
 
-	//printf("___get_quote_token_len_______\n");
 	i = 0;
 	if (str[i] == '\'')
 	{
 		closing_quote = ft_strchr(&str[i + 1], '\'');
 		if (closing_quote != NULL)
-			return (closing_quote - &str[i] + 1); //if this ret-value is added to the first quote then u will land on the second quote 
+			return (closing_quote - &str[i] + 1); 
 	}
 	else if (str[i] == '\"')
 	{
 		closing_quote = ft_strchr(&str[i + 1], '\"');
 		if (closing_quote != NULL)
 		{
-			//printf("pointer diff: %ld\n", closing_quote - &str[i]);
 			return (closing_quote - &str[i] + 1);
 		}
 	}
