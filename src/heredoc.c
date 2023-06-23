@@ -26,7 +26,12 @@ int	heredoc_child(t_data *data, char *limiter)
 {
 	char	*line;
 	int		i;
+	int 	fd;
 
+	free_2d_str_arr(&data->env_copy);
+	ft_clean_cmd(data);
+	fd = data->fd_heredoc;
+	free(data);
 	signal(SIGINT, heredoc_response);
 	while (1)
 	{
@@ -43,12 +48,12 @@ int	heredoc_child(t_data *data, char *limiter)
 			else
 				i++;
 		}
-		write(data->fd_heredoc, line, ft_strlen(line));
-		write(data->fd_heredoc, "\n", 1);
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
 		free(line);
 	}
 	free(line);
-	close_prev_fd(&data->fd_heredoc);
+	close_prev_fd(&fd);
 	exit(0);
 }
 
