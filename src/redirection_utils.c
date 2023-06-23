@@ -42,10 +42,9 @@ int open_pipe(t_data *data)
     return (0);
 }
 
-
 int close_pipe(t_data *data)
 {
-
+    close_prev_fd(&data->fd_infile); //try to short
     if (data->fd_pipe[1] == data->fd_outfile)
         data->fd_pipe[1] = -1;
     data->fd_infile = dup(data->fd_pipe[0]);

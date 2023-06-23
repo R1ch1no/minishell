@@ -12,13 +12,6 @@ void	heredoc_response(int signal_num)
 	}
 }
 
-void	clean_heredoc_child(t_data *data)
-{
-	ft_clean_cmd(data);
-	free_2d_str_arr(&data->env_copy);
-	free(data);
-}
-
 void	heredoc_eof(t_data *data)
 {
 	printf("warning: ");
@@ -31,12 +24,10 @@ void	heredoc_eof(t_data *data)
 int	heredoc_child(t_data *data, char *limiter)
 {
 	char	*line;
-	int		i;
 
 	signal(SIGINT, heredoc_response);
 	while (1)
 	{
-		i = 0;
 		line = readline("💩 ");
 		if (g_quit_heredoc == TRUE)
 		{
@@ -44,16 +35,10 @@ int	heredoc_child(t_data *data, char *limiter)
 			exit(1);
 		}
 		if (line == NULL)
-			return (heredoc_eof(data), ERROR);
+			heredoc_eof(data);
 		if (ft_strcmp_v2(line, limiter) == 0)
 			break ;
-		while (line[i])
-		{
-			if (line[i] == '$')
-				i += subout_dollar(&line, i, FALSE, data);
-			else
-				i++;
-		}
+		check_for_dollar(&line, data);
 		write(data->fd_heredoc, line, ft_strlen(line));
 		write(data->fd_heredoc, "\n", 1);
 		free(line);
@@ -82,7 +67,9 @@ int	here_doc(t_data *data, char *limiter)
 		return (ERROR);
 	if (pid == 0)
 		heredoc_child(data, limiter);
-	//signal(SIGINT, SIG_IGN); //what does SIG_IGN do
+	signal(SIGINT, SIG_IGN); 
+	//what does SIG_IGN do? 
+	//is it for minishell in minishell in .. if smth happens in one heredoc so it doesnt fuck the others?
 	waitpid(0, &status, 0);
 	if (status == 256)
 		return (close_prev_fd(&data->fd_heredoc), ERROR);

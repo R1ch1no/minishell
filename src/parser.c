@@ -25,34 +25,6 @@ pipe after pipe
 //have to check this or else there will be open fds its a wrong cmd line 
 
 
-
-
-//BASH IS DUMP0 dont want to handle it << eof wc < >
-int check_if_token(t_node *node, char *token)
-{
-    if (!node || !token)
-        return (FALSE);
-    if (ft_strcmp_v2(node->cmd, token) == 0 && node->special == 1)
-        return (TRUE);
-    return (FALSE);
-}
-
-int check_if_any_token(t_node *node)
-{
-    if (!node)
-        return(FALSE);
-    if (check_if_token(node, "|") == TRUE)
-        return (TRUE);
-    if (check_if_token(node, "<") == TRUE)
-        return (TRUE);
-    if (check_if_token(node, "<<") == TRUE)
-        return (TRUE);
-    if (check_if_token(node, ">") == TRUE)
-        return (TRUE);
-    if (check_if_token(node, ">>") == TRUE)
-        return (TRUE);
-    return (FALSE);
-}
 static void token_err_msg(char *tokentype)
 {
     ft_putstr_fd(PROMPT, STDERR_FILENO);
@@ -61,6 +33,7 @@ static void token_err_msg(char *tokentype)
     ft_putstr_fd("'\n", STDERR_FILENO);
 }
 
+//BASH IS DUMP0 dont want to handle it << eof wc < >
 int parser(t_node *list)
 {
     if (!list)

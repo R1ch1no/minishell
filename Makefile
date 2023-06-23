@@ -7,7 +7,7 @@ SRC_PATH 	= src
 OBJ_PATH 	= obj
 
 SRC			= 	main.c \
-				init.c \
+				core_functions.c \
 				lexer.c \
 				parser.c \
 				init_cmd_line.c \
@@ -36,6 +36,7 @@ SRC			= 	main.c \
 				linked_list_utils_two.c\
 				quotes_and_dollar.c \
 				heredoc.c \
+				heredoc_utils.c \
 				redirections.c \
 				redirection_utils.c
 

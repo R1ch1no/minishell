@@ -57,9 +57,10 @@ typedef struct s_data
 
 // main.c
 int						loop_each_cmd(t_data *data);
-
-// init.c
+void 					eof(t_data *data);
 void					init_data(t_data *data, char **env);
+void 					minishell_core(t_data *data);
+// init.c
 
 // lexer.c
 int						trim_spaces(t_data *data);
@@ -67,8 +68,8 @@ void					lexer(t_data *data);
 
 // parser.c
 int						parser(t_node *list);
-int						check_if_token(t_node *node, char *token);
-int						check_if_any_token(t_node *node);
+
+
 
 // init_cmd_line.c
 int						get_token_len(char *str);
@@ -78,6 +79,8 @@ void					init_cmd_line(t_data *data);
 
 // token.c
 void					identify_tokens(t_node *head);
+int						check_if_token(t_node *node, char *token);
+int						check_if_any_token(t_node *node);
 
 // pre_executer.c
 void					prep_for_executer(t_node **head, t_data *data);
@@ -105,6 +108,11 @@ char					*get_last_exit_status(char **end_of_d, int ret_value);
 
 // heredoc.c
 int						look_for_heredoc(t_data *data, t_node *head);
+
+// heredoc_utils.c
+void	clean_heredoc_child(t_data *data);
+void	check_for_dollar(char **line, t_data *data);
+
 
 // redirections.c
 int						set_redirections(t_node *head, t_data *data);
