@@ -5,7 +5,7 @@
 void	cleanse(t_data *data)
 {
 	if (!data)
-		
+		return ;
 	if (data->line_read != NULL)
 	{
 		free(data->line_read);
