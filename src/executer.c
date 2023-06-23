@@ -117,7 +117,7 @@ int	executer(t_data *data)
 	{
 		signal(SIGQUIT, ft_sig_quit);
 		signal(SIGINT, child_response);
-		close_prev_fd(&data->fd_pipe[0]);
+		close_prev_fd(&data->fd_pipe[0]);//very important
 		if (set_stdin_out(data->fd_infile, data->fd_outfile, data))
 			exit(0);
 		ft_commands(current, data->env_copy, data);

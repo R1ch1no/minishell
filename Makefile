@@ -35,7 +35,7 @@ SRC			= 	main.c \
 				linked_list_utils.c\
 				linked_list_utils_two.c\
 				quotes_and_dollar.c \
-				heredoc_2.c \
+				heredoc.c \
 				redirections.c \
 				redirection_utils.c
 
