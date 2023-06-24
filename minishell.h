@@ -160,6 +160,8 @@ int						ft_exec_path(char **env, char **path, t_node *node,
 char					*exec_strjoin(char *str1, char *str2);
 int						arg_num(t_node *node);
 int						set_stdin_out(int fd_in, int fd_out, t_data *data);
+void					fill_args(t_node *node, char ***args);
+int						arg_num(t_node *node);
 // quotes utils
 int						double_quotes_count(char *str);
 int						single_quotes_count(char *str);

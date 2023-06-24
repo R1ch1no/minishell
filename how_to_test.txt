@@ -1,3 +1,6 @@
+https://github.com/LucasKuhn/minishell_tester.git
+this is the ssh if folder is empty
+
 1. open minishel_tester foled
 2. make executable
 2. inside the folder open terminal

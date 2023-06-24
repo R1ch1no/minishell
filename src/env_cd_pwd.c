@@ -1,9 +1,11 @@
 #include "../minishell.h"
 
-int	cd_home(t_data *data, int x, int i, int found)
+int	cd_home(t_data *data, int i, int found)
 {
 	char	*home;
+	int		x;
 
+	x = -1;
 	while (data->env_copy[++x])
 	{
 		if (ft_strcmp_v2_until("HOME=", data->env_copy[x], '=') == 0)
@@ -20,7 +22,7 @@ int	cd_home(t_data *data, int x, int i, int found)
 	if (!home || home == NULL)
 		return (ft_putstr_fd("cd alloc problem !\n", 2), 1);
 	ft_strlcpy(home, &data->env_copy[x][i + 1], ft_strlen(&data->env_copy[x][i
-			+ 1]) + 1);
+				+ 1]) + 1);
 	if (chdir(home) != 0)
 		perror(NULL);
 	free(home);
@@ -29,19 +31,30 @@ int	cd_home(t_data *data, int x, int i, int found)
 
 int	ft_cd(t_node **node, t_data *data)
 {
-	int		x;
 	int		i;
 	int		found;
+	char	**args;
 
-	x = -1;
 	i = 0;
 	found = 0;
-	if ((*node) == NULL)
+	args = malloc((arg_num(*node) + 1) * sizeof(char *));
+	if (!args || args == NULL)
+		return (write(2, "CD allocation error\n", 20) && 1);
+	fill_args(*node, &args);
+	if (args[0] == NULL)
+		cd_home(data, i, found);
+	else
 	{
-		cd_home(data, x, i, found);
+		if (args[1] != NULL)
+		{
+			ft_putstr_fd("too many argumens\n", 2);
+			free_2d_str_arr(&args);
+			return (0);
+		}
+		if (chdir((*node)->cmd) != 0)
+			perror(NULL);
 	}
-	else if (chdir((*node)->cmd) != 0)
-		perror(NULL);
+	free_2d_str_arr(&args);
 	return (0);
 }
 
