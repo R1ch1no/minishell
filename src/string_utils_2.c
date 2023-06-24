@@ -42,14 +42,6 @@ char *ft_strjoin_3(char *s1, char *s2, char *s3)
     return (str);
 }
 
-
-
-//void free_and_null(char *s1)
-//{
-//    free(s1);
-//    free()
-//}
-
 void four_free(char *s1, char *s2, char *s3, char *s4)
 {
     if (s1)

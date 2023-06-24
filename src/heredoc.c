@@ -6,10 +6,9 @@ void	heredoc_response(int signal_num)
 	if (signal_num == SIGINT)
 	{
 		write(1, "\n", 1);
-		rl_redisplay();
 		close_prev_fd(&g_quit_heredoc);
-		g_quit_heredoc = FALSE;
-		exit(1);
+		close(STDIN_FILENO);
+		g_quit_heredoc = TRUE;
 	}
 }
 
@@ -17,38 +16,36 @@ void	heredoc_eof(t_data *data)
 {
 	printf("warning: ");
 	printf("here-document at line X delimited by end-of-file (wanted `eof')\n");
-	close_prev_fd(&data->fd_heredoc); //
-	ft_clean_cmd(data);               //
+	close_prev_fd(&data->fd_heredoc);
+	clean_heredoc_child(data);
 	exit(0);
 }
 
 int	heredoc_child(t_data *data, char *limiter)
 {
 	char	*line;
-	int		i;
 
 	signal(SIGINT, heredoc_response);
 	while (1)
 	{
-		i = 0;
 		line = readline("💩 ");
+		if (g_quit_heredoc == TRUE)
+		{
+			clean_heredoc_child(data);
+			exit(1);
+		}
 		if (line == NULL)
-			return (heredoc_eof(data), ERROR);
+			heredoc_eof(data);
 		if (ft_strcmp_v2(line, limiter) == 0)
 			break ;
-		while (line[i])
-		{
-			if (line[i] == '$')
-				i += subout_dollar(&line, i, FALSE, data);
-			else
-				i++;
-		}
+		check_for_dollar(&line, data);
 		write(data->fd_heredoc, line, ft_strlen(line));
 		write(data->fd_heredoc, "\n", 1);
 		free(line);
 	}
 	free(line);
 	close_prev_fd(&data->fd_heredoc);
+	clean_heredoc_child(data);
 	exit(0);
 }
 
@@ -69,27 +66,10 @@ int	here_doc(t_data *data, char *limiter)
 	if (pid == -1)
 		return (ERROR);
 	if (pid == 0)
-	{
 		heredoc_child(data, limiter);
-		//signal(SIGINT, heredoc_response);
-		//while (1)
-		//{
-		//	i = 0;
-		//	line = readline("💩 ");
-		//	if (line == NULL)
-		//		return (heredoc_eof(data), ERROR);
-		//	if (ft_strcmp_v2(line, limiter) == 0)
-		//		break ;
-		//	// check if line is in env and subout
-		//	write(data->fd_heredoc, line, ft_strlen(line));
-		//	write(data->fd_heredoc, "\n", 1);
-		//	free(line);
-		//}
-		//free(line);
-		//close_prev_fd(&data->fd_heredoc);
-		//exit(0);
-	}
-	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, SIG_IGN); 
+	//what does SIG_IGN do? 
+	//is it for minishell in minishell in .. if smth happens in one heredoc so it doesnt fuck the others?
 	waitpid(0, &status, 0);
 	if (status == 256)
 		return (close_prev_fd(&data->fd_heredoc), ERROR);
@@ -101,12 +81,6 @@ int	here_doc(t_data *data, char *limiter)
 	return (0);
 }
 
-int	stop_heredoc(t_data *data)
-{
-	close_prev_fd(&data->fd_heredoc);
-	unlink(HERE_DOC);
-	return (ERROR);
-}
 
 int	look_for_heredoc(t_data *data, t_node *head)
 {
