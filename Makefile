@@ -15,6 +15,7 @@ SRC			= 	main.c \
 				env_cd_pwd.c \
 				echo_unset.c \
 				built-in_utils.c \
+				exit.c \
 				export.c \
 				export_utils.c \
 				dollar.c \

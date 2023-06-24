@@ -1,10 +1,7 @@
 
 #include "../minishell.h"
 
-
-
-
-void minishell_core(t_data *data)
+void	minishell_core(t_data *data)
 {
 	lexer(data); //line_read is freed in lexer
 	identify_tokens(data->cmd_line);
@@ -14,8 +11,9 @@ void minishell_core(t_data *data)
 	ft_wait_children(data);
 	ft_clean_cmd(data);
 }
+
 //returns TRUE if PIPE is found in cmd_line
-int set_pipe_status(t_node *head)
+int	set_pipe_status(t_node *head)
 {
 	while (head)
 	{
@@ -45,7 +43,7 @@ void	delete_cmd(t_node **head)
 int	loop_each_cmd(t_data *data)
 {
 	t_node	*current;
-	int pipe_status;
+	int		pipe_status;
 
 	current = data->cmd_line;
 	while (current != NULL)
@@ -55,15 +53,13 @@ int	loop_each_cmd(t_data *data)
 		if (parser(data->cmd_line) == ERROR)
 			return (ERROR);
 		if (set_redirections(current, data) == ERROR)
-			return (perror("In set_redirections") , ERROR);
+			return (perror("In set_redirections"), ERROR);
 		pipe_status = set_pipe_status(current);
 		if (pipe_status == TRUE)
 			open_pipe(data);
 		cut_out_redirection(&data->cmd_line);
 		if (data->cmd_line && check_if_token(data->cmd_line, "|") == FALSE)
-		{
 			executer(data);
-		}
 		if (pipe_status == TRUE)
 			close_pipe(data);
 		close_prev_fd(&data->fd_outfile);
@@ -72,5 +68,3 @@ int	loop_each_cmd(t_data *data)
 	}
 	return (close_prev_fd(&data->fd_infile), unlink(HERE_DOC), 0);
 }
-
-

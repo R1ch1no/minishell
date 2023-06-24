@@ -1,24 +1,6 @@
 
 #include "../minishell.h"
 
-/*
-    BIG QUESTION:
-    
-    should parser only check for grammar
-    and executer "prepare" itself str by str 
-
-    EXECUTER:
-    if all infiles and maybe heredoc's are opened in before executer the fd is already in data
-
-
-    Fiona:
-    hat sie dann einfach ein 2d array wo alle außer das richtige infile weg ist --> nein,
-	alle noch da
-*/
-
-//any of the specials in quotes wont work --> "|", "<",
-//meaning it will mistake it and tries to pipe
-
 int	ft_getlvl(t_data *data, int y)
 {
 	int	lvl;
@@ -90,6 +72,12 @@ int	ft_no_child(t_node *current, t_data *data)
 {
 	if (ft_strcmp_node(current, "unset") == 0 && current->next)
 		return (ft_unset(data, current->next->cmd));
+	else if (ft_strcmp_node(current, "exit") == 0)
+	{
+		current = current->next;
+		ft_exit(current, data);
+		return (0);
+	}
 	else if (ft_strcmp_node(current, "cd") == 0)
 	{
 		current = current->next;
@@ -98,10 +86,10 @@ int	ft_no_child(t_node *current, t_data *data)
 	else if (ft_strcmp_node(current, "export") == 0 && current->next)
 		return (ft_export_a(data, current->next->cmd, &current,
 				get_arr_len(data->env_copy) + 1));
-	else
-		return (1);
+	return (1);
 }
 
+//close_prev_fd(&data->fd_pipe[0]); very important
 int	executer(t_data *data)
 {
 	t_node	*current;
@@ -117,7 +105,7 @@ int	executer(t_data *data)
 	{
 		signal(SIGQUIT, ft_sig_quit);
 		signal(SIGINT, child_response);
-		close_prev_fd(&data->fd_pipe[0]);//very important
+		close_prev_fd(&data->fd_pipe[0]);
 		if (set_stdin_out(data->fd_infile, data->fd_outfile, data))
 			exit(0);
 		ft_commands(current, data->env_copy, data);

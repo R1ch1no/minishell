@@ -22,7 +22,7 @@ int	cd_home(t_data *data, int i, int found)
 	if (!home || home == NULL)
 		return (ft_putstr_fd("cd alloc problem !\n", 2), 1);
 	ft_strlcpy(home, &data->env_copy[x][i + 1], ft_strlen(&data->env_copy[x][i
-				+ 1]) + 1);
+			+ 1]) + 1);
 	if (chdir(home) != 0)
 		perror(NULL);
 	free(home);
@@ -69,10 +69,6 @@ int	ft_pwd(void)
 	return (0);
 }
 
-//dunno how to implement it or when :
-//if the command is for example - env HELLO="HELLO"
-//env prints the env and HELLO="HELLO" at the end
-//but it is not saved in env
 int	ft_env(char **env)
 {
 	print_str_arr(env);

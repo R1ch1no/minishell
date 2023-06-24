@@ -57,9 +57,9 @@ typedef struct s_data
 
 // main.c
 int						loop_each_cmd(t_data *data);
-void 					eof(t_data *data);
+void					eof(t_data *data);
 void					init_data(t_data *data, char **env);
-void 					minishell_core(t_data *data);
+void					minishell_core(t_data *data);
 // init.c
 
 // lexer.c
@@ -68,8 +68,6 @@ void					lexer(t_data *data);
 
 // parser.c
 int						parser(t_node *list);
-
-
 
 // init_cmd_line.c
 int						get_token_len(char *str);
@@ -110,9 +108,8 @@ char					*get_last_exit_status(char **end_of_d, int ret_value);
 int						look_for_heredoc(t_data *data, t_node *head);
 
 // heredoc_utils.c
-void	clean_heredoc_child(t_data *data);
-void	check_for_dollar(char **line, t_data *data);
-
+void					clean_heredoc_child(t_data *data);
+void					check_for_dollar(char **line, t_data *data);
 
 // redirections.c
 int						set_redirections(t_node *head, t_data *data);
@@ -145,10 +142,11 @@ void					child_response(int signal_num);
 void					ft_sig_quit(int signal_num);
 
 // built-ins
+void					ft_exit(t_node *node, t_data *data);
+void					echo_print(t_node **node, int n);
 int						ft_cd(t_node **node, t_data *data);
 int						ft_pwd(void);
 int						ft_echo(t_node **node);
-void					echo_print(t_node **node, int n);
 int						ft_env(char **env);
 int						ft_unset(t_data *data, char *search);
 // export functions
@@ -170,11 +168,6 @@ int						arg_num(t_node *node);
 int						set_stdin_out(int fd_in, int fd_out, t_data *data);
 void					fill_args(t_node *node, char ***args);
 int						arg_num(t_node *node);
-// quotes utils
-int						double_quotes_count(char *str);
-int						single_quotes_count(char *str);
-int						closed_with_double(char *str);
-int						closed_with_single(char *str);
 
 int						ft_strcmp_v2(char *s1, char *s2);
 int						syntaxer(t_node *cmd_line);
@@ -195,8 +188,9 @@ int						get_arr_len(char **arr);
 char					*strdup_without(char *src, char c, int len);
 void					strcpy_wout_ind(char **str, unsigned int x,
 							t_data *data);
-int	check_if_char_in_row(char *str, char c); // check if actually called
 void					four_free(char *s1, char *s2, char *s3, char *s4);
+int						check_if_char_in_row(char *str, char c);
+// check if actually called
 
 // string_utils_2 aka "libft alike"
 char					*ft_str_many_chr(char *str, char *set);

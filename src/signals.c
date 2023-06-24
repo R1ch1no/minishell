@@ -3,8 +3,7 @@
 
 void	ft_sig_quit(int signal_num)
 {
-	(void)signal_num;
-	exit(1);
+	exit(signal_num);
 }
 
 void	response(int signal_num)
@@ -24,7 +23,7 @@ void	child_response(int signal_num)
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_redisplay();
-		exit(1);
+		exit(signal_num);
 	}
 }
 

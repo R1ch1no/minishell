@@ -1,86 +1,28 @@
 
 #include "../minishell.h"
 
-int	closed_with_double(char *str)
+int	ft_strcmp_export(char *s1, char *s2, char c)
 {
-	int	i;
-	int	stop;
-	int	count;
-
-	i = 0;
-	stop = 0;
-	count = 0;
-	while (str[i])
+	if (s1 == NULL || s2 == NULL)
+		return (9999);
+	while (*s1 && *s2 && *s1 == *s2)
 	{
-		if (i > 0 && stop == 0)
+		if (*s2 == '-')
 		{
-			if (str[i - 1] == '=' && str[i] == '"')
-				count++;
-			stop = 1;
+			ft_putstr_fd(s2, 2);
+			ft_putstr_fd(" not a valid identifier\n", 2);
+			return (1);
 		}
-		if (str[i + 1] == '\0' && str[i] == '"')
-			count++;
-		i++;
+		if (*s1 == c && *s2 == c)
+			return (0);
+		s1++;
+		s2++;
 	}
-	if (count == 2)
-		return (1);
-	return (0);
-}
-
-int	closed_with_single(char *str)
-{
-	int	i;
-	int	stop;
-	int	count;
-
-	i = 0;
-	stop = 0;
-	count = 0;
-	while (str[i])
-	{
-		if (i > 0 && stop == 0)
-		{
-			if (str[i - 1] == '=' && str[i] == '\'')
-				count++;
-			stop = 1;
-		}
-		if (str[i + 1] == '\0' && str[i] == '\'')
-			count++;
-		i++;
-	}
-	if (count == 2)
-		return (1);
-	return (0);
-}
-
-int	single_quotes_count(char *str)
-{
-	int	in;
-	int	d_qs;
-
-	in = -1;
-	d_qs = 0;
-	while (str[++in])
-	{
-		if (str[in] == '\'')
-			d_qs++;
-	}
-	return (d_qs);
-}
-
-int	double_quotes_count(char *str)
-{
-	int	in;
-	int	d_qs;
-
-	in = -1;
-	d_qs = 0;
-	while (str[++in])
-	{
-		if (str[in] == '"')
-			d_qs++;
-	}
-	return (d_qs);
+	if (*s1 == '=' && *s2 == '-')
+		ft_putstr_fd("not a valid identifier", 2);
+	if (*s1 == '=' && *s2 == '+')
+		return (-9999);
+	return ((int)(unsigned char)(*s1) - (int)(unsigned char)(*s2));
 }
 
 //in case a varable already exist , the function replaces it with the new value
@@ -96,12 +38,12 @@ int	ft_replace_existing(t_data *data, t_node *node)
 	match = -1;
 	while (data->env_copy[++y])
 	{
-		if (ft_strcmp_v2_until(data->env_copy[y], node->cmd, '=') == 0)
+		if (ft_strcmp_export(data->env_copy[y], node->cmd, '=') == 0)
 		{
 			match = y;
 			break ;
 		}
-		if (ft_strcmp_v2_until(data->env_copy[y], node->cmd, '=') == -9999)
+		if (ft_strcmp_export(data->env_copy[y], node->cmd, '=') == -9999)
 			return (ft_append(data, node, y));
 	}
 	if (match == -1)

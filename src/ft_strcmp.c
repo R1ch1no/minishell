@@ -44,6 +44,8 @@ int	ft_strcmp_v2_until(char *s1, char *s2, char c)
 		s1++;
 		s2++;
 	}
+	if (*s1 == '=' && *s2 == '-')
+		ft_putstr_fd("not a valid identifier", 2);
 	if (*s1 == '=' && *s2 == '+')
 		return (-9999);
 	return ((int)(unsigned char)(*s1) - (int)(unsigned char)(*s2));
