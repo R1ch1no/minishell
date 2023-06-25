@@ -61,16 +61,16 @@ int	ft_core(t_data *data, char **new_env, int y, int z)
 	return (0);
 }
 
-int	ft_unset(t_data *data, char *search)
+int	ft_unset(t_data *data, char *search, char ***args)
 {
 	int		y;
 	int		z;
 	char	**new_env;
 
-	y = 0;
 	z = -1;
-	while (data->env_copy[y])
-		y++;
+	y = len_2d_str_arr(data->env_copy);
+	if ((*args)[1] == NULL)
+		return (0);
 	new_env = malloc((y) * sizeof(char *));
 	if (!new_env)
 		return (write(2, "Allocation error (unset) !\n", 27) && 0);
@@ -79,7 +79,7 @@ int	ft_unset(t_data *data, char *search)
 	{
 		if (ft_find_match(data, search, y) == 0)
 			if (ft_core(data, new_env, y, ++z) == 1)
-				return (0);
+				return (free_2d_str_arr(args), 0);
 		if (data->env_copy[y] == NULL)
 			break ;
 		y++;

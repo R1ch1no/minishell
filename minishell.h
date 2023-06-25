@@ -49,6 +49,7 @@ typedef struct s_data
 	int					fd_outfile;
 	int					fd_pipe[2];
 	int					fd_heredoc;
+	int					problem;
 	struct sigaction	sa;
 	t_node				*cmd_line;
 	int					pid;
@@ -142,13 +143,13 @@ void					child_response(int signal_num);
 void					ft_sig_quit(int signal_num);
 
 // built-ins
-void					ft_exit(t_node *node, t_data *data);
 void					echo_print(t_node **node, int n);
-int						ft_cd(t_node **node, t_data *data);
-int						ft_pwd(void);
 int						ft_echo(t_node **node);
+int						ft_exit(t_data *data, char ***args);
+int						ft_cd(t_data *data, char ***args);
+int						ft_pwd(void);
 int						ft_env(char **env);
-int						ft_unset(t_data *data, char *search);
+int						ft_unset(t_data *data, char *search, char ***args);
 // export functions
 void					ft_bash(t_data *data, int command);
 int						ft_export_na(char **env, int len);
@@ -195,5 +196,6 @@ int						check_if_char_in_row(char *str, char c);
 // string_utils_2 aka "libft alike"
 char					*ft_str_many_chr(char *str, char *set);
 char					*ft_strjoin_3(char *s1, char *s2, char *s3);
+int						len_2d_str_arr(char **str);
 
 #endif

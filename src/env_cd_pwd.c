@@ -22,39 +22,31 @@ int	cd_home(t_data *data, int i, int found)
 	if (!home || home == NULL)
 		return (ft_putstr_fd("cd alloc problem !\n", 2), 1);
 	ft_strlcpy(home, &data->env_copy[x][i + 1], ft_strlen(&data->env_copy[x][i
-			+ 1]) + 1);
+				+ 1]) + 1);
 	if (chdir(home) != 0)
 		perror(NULL);
 	free(home);
 	return (0);
 }
 
-int	ft_cd(t_node **node, t_data *data)
+int	ft_cd(t_data *data, char ***args)
 {
-	int		i;
-	int		found;
-	char	**args;
+	int	i;
+	int	found;
 
 	i = 0;
 	found = 0;
-	args = malloc((arg_num(*node) + 1) * sizeof(char *));
-	if (!args || args == NULL)
-		return (write(2, "CD allocation error\n", 20) && 1);
-	fill_args(*node, &args);
-	if (args[0] == NULL)
-		cd_home(data, i, found);
-	else
+	if ((*args)[1] == NULL)
+		return (cd_home(data, i, found));
+	if ((*args)[2] != NULL)
 	{
-		if (args[1] != NULL)
-		{
-			ft_putstr_fd("too many argumens\n", 2);
-			free_2d_str_arr(&args);
-			return (0);
-		}
-		if (chdir((*node)->cmd) != 0)
-			perror(NULL);
+		ft_putstr_fd("too many argumens\n", 2);
+		free_2d_str_arr(args);
+		return (0);
 	}
-	free_2d_str_arr(&args);
+	if (chdir((*args)[1]) != 0)
+		perror(NULL);
+	free_2d_str_arr(args);
 	return (0);
 }
 

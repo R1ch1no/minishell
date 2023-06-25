@@ -70,22 +70,21 @@ int	ft_commands(t_node *current, char **env, t_data *data)
 
 int	ft_no_child(t_node *current, t_data *data)
 {
-	if (ft_strcmp_node(current, "unset") == 0 && current->next)
-		return (ft_unset(data, current->next->cmd));
+	char	**args;
+
+	args = malloc((arg_num(current) + 1) * sizeof(char *));
+	if (!args || args == NULL)
+		return (write(2, "Args allocation error\n", 22) && 0);
+	fill_args(current, &args);
+	if (ft_strcmp_node(current, "unset") == 0)
+		return (ft_unset(data, args[1], &args));
 	else if (ft_strcmp_node(current, "exit") == 0)
-	{
-		current = current->next;
-		ft_exit(current, data);
-		return (0);
-	}
+		return (ft_exit(data, &args));
 	else if (ft_strcmp_node(current, "cd") == 0)
-	{
-		current = current->next;
-		return (ft_cd(&current, data));
-	}
-	else if (ft_strcmp_node(current, "export") == 0 && current->next)
-		return (ft_export_a(data, current->next->cmd, &current,
-				get_arr_len(data->env_copy) + 1));
+		return (ft_cd(data, &args));
+	else if (ft_strcmp_node(current, "export") == 0 && args[1] != NULL)
+		return (ft_export_a(data, args[1], &current, get_arr_len(data->env_copy)
+				+ 1));
 	return (1);
 }
 
