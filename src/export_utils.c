@@ -1,36 +1,24 @@
 
 #include "../minishell.h"
 
-void	exit_code(int num)
-{
-	int	pid;
-
-	pid = fork();
-	if (pid == -1)
-		return;
-	if (pid == 0)
-		exit(num);
-	wait(NULL);
-}
-
 int	ft_invalid(char *str)
 {
 	int	i;
 
 	i = -1;
 	if (str[0] == '=')
-		return (exit_code(1), 1);
+		ex_status = 1;
 	if (str[0] <= '9' && str[0] >= '0')
-		return (exit_code(1), 1);
+		ex_status = 1;
 	while (str[++i] && str[i] != '=')
 	{
 		if ((str[i] == '-' && str[i + 1] == '\0') || (str[i] == '-' && str[i
 					+ 1] == '='))
-			return (exit_code(1), 1);
+					ex_status = 1;
 	}
 	if (str[i] == '=')
 		return (2);
-	return (0);
+	return (ex_status);
 }
 
 int	ft_strcmp_export(char *s1, char *s2, char c)

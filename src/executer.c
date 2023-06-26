@@ -50,22 +50,23 @@ void	ft_bash(t_data *data, int command)
 	data->env_copy[y] = shlvl;
 }
 
-int	ft_commands(t_node *current, char **env, t_data *data)
+void	ft_commands(t_node *current, char **env, t_data *data)
 {
 	if (ft_strcmp_node(current, "pwd") == 0)
-		return (ft_pwd());
+		ex_status = ft_pwd();
 	else if (ft_strcmp_node(current, "echo") == 0)
 	{
 		current = current->next;
-		return (ft_echo(&current));
+		ex_status = ft_echo(&current);
 	}
 	else if (ft_strcmp_node(current, "env") == 0)
-		return (ft_env(data->env_copy));
+		ex_status = ft_env(data->env_copy);
 	else if (ft_strcmp_node(current, "export") == 0)
-		return (ft_export_na(data->env_copy, get_arr_len(data->env_copy)));
+		ex_status = ft_export_na(data->env_copy, get_arr_len(data->env_copy));
 	else
-		return (ft_exec(current, env));
-	return (0);
+		ex_status = ft_exec(current, env);
+	cleanse(data);
+	exit(ex_status);
 }
 
 int	ft_no_child(t_node *current, t_data *data)
@@ -83,8 +84,13 @@ int	ft_no_child(t_node *current, t_data *data)
 	else if (ft_strcmp_node(current, "cd") == 0)
 		return (ft_cd(data, &args));
 	else if (ft_strcmp_node(current, "export") == 0 && args[1] != NULL)
-		return (ft_export_a(data, args[1], &current, get_arr_len(data->env_copy)
-				+ 1), free_2d_str_arr(&args), 0);
+	{
+		if (data->fd_outfile != -1)
+			return (0);
+		ft_export_a(data, args[1], &current, get_arr_len(data->env_copy) + 1);
+		free_2d_str_arr(&args);
+		return (0);
+	}
 	free_2d_str_arr(&args);
 	return (1);
 }
@@ -109,8 +115,6 @@ int	executer(t_data *data)
 		if (set_stdin_out(data->fd_infile, data->fd_outfile, data))
 			exit(1);
 		ft_commands(current, data->env_copy, data);
-		cleanse(data);
-		exit(0);
 	}
 	signal(SIGINT, SIG_IGN);
 	return (0);

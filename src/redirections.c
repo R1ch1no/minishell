@@ -10,7 +10,6 @@ int	open_infile(char *filename, int *fd)
 	{
 		ft_putstr_fd("mini_shit💩: ", 2);
 		ft_putstr_fd("Give me a correct filename or directory\n", 2);
-		ex_status = 1;
 		return (ERROR);
 	}
 	return (0);
@@ -24,6 +23,7 @@ int	open_outfile(char *filename, int *fd)
 	if (*fd == -1)
 	{
 		ft_putstr_fd("mini_shit💩: you are shit smth went wrong with open\n", 2);
+		//printf("ERROR FROM OPEN AMK\n");
 		return (ERROR);
 	}
 	return (0);
@@ -37,6 +37,7 @@ int	open_outf_append(char *filename, int *fd)
 	if (*fd == -1)
 	{
 		ft_putstr_fd("mini shit💩: you are shit smth went wrong with open\n", 2);
+		
 		return (ERROR);
 	}
 	return (0);
@@ -67,7 +68,7 @@ int	set_redirections(t_node *head, t_data *data)
 		current = current->next;
 	}
 	if (status == ERROR)
-		data->status = 1;
+		ex_status = 1;
 	return (close_prev_fd(&data->fd_heredoc), status);
 }
 

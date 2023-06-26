@@ -88,12 +88,13 @@ int	ft_exec(t_node *node, char **env)
 	if (ft_strcmp_v2_until(node->cmd, "./", '/') == 0)
 	{
 		if (ft_exec_here(&path, node, &args) == 1)
-			return (0);
+			return (1);
 	}
 	else
 	{
-		if (ft_exec_path(env, &path, node, &args) == 1)
-			return (0);
+		ex_status = ft_exec_path(env, &path, node, &args);
+		if (ex_status != 0)
+			return (ex_status);
 	}
 	fill_args(node, &args);
 	return (execute_cmd(path, env, args) && 0);

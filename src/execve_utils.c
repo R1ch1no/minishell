@@ -98,7 +98,7 @@ int	ft_exec_path(char **env, char **path, t_node *node, char ***args)
 {
 	*path = search_path(env, node);
 	if (*path == NULL)
-		return (1);
+		return (CMD_N_F);
 	*args = malloc((arg_num(node) + 1) * sizeof(char *));
 	if (!args || args == NULL)
 	{

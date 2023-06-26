@@ -44,11 +44,15 @@ int	ft_cd(t_data *data, char ***args)
 	if ((*args)[2] != NULL)
 	{
 		ft_putstr_fd("too many argumens\n", 2);
+		ex_status = 1;
 		free_2d_str_arr(args);
 		return (0);
 	}
 	if (chdir((*args)[1]) != 0)
+	{
 		perror(NULL);
+		ex_status = 1;
+	}
 	free_2d_str_arr(args);
 	return (0);
 }
@@ -58,7 +62,10 @@ int	ft_pwd(void)
 	char	dir[500000];
 
 	if (getcwd(dir, sizeof(dir)) == NULL)
+	{
 		perror(NULL);
+		return (1);
+	}
 	else
 		printf("%s\n", dir);
 	return (0);

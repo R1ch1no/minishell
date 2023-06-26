@@ -40,6 +40,29 @@ void	delete_cmd(t_node **head)
 	delete_node(temp, head);
 }
 
+
+void	delete_til_pipe(t_node **head)
+{
+	t_node	*temp;
+
+	if (*head == NULL)
+		return ;
+	temp = *head;
+	while (temp && check_if_token(temp, "|") == FALSE)
+	{
+		delete_node(temp, head);
+		temp = *head;
+	}
+}
+void go_next_cmd(t_node **node, t_data *data)
+{
+	ex_status = 1;
+	perror("In set_redirections");
+	delete_til_pipe(&data->cmd_line);
+	//delete_cmd(&data->cmd_line); //including pipe
+	*node = data->cmd_line;
+}
+
 int	loop_each_cmd(t_data *data)
 {
 	t_node	*current;
@@ -53,13 +76,16 @@ int	loop_each_cmd(t_data *data)
 		if (parser(data->cmd_line) == ERROR)
 			return (ERROR);
 		if (set_redirections(current, data) == ERROR)
-			return (perror("In set_redirections"), ERROR);
+			go_next_cmd(&current, data);
 		pipe_status = set_pipe_status(current);
 		if (pipe_status == TRUE)
 			open_pipe(data);
 		cut_out_redirection(&data->cmd_line);
 		if (data->cmd_line && check_if_token(data->cmd_line, "|") == FALSE)
+		{
 			executer(data);
+			//ex_status = 0;
+		}
 		if (pipe_status == TRUE)
 			close_pipe(data);
 		close_prev_fd(&data->fd_outfile);

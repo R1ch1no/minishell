@@ -29,14 +29,12 @@ void	child_response(int signal_num)
 
 void	ft_wait_children(t_data *data)
 {
-
 	if (data->children > 0)
 	{
 		while (data->children > 0)
 		{
 			waitpid(0, &ex_status, 0);
 			ex_status = WEXITSTATUS(ex_status);
-			//waitpid(0, &data->status, 0);
 			data->children--;
 		}
 		if (ex_status == 131) //data->status
