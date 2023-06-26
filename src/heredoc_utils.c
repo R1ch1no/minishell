@@ -3,6 +3,7 @@
 
 void	clean_heredoc_child(t_data *data)
 {
+	close_prev_fd(&data->fd_heredoc);
 	ft_clean_cmd(data);
 	free_2d_str_arr(&data->env_copy);
 	free(data);

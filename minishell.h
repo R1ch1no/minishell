@@ -18,6 +18,9 @@
 # define FALSE 0
 # define ERROR -1
 
+//exit statuses
+# define CTRL_C 130
+# define CMD_N_F 127
 //# define SPECIALS "\"\'|<>"
 
 # define PROMPT "\e[0;93m⮡\e[0;91m mini_hell \e[0m"

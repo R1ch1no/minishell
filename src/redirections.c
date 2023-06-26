@@ -10,6 +10,7 @@ int	open_infile(char *filename, int *fd)
 	{
 		ft_putstr_fd("mini_shit💩: ", 2);
 		ft_putstr_fd("Give me a correct filename or directory\n", 2);
+		g_quit_heredoc = 1;
 		return (ERROR);
 	}
 	return (0);

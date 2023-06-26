@@ -9,7 +9,7 @@ After line_read:
 - its being checked for eof
 - empty string (instant carriage return by user)
 */
-int		g_quit_heredoc = FALSE;
+int		g_quit_heredoc = 0;
 
 int	main(int argc, char **argv, char **env)
 {

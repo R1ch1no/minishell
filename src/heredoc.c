@@ -6,9 +6,9 @@ void	heredoc_response(int signal_num)
 	if (signal_num == SIGINT)
 	{
 		write(1, "\n", 1);
-		close_prev_fd(&g_quit_heredoc);
+		//close_prev_fd(&g_quit_heredoc);
 		close(STDIN_FILENO);
-		g_quit_heredoc = TRUE;
+		g_quit_heredoc = CTRL_C;
 	}
 }
 
@@ -29,7 +29,7 @@ int	heredoc_child(t_data *data, char *limiter)
 	while (1)
 	{
 		line = readline("💩 ");
-		if (g_quit_heredoc == TRUE)
+		if (g_quit_heredoc == CTRL_C)
 		{
 			clean_heredoc_child(data);
 			exit(1);
@@ -61,7 +61,6 @@ int	here_doc(t_data *data, char *limiter)
 	data->fd_heredoc = open(HERE_DOC, O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	if (data->fd_heredoc == -1)
 		return (ERROR);
-	g_quit_heredoc = data->fd_heredoc;
 	pid = fork();
 	if (pid == -1)
 		return (ERROR);
