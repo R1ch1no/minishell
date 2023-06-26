@@ -63,3 +63,24 @@ int	len_2d_str_arr(char **str)
 		y++;
 	return (y);
 }
+
+int	ft_find(t_data *data, char *search)
+{
+	int	x;
+	int	y;
+
+	if (search == NULL)
+		return (0);
+	y = -1;
+	while (data->env_copy[++y])
+	{
+		x = 0;
+		while (data->env_copy[y][x] && search[x])
+		{
+			if (search[x] == data->env_copy[y][x] && search[x + 1] == '\0')
+				return (1);
+			x++;
+		}
+	}
+	return (0);
+}

@@ -37,7 +37,10 @@ int	ft_cd(t_data *data, char ***args)
 	i = 0;
 	found = 0;
 	if ((*args)[1] == NULL)
+	{
+		free_2d_str_arr(args);
 		return (cd_home(data, i, found));
+	}
 	if ((*args)[2] != NULL)
 	{
 		ft_putstr_fd("too many argumens\n", 2);
@@ -70,7 +73,7 @@ int	ft_env(char **arr)
 		return (0);
 	while (arr[i])
 	{
-		if (ft_invalid(arr[i]) == 2)
+		if (ft_invalid_env(arr[i]) == 2)
 			printf("%s\n", arr[i]);
 		i++;
 	}

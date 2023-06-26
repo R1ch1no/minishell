@@ -153,6 +153,8 @@ int						ft_cd(t_data *data, char ***args);
 int						ft_pwd(void);
 int						ft_env(char **env);
 int						ft_unset(t_data *data, char *search, char ***args);
+int						ft_find(t_data *data, char *search);
+int						ft_invalid_env(char *str);
 // export functions
 void					ft_bash(t_data *data, int command);
 int						ft_export_na(char **env, int len);

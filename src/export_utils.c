@@ -7,7 +7,7 @@ void	exit_code(int num)
 
 	pid = fork();
 	if (pid == -1)
-		exit(0);
+		return;
 	if (pid == 0)
 		exit(num);
 	wait(NULL);
@@ -20,12 +20,12 @@ int	ft_invalid(char *str)
 	i = -1;
 	if (str[0] == '=')
 		return (exit_code(1), 1);
+	if (str[0] <= '9' && str[0] >= '0')
+		return (exit_code(1), 1);
 	while (str[++i] && str[i] != '=')
 	{
-		if (str[i] <= '9' && str[i] >= '0')
-			return (exit_code(1), 1);
-		if ((str[i] == '-' && str[i + 1] == '\0')
-			|| (str[i] == '-' && str[i + 1] == '='))
+		if ((str[i] == '-' && str[i + 1] == '\0') || (str[i] == '-' && str[i
+					+ 1] == '='))
 			return (exit_code(1), 1);
 	}
 	if (str[i] == '=')
@@ -79,4 +79,16 @@ int	ft_replace_existing(t_data *data, t_node *node)
 	free(data->env_copy[match]);
 	data->env_copy[match] = replace;
 	return (1);
+}
+
+int	ft_invalid_env(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	if (str[i] == '=')
+		return (2);
+	return (0);
 }
