@@ -30,7 +30,7 @@
 //	CHECK(fd);
 // Global variable
 
-extern int				g_quit_heredoc;
+extern int				ex_status;
 
 // Structures
 typedef struct s_node

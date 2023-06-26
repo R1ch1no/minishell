@@ -76,7 +76,7 @@ int	subout_dollar(char **str, int i, int left_f_cut, t_data *data)
 	end_of_d = get_end_of_dollar(*str, i, left_f_cut);
 	d_name = ft_substr(*str, i, end_of_d - &(*str)[i]);
 	if ((*str)[i] == '?')
-		env_value = get_last_exit_status(&end_of_d, g_quit_heredoc); //data->status);
+		env_value = get_last_exit_status(&end_of_d, ex_status); //data->status);
 	else
 		env_value = get_env_value(d_name, data->env_copy);
 	if ((!before_d) || (!end_of_d) || (!d_name) || (!env_value))
