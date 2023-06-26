@@ -69,7 +69,7 @@ int	ft_unset(t_data *data, char *search, char ***args)
 
 	z = -1;
 	y = len_2d_str_arr(data->env_copy);
-	if ((*args)[1] == NULL)
+	if ((*args)[1] == NULL || search == NULL)
 		return (0);
 	new_env = malloc((y) * sizeof(char *));
 	if (!new_env)

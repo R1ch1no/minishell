@@ -1,25 +1,49 @@
 
 #include "../minishell.h"
 
+void	exit_code(int num)
+{
+	int	pid;
+
+	pid = fork();
+	if (pid == -1)
+		exit(0);
+	if (pid == 0)
+		exit(num);
+	wait(NULL);
+}
+
+int	ft_invalid(char *str)
+{
+	int	i;
+
+	i = -1;
+	if (str[0] == '=')
+		return (exit_code(1), 1);
+	while (str[++i] && str[i] != '=')
+	{
+		if (str[i] <= '9' && str[i] >= '0')
+			return (exit_code(1), 1);
+		if ((str[i] == '-' && str[i + 1] == '\0')
+			|| (str[i] == '-' && str[i + 1] == '='))
+			return (exit_code(1), 1);
+	}
+	if (str[i] == '=')
+		return (2);
+	return (0);
+}
+
 int	ft_strcmp_export(char *s1, char *s2, char c)
 {
 	if (s1 == NULL || s2 == NULL)
 		return (9999);
 	while (*s1 && *s2 && *s1 == *s2)
 	{
-		if (*s2 == '-')
-		{
-			ft_putstr_fd(s2, 2);
-			ft_putstr_fd(" not a valid identifier\n", 2);
-			return (1);
-		}
 		if (*s1 == c && *s2 == c)
 			return (0);
 		s1++;
 		s2++;
 	}
-	if (*s1 == '=' && *s2 == '-')
-		ft_putstr_fd("not a valid identifier", 2);
 	if (*s1 == '=' && *s2 == '+')
 		return (-9999);
 	return ((int)(unsigned char)(*s1) - (int)(unsigned char)(*s2));
