@@ -76,7 +76,7 @@ int	ft_no_child(t_node *current, t_data *data)
 	if (!args || args == NULL)
 		return (write(2, "Args allocation error\n", 22) && 0);
 	fill_args(current, &args);
-	if (ft_strcmp_node(current, "unset") == 0) //need to be fixed
+	if (ft_strcmp_node(current, "unset") == 0)
 		return (ft_unset(data, args[1], &args));
 	else if (ft_strcmp_node(current, "exit") == 0)
 		return (ft_exit(data, &args));
@@ -84,9 +84,8 @@ int	ft_no_child(t_node *current, t_data *data)
 		return (ft_cd(data, &args));
 	else if (ft_strcmp_node(current, "export") == 0 && args[1] != NULL)
 		return (ft_export_a(data, args[1], &current, get_arr_len(data->env_copy)
-				+ 1));
-	else
-		free_2d_str_arr(&args);
+				+ 1), free_2d_str_arr(&args), 0);
+	free_2d_str_arr(&args);
 	return (1);
 }
 

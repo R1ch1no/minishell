@@ -57,7 +57,7 @@ void	print_quotes(char **print, char c, int y, int x)
 				sign = 1;
 				printf("%c%c", print[y][x], c);
 			}
-			else if (print[y][x + 1] == '\0')
+			else if (print[y][x + 1] == '\0' && sign == 1)
 				printf("%c%c", print[y][x], c);
 			else
 				printf("%c", print[y][x]);
