@@ -69,6 +69,7 @@ int	here_doc(t_data *data, char *limiter)
 	//what does SIG_IGN do? 
 	//is it for minishell in minishell in .. if smth happens in one heredoc so it doesnt fuck the others?
 	waitpid(0, &ex_status, 0);
+	ex_status = WEXITSTATUS(ex_status);
 	if (ex_status == 256)
 		return (close_prev_fd(&data->fd_heredoc), ERROR);
 	if (close_prev_fd(&data->fd_heredoc) == -1)

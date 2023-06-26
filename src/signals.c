@@ -34,14 +34,16 @@ void	ft_wait_children(t_data *data)
 	{
 		while (data->children > 0)
 		{
-			waitpid(0, &data->status, 0);
+			waitpid(0, &ex_status, 0);
+			ex_status = WEXITSTATUS(ex_status);
+			//waitpid(0, &data->status, 0);
 			data->children--;
 		}
-		if (data->status == 131)
+		if (ex_status == 131) //data->status
 		{
 			write(2, "Quit (core dumped)\n", 19);
 		}
-		else if (data->status == 2)
+		else if (ex_status == 2)//data->status 
 			write(1, "\n", 1);
 	}
 	signal(SIGINT, response);

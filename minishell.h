@@ -13,6 +13,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+# define PROMPT "\e[0;93m⮡\e[0;91m mini_hell \e[0m"
 # define HERE_DOC ".heredoc"
 # define TRUE 1
 # define FALSE 0
@@ -22,8 +23,6 @@
 # define CTRL_C 130
 # define CMD_N_F 127
 //# define SPECIALS "\"\'|<>"
-
-# define PROMPT "\e[0;93m⮡\e[0;91m mini_hell \e[0m"
 
 //	int fd;
 //	fd = open("nonexistent.txt", O_RDONLY);

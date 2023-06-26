@@ -108,7 +108,7 @@ int	executer(t_data *data)
 		signal(SIGINT, child_response);
 		close_prev_fd(&data->fd_pipe[0]);
 		if (set_stdin_out(data->fd_infile, data->fd_outfile, data))
-			exit(0);
+			exit(1);
 		ft_commands(current, data->env_copy, data);
 		cleanse(data);
 		exit(0);
