@@ -61,9 +61,19 @@ int	ft_pwd(void)
 	return (0);
 }
 
-int	ft_env(char **env)
+int	ft_env(char **arr)
 {
-	print_str_arr(env);
+	int	i;
+
+	i = 0;
+	if (arr == NULL)
+		return (0);
+	while (arr[i])
+	{
+		if (ft_invalid(arr[i]) == 2)
+			printf("%s\n", arr[i]);
+		i++;
+	}
 	return (0);
 }
 

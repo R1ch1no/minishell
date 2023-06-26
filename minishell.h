@@ -161,6 +161,7 @@ int						ft_export_a(t_data *data, char *var, t_node **node,
 int						ft_replace_existing(t_data *data, t_node *node);
 int						ft_strcmp_v2_until(char *s1, char *s2, char c);
 int						ft_append(t_data *data, t_node *node, int y);
+int						ft_invalid(char *str);
 
 // execve
 int						ft_exec(t_node *node, char **env);
