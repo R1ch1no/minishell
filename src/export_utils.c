@@ -7,18 +7,18 @@ int	ft_invalid(char *str)
 
 	i = -1;
 	if (str[0] == '=')
-		ex_status = 1;
+		g_ex_status = 1;
 	if (str[0] <= '9' && str[0] >= '0')
-		ex_status = 1;
+		g_ex_status = 1;
 	while (str[++i] && str[i] != '=')
 	{
 		if ((str[i] == '-' && str[i + 1] == '\0') || (str[i] == '-' && str[i
 					+ 1] == '='))
-					ex_status = 1;
+			g_ex_status = 1;
 	}
 	if (str[i] == '=')
 		return (2);
-	return (ex_status);
+	return (g_ex_status);
 }
 
 int	ft_strcmp_export(char *s1, char *s2, char c)

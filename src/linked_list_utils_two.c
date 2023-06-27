@@ -34,3 +34,17 @@ void	delete_node(t_node *delete, t_node **head)
 	free(delete->cmd);
 	free(delete);
 }
+
+t_node	*create_node(char *str)
+{
+	t_node	*new;
+
+	new = malloc(sizeof(t_node));
+	if (new == NULL)
+		return (NULL);
+	new->special = 0;
+	new->cmd = str;
+	new->next = NULL;
+	new->prev = NULL;
+	return (new);
+}

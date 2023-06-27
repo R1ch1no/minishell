@@ -3,9 +3,9 @@
 
 void	minishell_core(t_data *data)
 {
-	lexer(data); //line_read is freed in lexer
+	lexer(data);
 	identify_tokens(data->cmd_line);
-	prep_for_executer(&data->cmd_line, data); //quotes and dollar
+	prep_for_executer(&data->cmd_line, data);
 	if (loop_each_cmd(data) == ERROR)
 		reset_fds(data);
 	ft_wait_children(data);
@@ -25,43 +25,28 @@ int	set_pipe_status(t_node *head)
 	return (FALSE);
 }
 
-//deletes until pipe(inclusive) or null
-void	delete_cmd(t_node **head)
-{
-	t_node	*temp;
-
-	if (*head == NULL)
-		return ;
-	temp = *head;
-	while (temp && check_if_token(temp, "|") == FALSE)
-	{
-		delete_node(temp, head);
-		temp = *head;
-	}
-	delete_node(temp, head);
-}
-
-void	delete_til_pipe(t_node **head)
-{
-	t_node	*temp;
-
-	if (*head == NULL)
-		return ;
-	temp = *head;
-	while (temp && check_if_token(temp, "|") == FALSE)
-	{
-		delete_node(temp, head);
-		temp = *head;
-	}
-}
 void	go_next_cmd(t_node **node, t_data *data)
 {
 	data->status = 1;
 	data->red_status = 1;
 	perror("In set_redirections");
 	delete_til_pipe(&data->cmd_line);
-	//delete_cmd(&data->cmd_line); //including pipe
 	*node = data->cmd_line;
+}
+
+void	before_loop(t_data *data, t_node **current)
+{
+	data->red_status = 0;
+	while ((*current) != NULL)
+	{
+		if ((*current)->cmd[0] == '\0')
+		{
+			delete_node((*current), &data->cmd_line);
+			(*current) = (*current)->next;
+		}
+		else
+			return ;
+	}
 }
 
 int	loop_each_cmd(t_data *data)
@@ -71,13 +56,7 @@ int	loop_each_cmd(t_data *data)
 	current = data->cmd_line;
 	while (current != NULL)
 	{
-		data->red_status = 0;
-		if (current->cmd[0] == '\0')
-		{
-			delete_node(current, &data->cmd_line);
-			current = current->next;
-			continue;
-		}
+		before_loop(data, &current);
 		if (look_for_heredoc(data, data->cmd_line) == ERROR)
 			return (ERROR);
 		if (parser(data->cmd_line) == ERROR)
@@ -93,7 +72,7 @@ int	loop_each_cmd(t_data *data)
 		if (data->pipe_status == TRUE)
 			close_pipe(data);
 		close_prev_fd(&data->fd_outfile);
-		delete_cmd(&data->cmd_line); //including pipe
+		delete_cmd(&data->cmd_line);
 		current = data->cmd_line;
 	}
 	return (close_prev_fd(&data->fd_infile), unlink(HERE_DOC), 0);

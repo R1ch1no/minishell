@@ -39,6 +39,7 @@ int	open_outf_append(char *filename, int *fd)
 	}
 	return (0);
 }
+
 //<< ;D
 int	set_redirections(t_node *head, t_data *data)
 {
@@ -61,11 +62,11 @@ int	set_redirections(t_node *head, t_data *data)
 		else if (check_if_token(current, ">") == TRUE)
 			status = open_outfile(current->next->cmd, &data->fd_outfile);
 		else if (check_if_token(current, ">>") == TRUE)
-			status = open_outf_append(current->next->cmd, &data->fd_outfile);		
+			status = open_outf_append(current->next->cmd, &data->fd_outfile);
 		current = current->next;
 	}
 	if (status == ERROR)
-		ex_status = 1;
+		g_ex_status = 1;
 	return (close_prev_fd(&data->fd_heredoc), status);
 }
 
@@ -79,7 +80,6 @@ void	cut_out_redirection(t_node **head)
 	while (current && check_if_token(current, "|") == FALSE)
 	{
 		if (check_if_any_token(current))
-		// also checks for pipe but loop would never pass pipe
 		{
 			delete_node(current->next, head);
 			delete_node(current, head);

@@ -7,7 +7,7 @@ void	heredoc_response(int signal_num)
 	{
 		write(1, "\n", 1);
 		close(STDIN_FILENO);
-		ex_status = CTRL_C;
+		g_ex_status = CTRL_C;
 	}
 }
 
@@ -28,10 +28,10 @@ int	heredoc_child(t_data *data, char *limiter)
 	while (1)
 	{
 		line = readline("💩 ");
-		if (ex_status == CTRL_C)
+		if (g_ex_status == CTRL_C)
 		{
 			clean_heredoc_child(data);
-			exit(ex_status);
+			exit(g_ex_status);
 		}
 		if (line == NULL)
 			heredoc_eof(data);
@@ -52,7 +52,6 @@ int	heredoc_child(t_data *data, char *limiter)
 int	here_doc(t_data *data, char *limiter)
 {
 	int		pid;
-	//int		status;
 
 	printf("HERE DAWG\n");
 	if (!data || limiter == NULL || close_prev_fd(&data->fd_heredoc) == -1)
@@ -66,11 +65,9 @@ int	here_doc(t_data *data, char *limiter)
 	if (pid == 0)
 		heredoc_child(data, limiter);
 	signal(SIGINT, SIG_IGN);
-	//what does SIG_IGN do? 
-	//is it for minishell in minishell in .. if smth happens in one heredoc so it doesnt fuck the others?
-	waitpid(0, &ex_status, 0);
-	ex_status = WEXITSTATUS(ex_status);
-	if (ex_status == 256)
+	waitpid(0, &g_ex_status, 0);
+	g_ex_status = WEXITSTATUS(g_ex_status);
+	if (g_ex_status == 256)
 		return (close_prev_fd(&data->fd_heredoc), ERROR);
 	if (close_prev_fd(&data->fd_heredoc) == -1)
 		return (1);

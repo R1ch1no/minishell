@@ -6,7 +6,6 @@ void	prep_for_executer(t_node **head, t_data *data)
 	t_node	*current;
 
 	current = *head;
-	//printf("PREP EXEC\n");
 	while (current)
 	{
 		if (count_char(current->cmd, '\'') > 1 || count_char(current->cmd,

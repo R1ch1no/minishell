@@ -4,8 +4,8 @@
 char	*get_env_value(char *look_for, char **env)
 {
 	char	*env_value;
-	char 	*start;
-	int i;
+	char	*start;
+	int		i;
 
 	i = -1;
 	while (env[++i])
@@ -14,7 +14,7 @@ char	*get_env_value(char *look_for, char **env)
 		{
 			start = ft_strchr(env[i], '=');
 			env_value = ft_strdup(++start);
-			break;
+			break ;
 		}
 	}
 	if (env[i] == NULL)
@@ -24,7 +24,7 @@ char	*get_env_value(char *look_for, char **env)
 	return (env_value);
 }
 
-char 	*get_last_exit_status(char **end_of_d, int ret_value)
+char	*get_last_exit_status(char **end_of_d, int ret_value)
 {
 	char	*status;
 

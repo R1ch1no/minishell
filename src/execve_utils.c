@@ -90,9 +90,9 @@ int	ft_exec_here(char **path, t_node *node, char ***args)
 		code = CMD_N_F;
 	else if (access(*path, X_OK) != 0)
 		code = NO_RIGHTS;
-	perror(NULL);
 	if (code != 0)
 	{
+		perror(NULL);
 		free(*path);
 		free(*args);
 	}

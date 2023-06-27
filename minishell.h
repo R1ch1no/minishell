@@ -4,6 +4,7 @@
 
 # include "libft/libft.h"
 # include <dirent.h>
+# include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -12,7 +13,6 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <errno.h>
 # include <unistd.h>
 
 # define PROMPT "\e[0;93m⮡\e[0;91m mini_hell \e[0m"
@@ -33,7 +33,7 @@
 //	CHECK(fd);
 // Global variable
 
-extern int				ex_status;
+extern int				g_ex_status;
 
 // Structures
 typedef struct s_node
@@ -182,7 +182,6 @@ void					fill_args(t_node *node, char ***args);
 int						arg_num(t_node *node);
 
 int						ft_strcmp_v2(char *s1, char *s2);
-int						syntaxer(t_node *cmd_line);
 int						executer(t_data *data);
 
 // lists
@@ -208,5 +207,7 @@ int						check_if_char_in_row(char *str, char c);
 char					*ft_str_many_chr(char *str, char *set);
 char					*ft_strjoin_3(char *s1, char *s2, char *s3);
 int						len_2d_str_arr(char **str);
+void					delete_cmd(t_node **head);
+void					delete_til_pipe(t_node **head);
 
 #endif

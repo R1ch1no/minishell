@@ -75,46 +75,13 @@ void	cut_out_quotes(char **str, char c)
 	if (count % 2 == 0)
 	{
 		cutted = malloc(sizeof(char) * (ft_strlen((*str)) - count + 1));
-		//if (!cuted)
-		//cleanse(data)
 		cut_out_all(*str, c, cutted);
 	}
 	else
 	{
 		cutted = malloc(sizeof(char) * (ft_strlen(*str) - (count - 1) + 1));
-		//if (!cuted)
-		//cleanse(data)
 		cut_out_all_but_last(*str, c, cutted);
 	}
 	free(*str);
 	*str = cutted;
 }
-
-/*
-int	main(void)
-{
-    char *none = ft_strdup("Test");
-    char *one = ft_strdup("Test\"");
-    char *three = ft_strdup("T \"e \"st\"");
-    char *four = ft_strdup("T \"e \"s \"t\"");
-
-    printf("%s\n", none);
-    cut_out_quotes(&none, '"');
-    printf("%s\n", none);
-    free(none);
-
-    printf("%s\n", one);
-    cut_out_quotes(&one, '"');
-    printf("%s\n", one);
-    free(one);
-
-    printf("%s\n", three);
-    cut_out_quotes(&three, '"');
-    printf("%s\n", three);
-    free(three);
-    
-    printf("%s\n", four);
-    cut_out_quotes(&four, '"');
-    printf("%s\n", four);
-    free(four);
-}*/

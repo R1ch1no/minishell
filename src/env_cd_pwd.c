@@ -22,7 +22,7 @@ int	cd_home(t_data *data, int i, int found)
 	if (!home || home == NULL)
 		return (ft_putstr_fd("cd alloc problem !\n", 2), 1);
 	ft_strlcpy(home, &data->env_copy[x][i + 1], ft_strlen(&data->env_copy[x][i
-				+ 1]) + 1);
+			+ 1]) + 1);
 	if (chdir(home) != 0)
 		perror(NULL);
 	free(home);
@@ -44,14 +44,14 @@ int	ft_cd(t_data *data, char ***args)
 	if ((*args)[2] != NULL)
 	{
 		ft_putstr_fd("too many argumens\n", 2);
-		ex_status = 1;
+		g_ex_status = 1;
 		free_2d_str_arr(args);
 		return (0);
 	}
 	if (chdir((*args)[1]) != 0)
 	{
 		perror(NULL);
-		ex_status = 1;
+		g_ex_status = 1;
 	}
 	free_2d_str_arr(args);
 	return (0);

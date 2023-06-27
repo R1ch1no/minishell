@@ -1,15 +1,7 @@
 
 #include "../minishell.h"
 
-/*
-	//pipe[0] = read
-	//pipe[1] = write
-
-After line_read:
-- its being checked for eof
-- empty string (instant carriage return by user)
-*/
-int		ex_status = 0;
+int		g_ex_status = 0;
 
 int	main(int argc, char **argv, char **env)
 {
@@ -41,15 +33,13 @@ int	main(int argc, char **argv, char **env)
 
 void	eof(t_data *data)
 {
-	//ft_putstr_fd("exit\n", STDERR_FILENO);
 	cleanse(data);
-	exit(0); //exit && free (cleanup exits for now)
+	exit(0);
 }
 
 void	init_data(t_data *data, char **env)
 {
 	data->line_read = NULL;
-	//must be freed; what happens if environment is empty? easy fix or nah?
 	data->env_copy = dup_str_arr(env);
 	data->cmd_line = NULL;
 	data->fd_infile = -1;

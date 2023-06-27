@@ -3,7 +3,10 @@
 
 void	ft_sig_quit(int signal_num)
 {
-	exit(signal_num);
+	(void)signal_num;
+	g_ex_status = 131;
+	ft_putstr_fd("sigquit\n", 2);
+	exit(131);
 }
 
 void	response(int signal_num)
@@ -33,18 +36,16 @@ void	ft_wait_children(t_data *data)
 	{
 		while (data->children > 0)
 		{
-			waitpid(0, &ex_status, 0);
-			ex_status = WEXITSTATUS(ex_status);
+			waitpid(0, &g_ex_status, 0);
+			if (g_ex_status == 131)
+			{
+				write(2, "Quit (core dumped)\n", 19);
+			}
+			g_ex_status = WEXITSTATUS(g_ex_status);
 			data->children--;
 			if (data->red_status == 1)
-				ex_status = 1;
+				g_ex_status = 1;
 		}
-		if (ex_status == 131) //data->status
-		{
-			write(2, "Quit (core dumped)\n", 19);
-		}
-		else if (ex_status == 2) //data->status
-			write(1, "\n", 1);
 	}
 	signal(SIGINT, response);
 }

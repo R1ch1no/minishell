@@ -8,6 +8,7 @@ OBJ_PATH 	= obj
 
 SRC			= 	main.c \
 				core_functions.c \
+				core_functions_2.c \
 				lexer.c \
 				parser.c \
 				init_cmd_line.c \
@@ -25,7 +26,6 @@ SRC			= 	main.c \
 				executer.c \
 				execve.c \
 				execve_utils.c\
-				syntaxer.c \
 				ft_strcmp.c \
 				cleanup.c \
 				dup_utils.c \

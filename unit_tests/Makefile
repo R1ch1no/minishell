@@ -20,7 +20,6 @@ SRC			= 	init.c \
 				dollar.c \
 				cutting_quotes.c \
 				executer.c \
-				syntaxer.c \
 				ft_strcmp.c \
 				cleanup.c \
 				dup_utils.c \

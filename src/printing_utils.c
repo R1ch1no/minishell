@@ -28,5 +28,5 @@ void	print_str_arr(char **arr)
 		printf("%s#\n", arr[i]);
 		i++;
 	}
-	printf("%s#\n", arr[i]); //prints the NULL terminator
+	printf("%s#\n", arr[i]);
 }
