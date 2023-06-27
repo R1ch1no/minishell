@@ -24,7 +24,7 @@ int	heredoc_child(t_data *data, char *limiter)
 {
 	char	*line;
 
-	//g_ex_status = 0;
+	g_ex_status = 0;
 	signal(SIGINT, heredoc_response);
 	while (1)
 	{

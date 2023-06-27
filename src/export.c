@@ -122,19 +122,19 @@ int	ft_export_a(t_data *data, char *var, t_node **node, int len)
 	y = 0;
 	(*node) = (*node)->next;
 	if (ft_invalid((*node)->cmd) == 1)
-		return (write(2, "not a valid indentifier\n", 24), 0);
+		return (write(2, "not a valid indentifier\n", 24), 1);
 	if (ft_replace_existing(data, *node) == 1)
 		return (0);
 	new_env = copy_2d_char_arr(data->env_copy, len);
 	if (new_env == NULL || !new_env)
-		return (write(2, "Allocation (export_a) problem\n", 30) && 0);
+		return (write(2, "Allocation (export_a) problem\n", 30) && 1);
 	while (new_env[y] != NULL)
 		y++;
 	new_env[y] = malloc(ft_strlen(var) + 1);
 	if (new_env[y] == NULL || !new_env[y])
 	{
 		free_2d_str_arr(&new_env);
-		return (write(2, "Allocation (export_a) problem\n", 30) && 0);
+		return (write(2, "Allocation (export_a) problem\n", 30) && 1);
 	}
 	ft_strlcpy(new_env[y], var, ft_strlen(var) + 1);
 	new_env[y + 1] = NULL;
