@@ -79,6 +79,8 @@ int	ft_find(t_data *data, char *search)
 		{
 			if (search[x] == data->env_copy[y][x] && search[x + 1] == '\0')
 				return (1);
+			if (search[x] != data->env_copy[y][x])
+				break ;
 			x++;
 		}
 	}

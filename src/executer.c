@@ -88,8 +88,7 @@ int	ft_no_child(t_node *current, t_data *data)
 	{
 		if (data->fd_outfile != -1)
 			return (0);
-		g_ex_status = ft_export_a(data, args[1], &current,
-				get_arr_len(data->env_copy) + 1);
+		ft_export_a(data, args[1], &current, get_arr_len(data->env_copy) + 1);
 		free_2d_str_arr(&args);
 		return (0);
 	}
