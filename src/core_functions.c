@@ -9,7 +9,7 @@ void	minishell_core(t_data *data)
 	if (loop_each_cmd(data) == ERROR)
 		reset_fds(data);
 	ft_wait_children(data);
-	data->status = 0;
+	g_ex_status = 0;
 	ft_clean_cmd(data);
 }
 
@@ -27,7 +27,7 @@ int	set_pipe_status(t_node *head)
 
 void	go_next_cmd(t_node **node, t_data *data)
 {
-	data->status = 1;
+	g_ex_status = 1;
 	data->red_status = 1;
 	perror("In set_redirections");
 	delete_til_pipe(&data->cmd_line);

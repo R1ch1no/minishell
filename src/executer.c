@@ -53,21 +53,21 @@ void	ft_bash(t_data *data, int command)
 void	ft_commands(t_node *current, char **env, t_data *data)
 {
 	if (ft_strcmp_node(current, "pwd") == 0)
-		data->status = ft_pwd();
+		g_ex_status = ft_pwd();
 	else if (ft_strcmp_node(current, "echo") == 0)
 	{
 		current = current->next;
-		data->status = ft_echo(&current);
+		g_ex_status = ft_echo(&current);
 	}
 	else if (ft_strcmp_node(current, "env") == 0)
-		data->status = ft_env(data->env_copy);
+		g_ex_status = ft_env(data->env_copy);
 	else if (ft_strcmp_node(current, "export") == 0)
-		data->status = ft_export_na(data->env_copy,
+		g_ex_status = ft_export_na(data->env_copy,
 				get_arr_len(data->env_copy));
 	else
-		data->status = ft_exec(current, env, data);
+		g_ex_status = ft_exec(current, env);
 	cleanse(data);
-	exit(data->status);
+	exit(g_ex_status);
 }
 
 int	ft_no_child(t_node *current, t_data *data)
@@ -88,7 +88,8 @@ int	ft_no_child(t_node *current, t_data *data)
 	{
 		if (data->fd_outfile != -1)
 			return (0);
-		ft_export_a(data, args[1], &current, get_arr_len(data->env_copy) + 1);
+		g_ex_status = ft_export_a(data, args[1], &current,
+				get_arr_len(data->env_copy) + 1);
 		free_2d_str_arr(&args);
 		return (0);
 	}

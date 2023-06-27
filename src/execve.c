@@ -69,41 +69,46 @@ void	fill_args(t_node *node, char ***args)
 }
 
 //responsible for creating child processes for the execve
-int	execute_cmd(char *path, char **env, char **args, t_data *data)
+int	execute_cmd(char *path, char **env, char **args)
 {
 	if (execve(path, args, env) == -1)
-		data->status = 1;
+		g_ex_status = 1;
 	free(path);
 	free_2d_str_arr(&args);
 	return (0);
 }
 
 //execve function
-int	ft_exec(t_node *node, char **env, t_data *data)
+int	ft_exec(t_node *node, char **env)
 {
 	char	*path;
 	char	**args;
+	DIR		*dir;
 
 	path = NULL;
 	args = NULL;
-	if (ft_strcmp_v2_until(node->cmd, "./", '/') == 0)
-		if (opendir(node->cmd) != NULL)
-			return (ft_putstr_fd("Is a directory", 2), IS_DIR);
-	if (ft_strcmp_v2_until(node->cmd, "/", '/') == 0)
-		if (opendir(node->cmd) != NULL)
-			return (ft_putstr_fd("Is a directory", 2), IS_DIR);
+	if (ft_strcmp_v2_until(node->cmd, "./", '/') == 0
+		|| ft_strcmp_v2_until(node->cmd, "/", '/') == 0)
+	{
+		dir = opendir(node->cmd);
+		if (dir != NULL)
+		{
+			closedir(dir);
+			return (ft_putstr_fd("Is a directory\n", 2), IS_DIR);
+		}
+	}
 	if (ft_strcmp_v2_until(node->cmd, "./", '/') == 0)
 	{
-		data->status = ft_exec_here(&path, node, &args);
-		if (data->status != 0)
-			return (data->status);
+		g_ex_status = ft_exec_here(&path, node, &args);
+		if (g_ex_status != 0)
+			return (g_ex_status);
 	}
 	else
 	{
-		data->status = ft_exec_path(env, &path, node, &args);
-		if (data->status != 0)
-			return (data->status);
+		g_ex_status = ft_exec_path(env, &path, node, &args);
+		if (g_ex_status != 0)
+			return (g_ex_status);
 	}
 	fill_args(node, &args);
-	return (execute_cmd(path, env, args, data) && 0);
+	return (execute_cmd(path, env, args) && 0);
 }

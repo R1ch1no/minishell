@@ -61,7 +61,6 @@ typedef struct s_data
 	struct sigaction	sa;
 	t_node				*cmd_line;
 	int					pid;
-	int					status;
 }						t_data;
 
 // main.c
@@ -101,6 +100,8 @@ void					cut_out_quotes(char **str, char c);
 
 // quotes_and_dollar
 int						check_if_quote_and_closed(char *str, int i);
+int						single_quotes(char **str, int i, char quote);
+
 // dollar.c
 char					*get_str_before_dollar(char *str, int i);
 char					*get_end_of_dollar(char *str, int i, int left_for_cut);
@@ -171,7 +172,7 @@ int						ft_append(t_data *data, t_node *node, int y);
 int						ft_invalid(char *str);
 
 // execve
-int						ft_exec(t_node *node, char **env, t_data *data);
+int						ft_exec(t_node *node, char **env);
 int						ft_exec_here(char **path, t_node *node, char ***args);
 int						ft_exec_path(char **env, char **path, t_node *node,
 							char ***args);

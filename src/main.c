@@ -33,6 +33,7 @@ int	main(int argc, char **argv, char **env)
 
 void	eof(t_data *data)
 {
+	printf("exit\n");
 	cleanse(data);
 	exit(0);
 }
@@ -48,7 +49,7 @@ void	init_data(t_data *data, char **env)
 	data->fd_pipe[0] = -1;
 	data->fd_pipe[1] = -1;
 	data->children = 0;
-	data->status = 0;
+	g_ex_status = 0;
 	data->red_status = 0;
 	data->problem = 0;
 	signal_set_up(data);

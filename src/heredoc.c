@@ -24,6 +24,7 @@ int	heredoc_child(t_data *data, char *limiter)
 {
 	char	*line;
 
+	//g_ex_status = 0;
 	signal(SIGINT, heredoc_response);
 	while (1)
 	{
@@ -53,7 +54,6 @@ int	here_doc(t_data *data, char *limiter)
 {
 	int		pid;
 
-	printf("HERE DAWG\n");
 	if (!data || limiter == NULL || close_prev_fd(&data->fd_heredoc) == -1)
 		return (ERROR);
 	data->fd_heredoc = open(HERE_DOC, O_CREAT | O_WRONLY | O_TRUNC, 0666);

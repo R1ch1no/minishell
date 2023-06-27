@@ -18,7 +18,7 @@ int	parser(t_node *list)
 	if (check_if_token(list, "|") == TRUE)
 	{
 		ft_putstr_fd(PROMPT, STDERR_FILENO);
-		ft_putstr_fd(": syntax error near unexpected token `|'\n", 2);
+		ft_putstr_fd(" syntax error near unexpected token `|'\n", 2);
 		g_ex_status = 2;
 		return (ERROR);
 	}
