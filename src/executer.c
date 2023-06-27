@@ -53,20 +53,20 @@ void	ft_bash(t_data *data, int command)
 void	ft_commands(t_node *current, char **env, t_data *data)
 {
 	if (ft_strcmp_node(current, "pwd") == 0)
-		ex_status = ft_pwd();
+		data->status = ft_pwd();
 	else if (ft_strcmp_node(current, "echo") == 0)
 	{
 		current = current->next;
-		ex_status = ft_echo(&current);
+		data->status = ft_echo(&current);
 	}
 	else if (ft_strcmp_node(current, "env") == 0)
-		ex_status = ft_env(data->env_copy);
+		data->status = ft_env(data->env_copy);
 	else if (ft_strcmp_node(current, "export") == 0)
-		ex_status = ft_export_na(data->env_copy, get_arr_len(data->env_copy));
+		data->status = ft_export_na(data->env_copy, get_arr_len(data->env_copy));
 	else
-		ex_status = ft_exec(current, env);
+		data->status = ft_exec(current, env, data);
 	cleanse(data);
-	exit(ex_status);
+	exit(data->status);
 }
 
 int	ft_no_child(t_node *current, t_data *data)

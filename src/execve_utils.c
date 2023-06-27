@@ -73,6 +73,9 @@ char	*search_path(char **env, t_node *node)
 //runs an executable from the current folder with ./
 int	ft_exec_here(char **path, t_node *node, char ***args)
 {
+	int	code;
+
+	code = 0;
 	*path = malloc(ft_strlen(node->cmd) + 1);
 	if (!path || path == NULL)
 		return (write(2, "Allocation (ft_exec) problem!\n", 30) && 1);
@@ -83,15 +86,17 @@ int	ft_exec_here(char **path, t_node *node, char ***args)
 		free(*path);
 		return (write(2, "Allocation (ft_exec) problem!\n", 30) && 1);
 	}
-	if (access(*path, X_OK | F_OK) != 0)
+	if (access(*path, F_OK) != 0)
+		code = CMD_N_F;
+	else if (access(*path, X_OK) != 0)
+		code = NO_RIGHTS;
+	perror(NULL);
+	if (code != 0)
 	{
 		free(*path);
 		free(*args);
-		ft_putstr_fd(node->cmd, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		return (1);
 	}
-	return (0);
+	return (code);
 }
 
 int	ft_exec_path(char **env, char **path, t_node *node, char ***args)

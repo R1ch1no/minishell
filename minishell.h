@@ -3,6 +3,7 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
+# include <dirent.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -11,6 +12,7 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <errno.h>
 # include <unistd.h>
 
 # define PROMPT "\e[0;93m⮡\e[0;91m mini_hell \e[0m"
@@ -22,6 +24,8 @@
 //exit statuses
 # define CTRL_C 130
 # define CMD_N_F 127
+# define IS_DIR 126
+# define NO_RIGHTS 126
 //# define SPECIALS "\"\'|<>"
 
 //	int fd;
@@ -52,6 +56,8 @@ typedef struct s_data
 	int					fd_pipe[2];
 	int					fd_heredoc;
 	int					problem;
+	int					red_status;
+	int					pipe_status;
 	struct sigaction	sa;
 	t_node				*cmd_line;
 	int					pid;
@@ -165,7 +171,7 @@ int						ft_append(t_data *data, t_node *node, int y);
 int						ft_invalid(char *str);
 
 // execve
-int						ft_exec(t_node *node, char **env);
+int						ft_exec(t_node *node, char **env, t_data *data);
 int						ft_exec_here(char **path, t_node *node, char ***args);
 int						ft_exec_path(char **env, char **path, t_node *node,
 							char ***args);

@@ -69,16 +69,17 @@ void	fill_args(t_node *node, char ***args)
 }
 
 //responsible for creating child processes for the execve
-int	execute_cmd(char *path, char **env, char **args)
+int	execute_cmd(char *path, char **env, char **args, t_data *data)
 {
-	execve(path, args, env);
+	if (execve(path, args, env) == -1)
+		data->status = 1;
 	free(path);
 	free_2d_str_arr(&args);
 	return (0);
 }
 
 //execve function
-int	ft_exec(t_node *node, char **env)
+int	ft_exec(t_node *node, char **env, t_data *data)
 {
 	char	*path;
 	char	**args;
@@ -86,16 +87,23 @@ int	ft_exec(t_node *node, char **env)
 	path = NULL;
 	args = NULL;
 	if (ft_strcmp_v2_until(node->cmd, "./", '/') == 0)
+		if (opendir(node->cmd) != NULL)
+			return (ft_putstr_fd("Is a directory", 2), IS_DIR);
+	if (ft_strcmp_v2_until(node->cmd, "/", '/') == 0)
+		if (opendir(node->cmd) != NULL)
+			return (ft_putstr_fd("Is a directory", 2), IS_DIR);
+	if (ft_strcmp_v2_until(node->cmd, "./", '/') == 0)
 	{
-		if (ft_exec_here(&path, node, &args) == 1)
-			return (1);
+		data->status = ft_exec_here(&path, node, &args);
+		if (data->status != 0)
+			return (data->status);
 	}
 	else
 	{
-		ex_status = ft_exec_path(env, &path, node, &args);
-		if (ex_status != 0)
-			return (ex_status);
+		data->status = ft_exec_path(env, &path, node, &args);
+		if (data->status != 0)
+			return (data->status);
 	}
 	fill_args(node, &args);
-	return (execute_cmd(path, env, args) && 0);
+	return (execute_cmd(path, env, args, data) && 0);
 }
