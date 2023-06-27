@@ -181,6 +181,7 @@ int						arg_num(t_node *node);
 int						set_stdin_out(int fd_in, int fd_out, t_data *data);
 void					fill_args(t_node *node, char ***args);
 int						arg_num(t_node *node);
+int						before_start(t_node *node);
 
 int						ft_strcmp_v2(char *s1, char *s2);
 int						executer(t_data *data);

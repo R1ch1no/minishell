@@ -25,7 +25,8 @@ SRC			= 	main.c \
 				pre_executer.c \
 				executer.c \
 				execve.c \
-				execve_utils.c\
+				execve_utils.c \
+				execve_utils_two.c \
 				ft_strcmp.c \
 				cleanup.c \
 				dup_utils.c \

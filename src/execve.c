@@ -83,20 +83,13 @@ int	ft_exec(t_node *node, char **env)
 {
 	char	*path;
 	char	**args;
-	DIR		*dir;
+	int		start;
 
 	path = NULL;
 	args = NULL;
-	if (ft_strcmp_v2_until(node->cmd, "./", '/') == 0
-		|| ft_strcmp_v2_until(node->cmd, "/", '/') == 0)
-	{
-		dir = opendir(node->cmd);
-		if (dir != NULL)
-		{
-			closedir(dir);
-			return (ft_putstr_fd("Is a directory\n", 2), IS_DIR);
-		}
-	}
+	start = before_start(node);
+	if (start != 0)
+		return (start);
 	if (ft_strcmp_v2_until(node->cmd, "./", '/') == 0)
 	{
 		g_ex_status = ft_exec_here(&path, node, &args);

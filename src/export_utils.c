@@ -16,7 +16,7 @@ int	ft_invalid(char *str)
 					+ 1] == '='))
 			g_ex_status = 1;
 	}
-	if (str[i] == '=')
+	if (str[i] == '=' && g_ex_status != 1)
 		return (2);
 	return (g_ex_status);
 }
