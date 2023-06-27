@@ -9,7 +9,6 @@ int	open_infile(char *filename, int *fd)
 	if (*fd == -1)
 	{
 		ft_putstr_fd("mini_shit💩: ", 2);
-		ft_putstr_fd("Give me a correct filename or directory\n", 2);
 		return (ERROR);
 	}
 	return (0);
@@ -22,8 +21,7 @@ int	open_outfile(char *filename, int *fd)
 	*fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	if (*fd == -1)
 	{
-		ft_putstr_fd("mini_shit💩: you are shit smth went wrong with open\n", 2);
-		//printf("ERROR FROM OPEN AMK\n");
+		ft_putstr_fd("mini_shit💩: ", 2);
 		return (ERROR);
 	}
 	return (0);
@@ -36,8 +34,7 @@ int	open_outf_append(char *filename, int *fd)
 	*fd = open(filename, O_CREAT | O_WRONLY | O_APPEND, 0666);
 	if (*fd == -1)
 	{
-		ft_putstr_fd("mini shit💩: you are shit smth went wrong with open\n", 2);
-		
+		ft_putstr_fd("mini shit💩: ", 2);
 		return (ERROR);
 	}
 	return (0);
