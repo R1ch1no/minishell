@@ -8,29 +8,40 @@ OBJ_PATH 	= ../obj
 
 TEST  		=	quote_dollar_test.c
 
-SRC			= 	init.c \
+SRC			= 	core_functions.c \
+				core_functions_2.c \
 				lexer.c \
+				parser.c \
 				init_cmd_line.c \
-				token.c \
 				signals.c \
 				env_cd_pwd.c \
 				echo_unset.c \
+				built-in_utils.c \
+				exit.c \
 				export.c \
 				export_utils.c \
 				dollar.c \
+				dollar_env.c \
 				cutting_quotes.c \
+				pre_executer.c \
 				executer.c \
+				execve.c \
+				execve_utils.c \
+				execve_utils_two.c \
 				ft_strcmp.c \
 				cleanup.c \
 				dup_utils.c \
+				token.c \
 				printing_utils.c \
 				string_utils.c \
 				string_utils_2.c \
 				linked_list_utils.c\
 				linked_list_utils_two.c\
 				quotes_and_dollar.c \
-				execve.c \
-				execve_utils.c
+				heredoc.c \
+				heredoc_utils.c \
+				redirections.c \
+				redirection_utils.c
 
 
 SRCS 		= $(addprefix $(SRC_PATH)/, $(SRC))

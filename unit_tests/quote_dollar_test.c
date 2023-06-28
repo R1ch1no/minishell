@@ -85,6 +85,25 @@ void	print_test_list(t_test *head)
 }
 
 
+int g_ex_status = 0;
+
+void	init_data(t_data *data, char **env)
+{
+	data->line_read = NULL;
+	data->env_copy = dup_str_arr(env);
+	data->cmd_line = NULL;
+	data->fd_infile = -1;
+	data->fd_outfile = -1;
+	data->fd_heredoc = -1;
+	data->fd_pipe[0] = -1;
+	data->fd_pipe[1] = -1;
+	data->children = 0;
+	g_ex_status = 0;
+	data->red_status = 0;
+	data->problem = 0;
+	signal_set_up(data);
+}
+
 int main(int argc, char **argv, char **env)
 {
     //TESTING ACTUAL IMPLEMENTATION FOR MINISHELL

@@ -36,8 +36,9 @@ void	go_next_cmd(t_node **node, t_data *data)
 
 void	before_loop(t_data *data, t_node **current)
 {
+	t_node	*temp;
+
 	data->red_status = 0;
-	t_node *temp;
 	while ((*current) != NULL)
 	{
 		if ((*current)->cmd[0] == '\0')

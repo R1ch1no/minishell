@@ -31,21 +31,29 @@ void	s__d_quotes(char **str, t_data *data)
 void	prep_for_executer(t_node **head, t_data *data)
 {
 	t_node	*current;
+	t_node	*tmp;
 
 	current = *head;
 	while (current)
 	{
-		if ((count_char(current->cmd, '\'') > 1 || count_char(current->cmd,
-					'"') > 1 || ft_strchr(current->cmd, '$') != NULL)
-					&& check_if_token(current->prev, "<<") == FALSE)
+		if (count_char(current->cmd, '"') > 1 )
 			dollar_and_s_quotes(&(current->cmd), data);
-		s__d_quotes(&current->cmd, data);
-		//if ((count_char(current->cmd, '\'') > 1 || count_char(current->cmd,
-		//			'"') > 1 || ft_strchr(current->cmd, '$') != NULL)
-		//	&& check_if_token(current->prev, "<<") == TRUE)
-		//	s__d_quotes(&current->cmd, data);
-		//else
-		//	dollar_and_s_quotes(&(current->cmd), data);
-		current = current->next;
+		if (count_char(current->cmd, '\'') > 1)
+			dollar_and_s_quotes(&(current->cmd), data);
+		else if (ft_strchr(current->cmd, '$') != NULL
+			&& check_if_token(current->prev, "<<") == FALSE)
+		{
+			dollar_and_s_quotes(&(current->cmd), data);
+			if (current->cmd[0] == '\0')
+			{
+				tmp = current->next;
+				delete_node(current, &data->cmd_line);
+				current = tmp;
+			}
+		}
+		if (current != NULL)
+			s__d_quotes(&current->cmd, data);
+		if (current != NULL)
+			current = current->next;
 	}
 }
