@@ -12,7 +12,7 @@ void	s__d_quotes(char **str, t_data *data)
 	{
 		if (left_for_cut == FALSE && (*str)[i] == '\'' && ft_strchr(&(*str)[i
 			+ 1], '\'') != NULL)
-			i += single_quotes(str, i, '\'');
+			i = single_quotes(str, i, '\'');
 		else if ((*str)[i] == '"' && left_for_cut == TRUE)
 		{
 			strcpy_wout_ind(str, i, data);
@@ -27,17 +27,33 @@ void	s__d_quotes(char **str, t_data *data)
 			i++;
 	}
 }
+
+int	ft_continue(t_data *data, t_node **current)
+{
+	t_node	*tmp;
+
+	tmp = NULL;
+	if ((*current)->cmd[0] == '\0')
+	{
+		tmp = (*current)->next;
+		delete_node((*current), &data->cmd_line);
+		(*current) = tmp;
+		if ((*current) != NULL)
+			(*current)->prev = NULL;
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
 //"$USER"te"st
 void	prep_for_executer(t_node **head, t_data *data)
 {
 	t_node	*current;
-	t_node	*tmp;
 
 	current = *head;
-	tmp = NULL;
 	while (current)
 	{
-		if (count_char(current->cmd, '"') > 1 )
+		if (count_char(current->cmd, '"') > 1)
 			dollar_and_s_quotes(&(current->cmd), data);
 		if (count_char(current->cmd, '\'') > 1)
 			dollar_and_s_quotes(&(current->cmd), data);
@@ -45,15 +61,8 @@ void	prep_for_executer(t_node **head, t_data *data)
 			&& check_if_token(current->prev, "<<") == FALSE)
 		{
 			dollar_and_s_quotes(&(current->cmd), data);
-			if (current->cmd[0] == '\0')
-			{
-				tmp = current->next;
-				delete_node(current, &data->cmd_line);
-				current = tmp;
-				if (current != NULL)
-					current->prev = NULL;
+			if (ft_continue(data, &current) == TRUE)
 				continue ;
-			}
 		}
 		if (current != NULL)
 			s__d_quotes(&current->cmd, data);

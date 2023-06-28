@@ -63,7 +63,7 @@ void	ft_commands(t_node *current, char **env, t_data *data)
 		g_ex_status = ft_env(data->env_copy);
 	else if (ft_strcmp_node(current, "export") == 0)
 		g_ex_status = ft_export_na(data->env_copy,
-									get_arr_len(data->env_copy));
+				get_arr_len(data->env_copy));
 	else
 		g_ex_status = ft_exec(current, env);
 	cleanse(data);

@@ -43,7 +43,7 @@ void	dollar_and_s_quotes(char **str, t_data *data)
 			i += subout_dollar(str, i, left_for_cut, data);
 		else if (left_for_cut == FALSE && (*str)[i] == '\''
 				&& ft_strchr(&(*str)[i + 1], '\'') != NULL)
-			i += single_quotes(str, i, '\'');
+			i = single_quotes(str, i, '\'');
 		else if ((*str)[i] == '"' && left_for_cut == TRUE)
 		{
 			strcpy_wout_ind(str, i, data);

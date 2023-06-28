@@ -1,6 +1,5 @@
 
 #include "../minishell.h"
-#include <limits.h>
 
 int	overflow(long long result, char num, int sign, t_data *data)
 {

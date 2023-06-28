@@ -33,24 +33,6 @@ void	go_next_cmd(t_node **node, t_data *data)
 	*node = data->cmd_line;
 }
 
-void	before_loop(t_data *data, t_node **current)
-{
-	t_node	*temp;
-
-	data->red_status = 0;
-	while ((*current) != NULL)
-	{
-		if ((*current)->cmd[0] == '\0')
-		{
-			temp = (*current)->next;
-			delete_node((*current), &data->cmd_line);
-			(*current) = temp;
-		}
-		else
-			return ;
-	}
-}
-
 int	loop_each_cmd(t_data *data)
 {
 	t_node	*current;
