@@ -63,7 +63,7 @@ void	ft_commands(t_node *current, char **env, t_data *data)
 		g_ex_status = ft_env(data->env_copy);
 	else if (ft_strcmp_node(current, "export") == 0)
 		g_ex_status = ft_export_na(data->env_copy,
-				get_arr_len(data->env_copy));
+									get_arr_len(data->env_copy));
 	else
 		g_ex_status = ft_exec(current, env);
 	cleanse(data);
@@ -102,6 +102,11 @@ int	executer(t_data *data)
 	t_node	*current;
 
 	current = data->cmd_line;
+	if (current->cmd[0] == '\0')
+	{
+		g_ex_status = CMD_N_F;
+		return (ft_putstr_fd("command not found\n", 2), 0);
+	}
 	if (ft_no_child(current, data) == 0)
 		return (0);
 	data->pid = fork();

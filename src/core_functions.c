@@ -9,7 +9,6 @@ void	minishell_core(t_data *data)
 	if (loop_each_cmd(data) == ERROR)
 		reset_fds(data);
 	ft_wait_children(data);
-	//g_ex_status = 0;
 	ft_clean_cmd(data);
 }
 
@@ -59,7 +58,7 @@ int	loop_each_cmd(t_data *data)
 	current = data->cmd_line;
 	while (current != NULL)
 	{
-		before_loop(data, &current);
+		data->red_status = 0;
 		if (look_for_heredoc(data, data->cmd_line) == ERROR)
 			return (ERROR);
 		if (parser(data->cmd_line) == ERROR)

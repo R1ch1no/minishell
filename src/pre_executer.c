@@ -34,13 +34,14 @@ void	prep_for_executer(t_node **head, t_data *data)
 	t_node	*tmp;
 
 	current = *head;
+	tmp = NULL;
 	while (current)
 	{
 		if (count_char(current->cmd, '"') > 1 )
 			dollar_and_s_quotes(&(current->cmd), data);
 		if (count_char(current->cmd, '\'') > 1)
 			dollar_and_s_quotes(&(current->cmd), data);
-		else if (ft_strchr(current->cmd, '$') != NULL
+		else if (current != NULL && ft_strchr(current->cmd, '$') != NULL
 			&& check_if_token(current->prev, "<<") == FALSE)
 		{
 			dollar_and_s_quotes(&(current->cmd), data);
@@ -49,6 +50,9 @@ void	prep_for_executer(t_node **head, t_data *data)
 				tmp = current->next;
 				delete_node(current, &data->cmd_line);
 				current = tmp;
+				if (current != NULL)
+					current->prev = NULL;
+				continue ;
 			}
 		}
 		if (current != NULL)

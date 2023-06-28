@@ -22,7 +22,7 @@ void	identify_tokens(t_node *head)
 
 int	check_if_token(t_node *node, char *token)
 {
-	if (!node || !token)
+	if (!node || node == NULL || !token)
 		return (FALSE);
 	if (ft_strcmp_v2(node->cmd, token) == 0 && node->special == 1)
 		return (TRUE);
