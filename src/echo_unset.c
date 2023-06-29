@@ -6,6 +6,7 @@ int	ft_echo(t_node **node)
 {
 	int	n;
 
+	signal(SIGPIPE, SIG_IGN);
 	n = 0;
 	if ((*node) == NULL)
 		return (write(1, "\n", 1) && 0);
