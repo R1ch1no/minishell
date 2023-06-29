@@ -101,9 +101,14 @@ int	ft_exec_here(char **path, t_node *node, char ***args)
 
 int	ft_exec_path(char **env, char **path, t_node *node, char ***args)
 {
-	*path = search_path(env, node);
-	if (*path == NULL)
-		return (CMD_N_F);
+	if (access(node->cmd, F_OK) != 0)
+	{
+		*path = search_path(env, node);
+		if (*path == NULL)
+			return (CMD_N_F);
+	}
+	else
+		*path = node->cmd;
 	*args = malloc((arg_num(node) + 1) * sizeof(char *));
 	if (!args || args == NULL)
 	{
