@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:45 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:04:46 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/29 18:32:42 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,23 @@ int	ft_invalid(char *str)
 
 	i = -1;
 	if (str[0] == '=')
+	{
+		write(2, "not a valid indentifier\n", 24);
 		g_ex_status = 1;
+	}
 	if (str[0] <= '9' && str[0] >= '0')
+	{
+		write(2, "not a valid indentifier\n", 24);
 		g_ex_status = 1;
+	}
 	while (str[++i] && str[i] != '=')
 	{
 		if ((str[i] == '-' && str[i + 1] == '\0') || (str[i] == '-' && str[i
 					+ 1] == '='))
+		{
+			write(2, "not a valid indentifier\n", 24);
 			g_ex_status = 1;
+		}
 	}
 	if (str[i] == '=' && g_ex_status != 1)
 		return (2);

@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:49 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:04:50 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/29 18:32:22 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int	ft_export_a(t_data *data, char *var, t_node **node, int len)
 	y = 0;
 	(*node) = (*node)->next;
 	if (ft_invalid((*node)->cmd) == 1)
-		return (write(2, "not a valid indentifier\n", 24), 1);
+		return (1);
 	if (ft_replace_existing(data, *node) == 1)
 		return (0);
 	new_env = copy_2d_char_arr(data->env_copy, len);

@@ -1,3 +1,4 @@
+$ff $ff echo "" b
 ""
 echo "" $ff b
 echo hello world

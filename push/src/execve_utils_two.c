@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:25 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:04:26 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/29 19:16:07 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,16 @@ int	before_start(t_node *node)
 		}
 	}
 	return (0);
+}
+
+void	ft_access_error(t_node *node)
+{
+	if (ft_strcmp_v2_until(node->cmd, "./", '/') == 0
+		|| ft_strcmp_v2_until(node->cmd, "/", '/') == 0)
+		ft_putstr_fd("No such file or directory\n", 2);
+	else
+	{
+		ft_putstr_fd(node->cmd, 2);
+		ft_putstr_fd(": command not found\n", 2);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:31 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:04:32 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/29 19:08:16 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ char	*check_access(char **tmp, t_node *node)
 			return (path);
 		free(path);
 	}
-	ft_putstr_fd(node->cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
+	ft_access_error(node);
 	path = NULL;
 	return (path);
 }

@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:08:09 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:08:12 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/29 19:07:59 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ int						set_stdin_out(int fd_in, int fd_out, t_data *data);
 void					fill_args(t_node *node, char ***args);
 int						arg_num(t_node *node);
 int						before_start(t_node *node);
+void					ft_access_error(t_node *node);
 
 int						ft_strcmp_v2(char *s1, char *s2);
 int						executer(t_data *data);
