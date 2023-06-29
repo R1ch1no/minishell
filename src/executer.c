@@ -62,8 +62,7 @@ void	ft_commands(t_node *current, char **env, t_data *data)
 	else if (ft_strcmp_node(current, "env") == 0)
 		g_ex_status = ft_env(data->env_copy);
 	else if (ft_strcmp_node(current, "export") == 0)
-		g_ex_status = ft_export_na(data->env_copy,
-				get_arr_len(data->env_copy));
+		g_ex_status = ft_export_na(data->env_copy, get_arr_len(data->env_copy));
 	else
 	{
 		close_prev_fd(&data->fd_pipe[0]);
@@ -83,7 +82,8 @@ int	ft_no_child(t_node *current, t_data *data)
 		return (write(2, "Args allocation error\n", 22) && 0);
 	fill_args(current, &args);
 	if (ft_strcmp_node(current, "unset") == 0)
-		return (ft_unset(data, args[1], &args), close_prev_fd(&data->fd_pipe[0]));
+		return (ft_unset(data, args[1], &args),
+			close_prev_fd(&data->fd_pipe[0]));
 	else if (ft_strcmp_node(current, "exit") == 0)
 		return (ft_exit(data, &args), close_prev_fd(&data->fd_pipe[0]));
 	else if (ft_strcmp_node(current, "cd") == 0)
@@ -91,7 +91,8 @@ int	ft_no_child(t_node *current, t_data *data)
 	else if (ft_strcmp_node(current, "export") == 0 && args[1] != NULL)
 	{
 		if (data->fd_outfile != -1)
-			return (free_2d_str_arr(&args), close_prev_fd(&data->fd_pipe[0]), 0);
+			return (free_2d_str_arr(&args), close_prev_fd(&data->fd_pipe[0]),
+				0);
 		ft_export_a(data, args[1], &current, get_arr_len(data->env_copy) + 1);
 		free_2d_str_arr(&args);
 		close_prev_fd(&data->fd_pipe[0]);
@@ -101,7 +102,7 @@ int	ft_no_child(t_node *current, t_data *data)
 	return (1);
 }
 
-//close_prev_fd(&data->fd_pipe[0]); very important
+// close_prev_fd(&data->fd_pipe[0]); very important
 int	executer(t_data *data)
 {
 	t_node	*current;
@@ -122,9 +123,8 @@ int	executer(t_data *data)
 	{
 		signal(SIGQUIT, ft_sig_quit);
 		signal(SIGINT, child_response);
-		//close_prev_fd(&data->fd_pipe[0]);
 		if (set_stdin_out(data->fd_infile, data->fd_outfile, data))
-			exit (1);
+			exit(1);
 		ft_commands(current, data->env_copy, data);
 	}
 	signal(SIGINT, SIG_IGN);
