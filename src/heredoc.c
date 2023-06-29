@@ -68,7 +68,7 @@ int	here_doc(t_data *data, char *limiter)
 	signal(SIGINT, SIG_IGN);
 	waitpid(0, &g_ex_status, 0);
 	g_ex_status = WEXITSTATUS(g_ex_status);
-	if (g_ex_status == 256)
+	if (g_ex_status == 256 || g_ex_status == CTRL_C)
 		return (close_prev_fd(&data->fd_heredoc), ERROR);
 	if (close_prev_fd(&data->fd_heredoc) == -1)
 		return (1);

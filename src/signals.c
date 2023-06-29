@@ -13,6 +13,7 @@ void	response(int signal_num)
 {
 	if (signal_num == SIGINT)
 	{
+		g_ex_status = CTRL_C;
 		write(1, "\n", 1);
 		rl_replace_line("", 1);
 		rl_on_new_line();
