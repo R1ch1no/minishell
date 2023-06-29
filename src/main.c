@@ -55,6 +55,7 @@ void	init_data(t_data *data, char **env)
 	data->fd_pipe[0] = -1;
 	data->fd_pipe[1] = -1;
 	data->children = 0;
+	data->no = 0;
 	g_ex_status = 0;
 	data->red_status = 0;
 	data->problem = 0;

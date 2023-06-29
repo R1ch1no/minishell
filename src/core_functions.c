@@ -9,6 +9,7 @@ void	minishell_core(t_data *data)
 	if (loop_each_cmd(data) == ERROR)
 		reset_fds(data);
 	ft_wait_children(data);
+	data->no = 0;
 	ft_clean_cmd(data);
 }
 

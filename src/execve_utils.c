@@ -103,14 +103,22 @@ int	ft_exec_here(char **path, t_node *node, char ***args)
 
 int	ft_exec_path(char **env, char **path, t_node *node, char ***args)
 {
-	if (access(node->cmd, F_OK) != 0)
+	if (access(node->cmd, F_OK) == 0)
 	{
-		*path = search_path(env, node);
-		if (*path == NULL)
-			return (CMD_N_F);
+		*path = ft_strdup(node->cmd);
+		if (execve(*path, *args, env) == -1)
+		{
+			ft_putstr_fd(node->cmd, 2);
+			ft_putstr_fd(": command not found\n", 2);
+		}
+		free(*path);
+		free_2d_str_arr(args);
+		return (CMD_N_F);
 	}
 	else
-		*path = node->cmd;
+		*path = search_path(env, node);
+	if (*path == NULL)
+		return (CMD_N_F);
 	*args = malloc((arg_num(node) + 1) * sizeof(char *));
 	if (!args || args == NULL)
 	{

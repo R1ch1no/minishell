@@ -32,6 +32,7 @@ int	reset_fds(t_data *data)
 
 int	open_pipe(t_data *data)
 {
+	data->no = 1;
 	if (pipe(data->fd_pipe) == -1)
 		cleanse(data);
 	if (data->fd_outfile == -1)

@@ -24,6 +24,7 @@ SRC			= 	main.c \
 				cutting_quotes.c \
 				pre_executer.c \
 				executer.c \
+				executer_utils.c \
 				execve.c \
 				execve_utils.c \
 				execve_utils_two.c \

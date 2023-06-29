@@ -81,23 +81,23 @@ int	ft_no_child(t_node *current, t_data *data)
 	if (!args || args == NULL)
 		return (write(2, "Args allocation error\n", 22) && 0);
 	fill_args(current, &args);
-	if (ft_strcmp_node(current, "unset") == 0)
+	if (ft_strcmp_node(current, "unset") == 0 && data->no == 0)
 		return (ft_unset(data, args[1], &args),
 			close_prev_fd(&data->fd_pipe[0]));
-	else if (ft_strcmp_node(current, "exit") == 0)
+	else if (ft_strcmp_node(current, "exit") == 0 && data->no == 0)
 		return (ft_exit(data, &args), close_prev_fd(&data->fd_pipe[0]));
-	else if (ft_strcmp_node(current, "cd") == 0)
+	else if (ft_strcmp_node(current, "cd") == 0 && data->no == 0)
 		return (ft_cd(data, &args), close_prev_fd(&data->fd_pipe[0]));
-	else if (ft_strcmp_node(current, "export") == 0 && args[1] != NULL)
+	else if (ft_strcmp_node(current, "export") == 0 && args[1] != NULL
+		&& data->no == 0)
 	{
-		if (data->fd_outfile != -1)
-			return (free_2d_str_arr(&args), close_prev_fd(&data->fd_pipe[0]),
-				0);
 		ft_export_a(data, args[1], &current, get_arr_len(data->env_copy) + 1);
 		free_2d_str_arr(&args);
 		close_prev_fd(&data->fd_pipe[0]);
 		return (0);
 	}
+	if (was_child(current, &args) == 0 && data->no == 1)
+		return (close_prev_fd(&data->fd_pipe[0]), 0);
 	free_2d_str_arr(&args);
 	return (1);
 }

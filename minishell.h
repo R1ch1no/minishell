@@ -27,7 +27,6 @@
 # define IS_DIR 126
 # define NO_RIGHTS 126
 
-
 // Global variable
 extern int				g_ex_status;
 
@@ -51,6 +50,7 @@ typedef struct s_data
 	int					fd_pipe[2];
 	int					fd_heredoc;
 	int					problem;
+	int					no;
 	int					red_status;
 	int					pipe_status;
 	struct sigaction	sa;
@@ -154,6 +154,7 @@ int						ft_env(char **env);
 int						ft_unset(t_data *data, char *search, char ***args);
 int						ft_find(t_data *data, char *search);
 int						ft_invalid_env(char *str);
+int						was_child(t_node *current, char ***args);
 // export functions
 void					ft_bash(t_data *data, int command);
 int						ft_export_na(char **env, int len);
