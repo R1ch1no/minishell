@@ -60,4 +60,5 @@ void	signal_set_up(t_data *data)
 	data->sa.sa_flags = 0;
 	sigaction(SIGQUIT, &data->sa, NULL);
 	signal(SIGINT, response);
+	//signal(SIGPIPE, SIG_IGN);
 }

@@ -5,7 +5,7 @@ void	heredoc_response(int signal_num)
 {
 	if (signal_num == SIGINT)
 	{
-		write(1, "\n", 1);
+		write(STDIN_FILENO, "\n", 1);
 		close(STDIN_FILENO);
 		g_ex_status = CTRL_C;
 	}

@@ -103,7 +103,6 @@ int	ft_exit(t_data *data, char ***args)
 		free_2d_str_arr(args);
 		exit(num);
 	}
-	free_2d_str_arr(args);
 	ft_putstr_fd("numeric argument required\n", 2);
 	exit_for_exit(data, args);
 	return (0);

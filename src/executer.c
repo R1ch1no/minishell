@@ -52,6 +52,7 @@ void	ft_bash(t_data *data, int command)
 
 void	ft_commands(t_node *current, char **env, t_data *data)
 {
+
 	if (ft_strcmp_node(current, "pwd") == 0)
 		g_ex_status = ft_pwd();
 	else if (ft_strcmp_node(current, "echo") == 0)
@@ -74,6 +75,7 @@ int	ft_no_child(t_node *current, t_data *data)
 {
 	char	**args;
 
+	close_prev_fd(&data->fd_pipe[0]);
 	args = malloc((arg_num(current) + 1) * sizeof(char *));
 	if (!args || args == NULL)
 		return (write(2, "Args allocation error\n", 22) && 0);
@@ -87,7 +89,7 @@ int	ft_no_child(t_node *current, t_data *data)
 	else if (ft_strcmp_node(current, "export") == 0 && args[1] != NULL)
 	{
 		if (data->fd_outfile != -1)
-			return (0);
+			return (free_2d_str_arr(&args), 0);
 		ft_export_a(data, args[1], &current, get_arr_len(data->env_copy) + 1);
 		free_2d_str_arr(&args);
 		return (0);
@@ -119,7 +121,7 @@ int	executer(t_data *data)
 		signal(SIGINT, child_response);
 		close_prev_fd(&data->fd_pipe[0]);
 		if (set_stdin_out(data->fd_infile, data->fd_outfile, data))
-			exit(1);
+			exit (1);
 		ft_commands(current, data->env_copy, data);
 	}
 	signal(SIGINT, SIG_IGN);
