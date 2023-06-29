@@ -26,13 +26,9 @@
 # define CMD_N_F 127
 # define IS_DIR 126
 # define NO_RIGHTS 126
-//# define SPECIALS "\"\'|<>"
 
-//	int fd;
-//	fd = open("nonexistent.txt", O_RDONLY);
-//	CHECK(fd);
+
 // Global variable
-
 extern int				g_ex_status;
 
 // Structures
@@ -45,7 +41,6 @@ typedef struct s_node
 	struct s_node		*prev;
 }						t_node;
 
-// fd_p_read, fd_p_write : not quite sure if i need the pipe fd's like this
 typedef struct s_data
 {
 	char				**env_copy;
@@ -68,7 +63,6 @@ int						loop_each_cmd(t_data *data);
 void					eof(t_data *data);
 void					init_data(t_data *data, char **env);
 void					minishell_core(t_data *data);
-// init.c
 
 // lexer.c
 int						trim_spaces(t_data *data);
