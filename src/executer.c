@@ -52,7 +52,6 @@ void	ft_bash(t_data *data, int command)
 
 void	ft_commands(t_node *current, char **env, t_data *data)
 {
-
 	if (ft_strcmp_node(current, "pwd") == 0)
 		g_ex_status = ft_pwd();
 	else if (ft_strcmp_node(current, "echo") == 0)
@@ -66,7 +65,11 @@ void	ft_commands(t_node *current, char **env, t_data *data)
 		g_ex_status = ft_export_na(data->env_copy,
 				get_arr_len(data->env_copy));
 	else
+	{
+		close_prev_fd(&data->fd_pipe[0]);
 		g_ex_status = ft_exec(current, env);
+	}
+	close_prev_fd(&data->fd_pipe[0]);
 	cleanse(data);
 	exit(g_ex_status);
 }
@@ -75,23 +78,23 @@ int	ft_no_child(t_node *current, t_data *data)
 {
 	char	**args;
 
-	close_prev_fd(&data->fd_pipe[0]);
 	args = malloc((arg_num(current) + 1) * sizeof(char *));
 	if (!args || args == NULL)
 		return (write(2, "Args allocation error\n", 22) && 0);
 	fill_args(current, &args);
 	if (ft_strcmp_node(current, "unset") == 0)
-		return (ft_unset(data, args[1], &args));
+		return (ft_unset(data, args[1], &args), close_prev_fd(&data->fd_pipe[0]));
 	else if (ft_strcmp_node(current, "exit") == 0)
-		return (ft_exit(data, &args));
+		return (ft_exit(data, &args), close_prev_fd(&data->fd_pipe[0]));
 	else if (ft_strcmp_node(current, "cd") == 0)
-		return (ft_cd(data, &args));
+		return (ft_cd(data, &args), close_prev_fd(&data->fd_pipe[0]));
 	else if (ft_strcmp_node(current, "export") == 0 && args[1] != NULL)
 	{
 		if (data->fd_outfile != -1)
-			return (free_2d_str_arr(&args), 0);
+			return (free_2d_str_arr(&args), close_prev_fd(&data->fd_pipe[0]), 0);
 		ft_export_a(data, args[1], &current, get_arr_len(data->env_copy) + 1);
 		free_2d_str_arr(&args);
+		close_prev_fd(&data->fd_pipe[0]);
 		return (0);
 	}
 	free_2d_str_arr(&args);
@@ -119,7 +122,7 @@ int	executer(t_data *data)
 	{
 		signal(SIGQUIT, ft_sig_quit);
 		signal(SIGINT, child_response);
-		close_prev_fd(&data->fd_pipe[0]);
+		//close_prev_fd(&data->fd_pipe[0]);
 		if (set_stdin_out(data->fd_infile, data->fd_outfile, data))
 			exit (1);
 		ft_commands(current, data->env_copy, data);

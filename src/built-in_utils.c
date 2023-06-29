@@ -31,6 +31,7 @@ int	set_stdin_out(int fd_in, int fd_out, t_data *data)
 		if (dup2(fd_in, STDIN_FILENO) == -1)
 		{
 			printf("fail 1\n");
+			close_prev_fd(&data->fd_pipe[0]);//
 			cleanse(data);
 			return (1);
 		}
@@ -41,6 +42,7 @@ int	set_stdin_out(int fd_in, int fd_out, t_data *data)
 		if (dup2(fd_out, STDOUT_FILENO) == -1)
 		{
 			printf("fail 2\n");
+			close_prev_fd(&data->fd_pipe[0]);//
 			cleanse(data);
 			return (1);
 		}
