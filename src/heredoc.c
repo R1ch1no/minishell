@@ -13,11 +13,12 @@ void	heredoc_response(int signal_num)
 
 void	heredoc_eof(t_data *data)
 {
-	printf("warning: ");
-	printf("here-document at line X delimited by end-of-file (wanted `eof')\n");
+	ft_putstr_fd("warning: ", 2);
+	ft_putstr_fd("here-document at line X delimited by end-of-file", 2);
+	ft_putstr_fd("(wanted `eof')\n", 2),
 	close_prev_fd(&data->fd_heredoc);
 	clean_heredoc_child(data);
-	exit(0);
+	exit(1);
 }
 
 int	heredoc_child(t_data *data, char *limiter)
@@ -52,7 +53,7 @@ int	heredoc_child(t_data *data, char *limiter)
 // O_TRUNC truncates size to 0: empties out file content (if its exist)
 int	here_doc(t_data *data, char *limiter)
 {
-	int		pid;
+	int	pid;
 
 	if (!data || limiter == NULL || close_prev_fd(&data->fd_heredoc) == -1)
 		return (ERROR);
@@ -76,7 +77,6 @@ int	here_doc(t_data *data, char *limiter)
 		return (unlink(HERE_DOC), ERROR);
 	return (0);
 }
-
 
 int	look_for_heredoc(t_data *data, t_node *head)
 {
