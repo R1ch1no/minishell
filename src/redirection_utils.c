@@ -7,7 +7,6 @@ int	close_prev_fd(int *fd)
 	{
 		if (close(*fd) == -1)
 		{
-			printf("FD: %d\n", *fd);
 			return (perror("mini_shit💩: something went wrong with close\n"),
 				-1);
 		}
