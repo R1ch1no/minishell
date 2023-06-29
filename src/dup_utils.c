@@ -39,7 +39,7 @@ char	**dup_str_arr(char **ori)
 	char	**copy;
 
 	i = 0;
-	if (ori == NULL || ori[0] == NULL)
+	if (!ori || ori == NULL || ori[0] == NULL)
 		return (NULL);
 	copy = malloc((get_2d_arr_len((void **)ori) + 1) * sizeof(char *));
 	if (copy == NULL)

@@ -42,6 +42,12 @@ void	init_data(t_data *data, char **env)
 {
 	data->line_read = NULL;
 	data->env_copy = dup_str_arr(env);
+	if (data->env_copy == NULL)
+	{
+		ft_putstr_fd("You are so funny Elijah :D\n", 2);
+		free(data);
+		exit(0);
+	}
 	data->cmd_line = NULL;
 	data->fd_infile = -1;
 	data->fd_outfile = -1;
