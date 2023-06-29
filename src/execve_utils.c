@@ -14,6 +14,8 @@ char	*check_access(char **tmp, t_node *node)
 	{
 		tlen = ft_strlen(tmp[i]);
 		path = malloc(tlen + 1 + cmdlen + 1);
+		if (path == NULL || !path)
+			return (ft_putstr_fd("Allocation problem!\n", 2), NULL);
 		ft_strlcpy(path, tmp[i], tlen + 1);
 		ft_strlcpy(&path[tlen], "/", 2);
 		ft_strlcpy(&path[tlen + 1], node->cmd, tlen + 1 + cmdlen);

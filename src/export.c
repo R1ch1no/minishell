@@ -21,9 +21,7 @@ char	**copy_2d_char_arr(char **env, int len)
 	{
 		print[++z] = malloc(ft_strlen(env[y]) + 1);
 		if (print[z] == NULL)
-			free_2d_str_arr(&print);
-		if (print[z] == NULL)
-			return (NULL);
+			return (free_2d_str_arr(&print), NULL);
 		ft_strlcpy(print[z], env[y], ft_strlen(env[y]) + 1);
 	}
 	print[z + 1] = NULL;

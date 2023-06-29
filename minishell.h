@@ -96,7 +96,6 @@ void					dollar_and_s_quotes(char **str, t_data *data);
 int						count_char(char *str, char c);
 void					cut_out_all(char *str, char c, char *cutted);
 void					cut_out_all_but_last(char *str, char c, char *cutted);
-void					cut_out_quotes(char **str, char c);
 
 // quotes_and_dollar
 int						check_if_quote_and_closed(char *str, int i);

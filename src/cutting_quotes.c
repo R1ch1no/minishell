@@ -62,26 +62,3 @@ void	cut_out_all_but_last(char *str, char c, char *cutted)
 	cutted[j] = '\0';
 }
 
-void	cut_out_quotes(char **str, char c)
-{
-	int		count;
-	char	*cutted;
-
-	if (!str)
-		return ;
-	count = count_char((*str), c);
-	if (count < 2)
-		return ;
-	if (count % 2 == 0)
-	{
-		cutted = malloc(sizeof(char) * (ft_strlen((*str)) - count + 1));
-		cut_out_all(*str, c, cutted);
-	}
-	else
-	{
-		cutted = malloc(sizeof(char) * (ft_strlen(*str) - (count - 1) + 1));
-		cut_out_all_but_last(*str, c, cutted);
-	}
-	free(*str);
-	*str = cutted;
-}

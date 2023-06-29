@@ -60,6 +60,11 @@ void	fill_args(t_node *node, char ***args)
 		if (current->special == 1)
 			break ;
 		(*args)[count] = (char *)malloc(ft_strlen(current->cmd) + 1);
+		if ((*args)[count] == NULL || !(*args)[count])
+		{
+			free_2d_str_arr(args);
+			return ;
+		}
 		ft_strlcpy((*args)[count], current->cmd, ft_strlen(current->cmd) + 1);
 		current = current->next;
 		count++;
