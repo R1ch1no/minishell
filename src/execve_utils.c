@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:31 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 14:29:50 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 15:34:20 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	ft_exec_path(char **env, char **path, t_node *node, char ***args)
 	int		m_error;
 
 	m_error = 0;
-	if (access(node->cmd, F_OK) == 0)
+	if (access(node->cmd, F_OK) == 0 && node->cmd[0] == '/')
 	{
 		*path = ft_strdup(node->cmd);
 		if (path == NULL)

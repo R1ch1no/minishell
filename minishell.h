@@ -6,7 +6,7 @@
 /*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:08:09 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 15:19:49 by qtran            ###   ########.fr       */
+/*   Updated: 2023/06/30 15:22:45 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define FALSE 0
 # define ERROR -1
 
-//exit statuses
+// exit statuses
 # define CTRL_C 130
 # define CMD_N_F 127
 # define IS_DIR 126
@@ -96,8 +96,7 @@ int						check_if_any_token(t_node *node);
 // pre_executer.c
 void					prep_for_executer(t_node **head, t_data *data);
 void					dollar_and_s_quotes(char **str, t_data *data);
-void 					free_and_null(char **str);
-
+void					free_and_null(char **str);
 
 // quotes_and_dollar
 int						check_if_quote_and_closed(char *str, int i);
@@ -144,7 +143,7 @@ void					cleanse(t_data *data);
 void					free_2d_str_arr(char ***arr);
 void					free_2d_str_arr_v2(char **arr);
 void					free_2d_str_until(char **arr, int end);
-void 					malloc_error(t_data *data);
+void					malloc_error(t_data *data);
 
 // signals handling;
 void					signal_set_up(t_data *data);
@@ -170,7 +169,8 @@ void					ft_bash(t_data *data, int command);
 int						ft_export_na(char **env, int len);
 int						ft_export_a(t_data *data, char ***args, t_node **node,
 							int len);
-int						ft_replace_existing(t_data *data, t_node *node, char ***args);
+int						ft_replace_existing(t_data *data, t_node *node,
+							char ***args);
 int						ft_strcmp_v2_until(char *s1, char *s2, char c);
 int						ft_append(t_data *data, t_node *node, int y);
 int						ft_invalid(char *str);
