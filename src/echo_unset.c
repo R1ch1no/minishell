@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:08 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 12:34:23 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 14:11:59 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	ft_find_match(t_data *data, char *search, int y)
 
 void	ft_problem(t_data *data, char **new_env, int z)
 {
+	ft_putstr_fd("mini_shell : malloc error\n", 2);
 	free_2d_str_until(new_env, z);
 	cleanse(data);
 }
@@ -82,7 +83,7 @@ int	ft_unset(t_data *data, char *search, char ***args)
 	if ((*args)[1] == NULL || search == NULL || ft_find(data, search) == 0)
 		return (free_2d_str_arr(args), 0);
 	new_env = malloc((y) * sizeof(char *));
-	if (!new_env)
+	if (!new_env || new_env == NULL)
 		return (free_2d_str_arr(args), malloc_error(data), 1);
 	y = -1;
 	while (data->env_copy[++y] != NULL)

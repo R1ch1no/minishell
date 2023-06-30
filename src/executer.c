@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:22 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 13:10:19 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 15:07:04 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,14 @@ int	ft_no_child(t_node *current, t_data *data)
 	else if (ft_strcmp_node(current, "export") == 0 && args[1] != NULL
 		&& data->no == 0)
 	{
-		ft_export_a(data, args[1], &current, get_arr_len(data->env_copy) + 1);
+		ft_export_a(data, &args, &current, get_arr_len(data->env_copy) + 1);
 		free_2d_str_arr(&args);
 		close_prev_fd(&data->fd_pipe[0]);
 		return (0);
 	}
 	if (was_child(current, &args) == 0 && data->no == 1)
 		return (close_prev_fd(&data->fd_pipe[0]), 0);
-	free_2d_str_arr(&args);
-	return (1);
+	return (free_2d_str_arr(&args), 1);
 }
 
 // close_prev_fd(&data->fd_pipe[0]); very important
