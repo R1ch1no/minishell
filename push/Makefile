@@ -21,7 +21,6 @@ SRC			= 	main.c \
 				export_utils.c \
 				dollar.c \
 				dollar_env.c \
-				cutting_quotes.c \
 				pre_executer.c \
 				executer.c \
 				executer_utils.c \
@@ -88,18 +87,12 @@ aa: all
 	./$(NAME) $(ARGV)
 
 va: all
-	make -C ./ clean
 	valgrind \
 	--leak-check=full \
 	--show-leak-kinds=all \
-	--track-fds=yes \
-	--suppressions=val_suppression_file.txt \
 	./$(NAME)
 
-#--track-origins=yes \
 #code valgrind_output.txt
-
-#--trace-children=yes
 #valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(TEST_INPUT)
 
 debug : CFLAGS += -g

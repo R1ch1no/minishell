@@ -87,7 +87,6 @@ aa: all
 	./$(NAME) $(ARGV)
 
 va: all
-	make -C ./ clean
 	valgrind \
 	--leak-check=full \
 	--show-leak-kinds=all \
