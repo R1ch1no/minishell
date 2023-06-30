@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:05:00 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:05:01 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 11:09:19 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	heredoc_response(int signal_num)
 	{
 		write(STDIN_FILENO, "\n", 1);
 		close(STDIN_FILENO);
+		unlink(HERE_DOC);
 		g_ex_status = CTRL_C;
 	}
 }
