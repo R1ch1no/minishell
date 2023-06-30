@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:31 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 13:11:32 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 14:29:50 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,14 +132,14 @@ int	ft_exec_path(char **env, char **path, t_node *node, char ***args)
 			ft_putstr_fd(": command not found\n", 2);
 		}
 		free(*path);
-		free_2d_str_arr(args);
-		return (CMD_N_F);
+		return (free_2d_str_arr(args), CMD_N_F);
 	}
 	else
 		*path = search_path(env, node, &m_error);
-	if (*path == NULL)
+	if (*path == NULL && m_error == 0)
 		return (free_2d_str_arr(args), CMD_N_F);
 	*args = malloc((arg_num(node) + 1) * sizeof(char *));
+	*args[0] = NULL;
 	if (!args || args == NULL)
 		return (free_2d_str_arr(args), free(*path), 1);
 	return (m_error);

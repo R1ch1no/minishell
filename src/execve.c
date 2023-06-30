@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:38 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 13:09:06 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 14:23:47 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	ft_exec(t_node *node, char **env, t_data *data)
 	else
 		g_ex_status = ft_exec_path(env, &path, node, &args);
 	if (g_ex_status == 1)
-		malloc_error(data);
+		return (free_2d_str_arr(&args), malloc_error(data), 1);
 	if (g_ex_status != 0)
 		return (g_ex_status);
 	fill_args(node, &args);

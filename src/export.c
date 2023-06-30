@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:49 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:32:22 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 15:12:51 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ char	**copy_2d_char_arr(char **env, int len)
 		return (NULL);
 	print = malloc((len + 1) * sizeof(char *));
 	if (!print)
-	{
-		perror(NULL);
 		return (NULL);
-	}
 	while (env[++y])
 	{
 		print[++z] = malloc(ft_strlen(env[y]) + 1);
@@ -84,7 +81,7 @@ int	ft_export_na(char **env, int len)
 
 	print = copy_2d_char_arr(env, len);
 	if (print == NULL)
-		return (write(2, "Allocation (export_na) problem!\n", 32) && 0);
+		return (ft_putstr_fd("mini_shell : malloc error\n", 2), 1);
 	while (--len > 0)
 	{
 		row = -1;
@@ -116,14 +113,14 @@ int	ft_append(t_data *data, t_node *node, int y)
 		x++;
 	result = ft_strjoin(data->env_copy[y], &node->cmd[x]);
 	if (result == NULL || !result)
-		return (0);
+		return (malloc_error(data), 0);
 	free(data->env_copy[y]);
 	data->env_copy[y] = result;
 	return (1);
 }
 
 //export function when there are arguments
-int	ft_export_a(t_data *data, char *var, t_node **node, int len)
+int	ft_export_a(t_data *data, char ***args, t_node **node, int len)
 {
 	int		y;
 	char	**new_env;
@@ -132,20 +129,20 @@ int	ft_export_a(t_data *data, char *var, t_node **node, int len)
 	(*node) = (*node)->next;
 	if (ft_invalid((*node)->cmd) == 1)
 		return (1);
-	if (ft_replace_existing(data, *node) == 1)
+	if (ft_replace_existing(data, *node, args) == 1)
 		return (0);
 	new_env = copy_2d_char_arr(data->env_copy, len);
 	if (new_env == NULL || !new_env)
-		return (write(2, "Allocation (export_a) problem\n", 30) && 1);
+		return (malloc_error(data), 1);
 	while (new_env[y] != NULL)
 		y++;
-	new_env[y] = malloc(ft_strlen(var) + 1);
+	new_env[y] = malloc(ft_strlen((*args)[1]) + 1);
 	if (new_env[y] == NULL || !new_env[y])
 	{
 		free_2d_str_arr(&new_env);
-		return (write(2, "Allocation (export_a) problem\n", 30) && 1);
+		return (free_2d_str_arr(args), malloc_error(data), 1);
 	}
-	ft_strlcpy(new_env[y], var, ft_strlen(var) + 1);
+	ft_strlcpy(new_env[y], (*args)[1], ft_strlen((*args)[1]) + 1);
 	new_env[y + 1] = NULL;
 	free_2d_str_arr(&data->env_copy);
 	data->env_copy = new_env;

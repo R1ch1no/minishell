@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:45 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:32:42 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 15:09:12 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_strcmp_export(char *s1, char *s2, char c)
 //in case a varable already exist , the function replaces it with the new value
 //and return 1 otherwise if the variable is new, return 0 and append it
 //to the enviroment
-int	ft_replace_existing(t_data *data, t_node *node)
+int	ft_replace_existing(t_data *data, t_node *node, char ***args)
 {
 	int		y;
 	int		match;
@@ -82,7 +82,7 @@ int	ft_replace_existing(t_data *data, t_node *node)
 		return (0);
 	replace = malloc(ft_strlen(node->cmd) + 1);
 	if (!replace || replace == NULL)
-		return (write(2, "Allocation (export_a) error !\n", 30) && 1);
+		return (free_2d_str_arr(args), malloc_error(data), 1);
 	ft_strlcpy(replace, node->cmd, ft_strlen(node->cmd) + 1);
 	free(data->env_copy[match]);
 	data->env_copy[match] = replace;
