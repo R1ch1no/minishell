@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:00:58 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:01:16 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 12:18:40 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ void	cleanse(t_data *data)
 	free_2d_str_arr(&data->env_copy);
 	ft_clean_cmd(data);
 	free(data);
+}
+
+void malloc_error(t_data *data)
+{
+	cleanse(data);
+	exit(0);
 }
 
 void	free_2d_str_arr(char ***arr)

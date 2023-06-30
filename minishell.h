@@ -6,7 +6,7 @@
 /*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:08:09 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 10:46:26 by qtran            ###   ########.fr       */
+/*   Updated: 2023/06/30 12:19:14 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,8 @@ void					cleanse(t_data *data);
 void					free_2d_str_arr(char ***arr);
 void					free_2d_str_arr_v2(char **arr);
 void					free_2d_str_until(char **arr, int end);
+void 					malloc_error(t_data *data);
+
 // signals handling;
 void					signal_set_up(t_data *data);
 void					ft_sig_quit(int signal_num);
