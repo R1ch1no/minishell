@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:12 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:04:13 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 12:36:13 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	cd_home(t_data *data, int i, int found)
 		i++;
 	home = malloc(ft_strlen(&data->env_copy[x][i + 1]) + 1);
 	if (!home || home == NULL)
-		return (ft_putstr_fd("cd alloc problem !\n", 2), 1);
+		return (malloc_error(data), 1);
 	ft_strlcpy(home, &data->env_copy[x][i + 1], ft_strlen(&data->env_copy[x][i
 			+ 1]) + 1);
 	if (chdir(home) != 0)

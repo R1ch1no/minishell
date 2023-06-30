@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:03:57 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:03:58 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 12:29:19 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	**dup_str_arr(char **ori)
 	if (copy == NULL)
 	{
 		perror("minishell malloc");
-		exit(1);
+		return (NULL);
 	}
 	while (ori[i])
 	{
@@ -65,7 +65,7 @@ char	**dup_str_arr(char **ori)
 		{
 			perror("minishell malloc");
 			free_2d_str_until(copy, i);
-			exit(1);
+			return (NULL);
 		}
 		i++;
 	}

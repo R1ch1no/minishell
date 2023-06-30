@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:08:09 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 12:19:14 by qtran            ###   ########.fr       */
+/*   Updated: 2023/06/30 13:10:03 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ int						ft_append(t_data *data, t_node *node, int y);
 int						ft_invalid(char *str);
 
 // execve
-int						ft_exec(t_node *node, char **env);
+int						ft_exec(t_node *node, char **env, t_data *data);
 int						ft_exec_here(char **path, t_node *node, char ***args);
 int						ft_exec_path(char **env, char **path, t_node *node,
 							char ***args);

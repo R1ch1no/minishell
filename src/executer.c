@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:22 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:04:23 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:10:19 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	ft_commands(t_node *current, char **env, t_data *data)
 	else
 	{
 		close_prev_fd(&data->fd_pipe[0]);
-		g_ex_status = ft_exec(current, env);
+		g_ex_status = ft_exec(current, env, data);
 	}
 	close_prev_fd(&data->fd_pipe[0]);
 	cleanse(data);
@@ -90,7 +90,7 @@ int	ft_no_child(t_node *current, t_data *data)
 
 	args = malloc((arg_num(current) + 1) * sizeof(char *));
 	if (!args || args == NULL)
-		return (write(2, "Args allocation error\n", 22) && 0);
+		return (malloc_error(data), 0);
 	fill_args(current, &args);
 	if (ft_strcmp_node(current, "unset") == 0 && data->no == 0)
 		return (ft_unset(data, args[1], &args),

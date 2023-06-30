@@ -6,13 +6,13 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:31 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 19:08:16 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:11:32 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*check_access(char **tmp, t_node *node)
+char	*check_access(char **tmp, t_node *node, int *m_error)
 {
 	char	*path;
 	int		i;
@@ -26,7 +26,7 @@ char	*check_access(char **tmp, t_node *node)
 		tlen = ft_strlen(tmp[i]);
 		path = malloc(tlen + 1 + cmdlen + 1);
 		if (path == NULL || !path)
-			return (ft_putstr_fd("Allocation problem!\n", 2), NULL);
+			return (*m_error = 1, NULL);
 		ft_strlcpy(path, tmp[i], tlen + 1);
 		ft_strlcpy(&path[tlen], "/", 2);
 		ft_strlcpy(&path[tlen + 1], node->cmd, tlen + 1 + cmdlen);
@@ -39,7 +39,7 @@ char	*check_access(char **tmp, t_node *node)
 	return (path);
 }
 
-char	*ft_exec_access(char *env, t_node *node)
+char	*ft_exec_access(char *env, t_node *node, int *m_error)
 {
 	char	**tmp;
 	char	*path;
@@ -53,12 +53,17 @@ char	*ft_exec_access(char *env, t_node *node)
 	if (env[i] == '\0')
 		return (NULL);
 	tmp = ft_split(&env[i], ':');
-	path = check_access(tmp, node);
+	if (tmp == NULL)
+	{
+		*m_error = 1;
+		return (NULL);
+	}
+	path = check_access(tmp, node, m_error);
 	free_2d_str_arr(&tmp);
 	return (path);
 }
 
-char	*search_path(char **env, t_node *node)
+char	*search_path(char **env, t_node *node, int *m_error)
 {
 	int	y;
 	int	found;
@@ -79,7 +84,7 @@ char	*search_path(char **env, t_node *node)
 		ft_putstr_fd(": No such file or directory\n", 2);
 		return (NULL);
 	}
-	return (ft_exec_access(env[y], node));
+	return (ft_exec_access(env[y], node, m_error));
 }
 
 //runs an executable from the current folder with ./
@@ -90,13 +95,13 @@ int	ft_exec_here(char **path, t_node *node, char ***args)
 	code = 0;
 	*path = malloc(ft_strlen(node->cmd) + 1);
 	if (!path || path == NULL)
-		return (write(2, "Allocation (ft_exec) problem!\n", 30) && 1);
+		return (1);
 	ft_strlcpy(*path, node->cmd, ft_strlen(node->cmd) + 1);
 	*args = malloc((arg_num(node) + 1) * sizeof(char *));
 	if (!args || args == NULL)
 	{
 		free(*path);
-		return (write(2, "Allocation (ft_exec) problem!\n", 30) && 1);
+		return (1);
 	}
 	if (access(*path, F_OK) != 0)
 		code = CMD_N_F;
@@ -113,9 +118,14 @@ int	ft_exec_here(char **path, t_node *node, char ***args)
 
 int	ft_exec_path(char **env, char **path, t_node *node, char ***args)
 {
+	int		m_error;
+
+	m_error = 0;
 	if (access(node->cmd, F_OK) == 0)
 	{
 		*path = ft_strdup(node->cmd);
+		if (path == NULL)
+			return (free_2d_str_arr(args), 1);
 		if (execve(*path, *args, env) == -1)
 		{
 			ft_putstr_fd(node->cmd, 2);
@@ -126,14 +136,11 @@ int	ft_exec_path(char **env, char **path, t_node *node, char ***args)
 		return (CMD_N_F);
 	}
 	else
-		*path = search_path(env, node);
+		*path = search_path(env, node, &m_error);
 	if (*path == NULL)
-		return (CMD_N_F);
+		return (free_2d_str_arr(args), CMD_N_F);
 	*args = malloc((arg_num(node) + 1) * sizeof(char *));
 	if (!args || args == NULL)
-	{
-		free(*path);
-		return (write(2, "Allocation (ft_exec) problem!\n", 30) && 1);
-	}
-	return (0);
+		return (free_2d_str_arr(args), free(*path), 1);
+	return (m_error);
 }

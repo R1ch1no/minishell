@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:05:30 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:05:31 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:14:01 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	prep_for_executer(t_node **head, t_data *data)
 	t_node	*current;
 
 	current = *head;
-	while (current)
+	while (current && current->cmd)
 	{
 		if (count_char(current->cmd, '"') > 1)
 			dollar_and_s_quotes(&(current->cmd), data);

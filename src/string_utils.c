@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:06:00 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 10:45:23 by qtran            ###   ########.fr       */
+/*   Updated: 2023/06/30 12:51:47 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*strdup_without(char *src, char c, int len)
 		return (NULL);
 	dup = malloc(sizeof(char) * (len + 1));
 	if (!dup)
-		exit(1);
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (src[i] && j < len)

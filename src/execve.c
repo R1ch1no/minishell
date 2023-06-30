@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:38 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:04:39 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:09:06 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	execute_cmd(char *path, char **env, char **args)
 }
 
 //execve function
-int	ft_exec(t_node *node, char **env)
+int	ft_exec(t_node *node, char **env, t_data *data)
 {
 	char	*path;
 	char	**args;
@@ -107,17 +107,13 @@ int	ft_exec(t_node *node, char **env)
 	if (start != 0)
 		return (start);
 	if (ft_strcmp_v2_until(node->cmd, "./", '/') == 0)
-	{
 		g_ex_status = ft_exec_here(&path, node, &args);
-		if (g_ex_status != 0)
-			return (g_ex_status);
-	}
 	else
-	{
 		g_ex_status = ft_exec_path(env, &path, node, &args);
-		if (g_ex_status != 0)
-			return (g_ex_status);
-	}
+	if (g_ex_status == 1)
+		malloc_error(data);
+	if (g_ex_status != 0)
+		return (g_ex_status);
 	fill_args(node, &args);
 	return (execute_cmd(path, env, args) && 0);
 }

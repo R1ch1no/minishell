@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:08 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:04:09 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 12:34:23 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ int	ft_find_match(t_data *data, char *search, int y)
 void	ft_problem(t_data *data, char **new_env, int z)
 {
 	free_2d_str_until(new_env, z);
-	free_2d_str_arr(&data->env_copy);
-	data->env_copy = NULL;
+	cleanse(data);
 }
 
 int	ft_core(t_data *data, char **new_env, int y, int z)
@@ -84,14 +83,13 @@ int	ft_unset(t_data *data, char *search, char ***args)
 		return (free_2d_str_arr(args), 0);
 	new_env = malloc((y) * sizeof(char *));
 	if (!new_env)
-		return (write(2, "Allocation error (unset) !\n", 27),
-			free_2d_str_arr(args), 0);
+		return (free_2d_str_arr(args), malloc_error(data), 1);
 	y = -1;
 	while (data->env_copy[++y] != NULL)
 	{
 		if (ft_find_match(data, search, y) == 0)
 			if (ft_core(data, new_env, y, ++z) == 1)
-				return (free_2d_str_arr(args), 0);
+				return (free_2d_str_arr(args), exit(1), 1);
 		if (data->env_copy[y] == NULL)
 			break ;
 	}
