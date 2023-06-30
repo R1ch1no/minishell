@@ -21,7 +21,6 @@ SRC			= 	main.c \
 				export_utils.c \
 				dollar.c \
 				dollar_env.c \
-				cutting_quotes.c \
 				pre_executer.c \
 				executer.c \
 				executer_utils.c \

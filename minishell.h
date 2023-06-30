@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:08:09 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 19:07:59 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 10:46:26 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,6 @@ int						check_if_any_token(t_node *node);
 // pre_executer.c
 void					prep_for_executer(t_node **head, t_data *data);
 void					dollar_and_s_quotes(char **str, t_data *data);
-
-// cutting_quotes.c not used yet maybe unneccassary
-int						count_char(char *str, char c);
-void					cut_out_all(char *str, char c, char *cutted);
-void					cut_out_all_but_last(char *str, char c, char *cutted);
 
 // quotes_and_dollar
 int						check_if_quote_and_closed(char *str, int i);
@@ -209,6 +204,8 @@ void					strcpy_wout_ind(char **str, unsigned int x,
 							t_data *data);
 void					four_free(char *s1, char *s2, char *s3, char *s4);
 int						check_if_char_in_row(char *str, char c);
+int						count_char(char *str, char c);
+
 // check if actually called
 
 // string_utils_2 aka "libft alike"
