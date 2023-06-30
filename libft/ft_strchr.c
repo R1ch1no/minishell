@@ -6,7 +6,7 @@
 /*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 18:04:49 by qtran             #+#    #+#             */
-/*   Updated: 2023/02/16 15:31:15 by qtran            ###   ########.fr       */
+/*   Updated: 2023/06/30 14:53:19 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_strchr(const char *s, int c)
 	int	i;
 
 	i = 0;
+	if (!s)
+		return (NULL);
 	while (s[i] != (char)c && s[i])
 		i++;
 	if (s[i] == (char)c)

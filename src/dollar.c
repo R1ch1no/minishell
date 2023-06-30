@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:03:53 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:03:54 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 14:56:39 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	subout_dollar(char **str, int i, int left_f_cut, t_data *data)
 	if (left_f_cut == TRUE && ((*str)[i] == '\'' || (*str)[i] == '"'))
 		return (1);
 	if (check_if_quote_and_closed((*str), i) == TRUE)
-		return (strcpy_wout_ind(str, i - 1, data), 0);
+		return (strcpy_wout_ind(str, i - 1), 0);
 	before_d = get_str_before_dollar(*str, i);
 	end_of_d = get_end_of_dollar(*str, i, left_f_cut);
 	d_name = ft_substr(*str, i, end_of_d - &(*str)[i]);

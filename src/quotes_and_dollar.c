@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_and_dollar.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:05:37 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:05:38 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 15:06:47 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ void	dollar_and_s_quotes(char **str, t_data *data)
 			i = single_quotes(str, i, '\'');
 		else if ((*str)[i] == '"' && left_for_cut == TRUE)
 		{
-			strcpy_wout_ind(str, i, data);
+			strcpy_wout_ind(str, i);
 			left_for_cut = FALSE;
 		}
 		else if ((*str)[i] == '"' && ft_strchr(&(*str)[i + 1], '"') != NULL)
 		{
-			strcpy_wout_ind(str, i, NULL);
+			strcpy_wout_ind(str, i);
 			left_for_cut = TRUE;
 		}
 		else

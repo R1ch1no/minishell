@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cmd_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:05:05 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:05:06 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 15:16:59 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	init_cmd_line(t_data *data)
 	int		i;
 	int		len;
 	char	*str;
+	char	*cmd_str;
 	t_node	*new_node;
 
 	str = data->line_read;
@@ -26,9 +27,10 @@ void	init_cmd_line(t_data *data)
 	while (str[i])
 	{
 		len = get_token_len(&str[i]);
-		new_node = create_node(ft_substr(str, i, len));
-		if (new_node == NULL)
-			return (perror("mini hell malloc"), cleanse(data));
+		cmd_str = ft_substr(str, i, len);
+		new_node = create_node(cmd_str);
+		if (cmd_str == NULL || new_node == NULL)
+			return (free(cmd_str), malloc_error(data));
 		add_node_back(&data->cmd_line, new_node);
 		i += len;
 		while (str[i] && str[i] == ' ')

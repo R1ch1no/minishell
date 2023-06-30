@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   linked_list_utils_two.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:05:12 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:05:13 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 15:15:02 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ t_node	*create_node(char *str)
 {
 	t_node	*new;
 
+	if (!str)
+		return (NULL);
 	new = malloc(sizeof(t_node));
 	if (new == NULL)
 		return (NULL);

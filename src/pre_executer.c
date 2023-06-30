@@ -3,16 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   pre_executer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:05:30 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 13:14:01 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 15:18:45 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	s__d_quotes(char **str, t_data *data)
+void	free_and_null(char **str)
+{
+	free(*str);
+	*str = NULL;
+}
+
+void	s_d_quotes(char **str)
 {
 	int	i;
 	int	left_for_cut;
@@ -26,12 +32,12 @@ void	s__d_quotes(char **str, t_data *data)
 			i = single_quotes(str, i, '\'');
 		else if ((*str)[i] == '"' && left_for_cut == TRUE)
 		{
-			strcpy_wout_ind(str, i, data);
+			strcpy_wout_ind(str, i);
 			left_for_cut = FALSE;
 		}
 		else if ((*str)[i] == '"' && ft_strchr(&(*str)[i + 1], '"') != NULL)
 		{
-			strcpy_wout_ind(str, i, NULL);
+			strcpy_wout_ind(str, i);
 			left_for_cut = TRUE;
 		}
 		else
@@ -76,7 +82,9 @@ void	prep_for_executer(t_node **head, t_data *data)
 				continue ;
 		}
 		if (current != NULL)
-			s__d_quotes(&current->cmd, data);
+			s_d_quotes(&current->cmd);
+		if (current != NULL && current->cmd == NULL)
+			malloc_error(data);
 		if (current != NULL)
 			current = current->next;
 	}

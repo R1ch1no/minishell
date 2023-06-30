@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:06:00 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 12:51:47 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 15:09:30 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*strdup_without(char *src, char c, int len)
 }
 
 //copies the str without one index
-void	strcpy_wout_ind(char **str, unsigned int x, t_data *data)
+void	strcpy_wout_ind(char **str, unsigned int x)
 {
 	unsigned int	i;
 	unsigned int	j;
@@ -48,7 +48,7 @@ void	strcpy_wout_ind(char **str, unsigned int x, t_data *data)
 
 	cpy = malloc(sizeof(char) * ft_strlen(*str));
 	if (!cpy)
-		cleanse(data);
+		return (free_and_null(str));
 	i = 0;
 	j = 0;
 	while ((*str)[i])

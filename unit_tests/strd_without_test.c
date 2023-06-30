@@ -27,7 +27,7 @@ char *strdup_without(char *src, char c, int len)
         return (NULL);
     dup = malloc(sizeof(char) * (len + 1));
     if (!dup)
-        exit(1); //cleanse()
+        return (NULL);
     i = 0;
     j = 0;
     while (src[i] && j < len)

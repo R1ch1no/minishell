@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:08:09 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 13:10:03 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/06/30 15:05:26 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ int						check_if_any_token(t_node *node);
 // pre_executer.c
 void					prep_for_executer(t_node **head, t_data *data);
 void					dollar_and_s_quotes(char **str, t_data *data);
+void 					free_and_null(char **str);
+
 
 // quotes_and_dollar
 int						check_if_quote_and_closed(char *str, int i);
@@ -202,8 +204,7 @@ int						get_arr_len(char **arr);
 
 // string_utils
 char					*strdup_without(char *src, char c, int len);
-void					strcpy_wout_ind(char **str, unsigned int x,
-							t_data *data);
+void					strcpy_wout_ind(char **str, unsigned int x);
 void					four_free(char *s1, char *s2, char *s3, char *s4);
 int						check_if_char_in_row(char *str, char c);
 int						count_char(char *str, char c);
