@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:05:41 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:05:42 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/01 18:32:06 by qtran            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,11 @@ int	open_pipe(t_data *data)
 {
 	data->no = 1;
 	if (pipe(data->fd_pipe) == -1)
+	{
 		cleanse(data);
+		perror("pipe function");
+		exit(1);
+	}
 	if (data->fd_outfile == -1)
 		data->fd_outfile = data->fd_pipe[1];
 	else

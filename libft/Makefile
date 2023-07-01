@@ -1,14 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: qtran <qtran@student.42.fr>                +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/10/26 16:53:14 by qtran             #+#    #+#              #
-#    Updated: 2023/06/19 19:20:13 by qtran            ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 
 NAME = libft.a
 
@@ -26,38 +15,54 @@ bon_src = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back
 
 PRINTF_DIR = printf
 
-PRINTF_SRC = $(PRINTF_DIR)/ft_itohex.c \
-				$(PRINTF_DIR)/ft_pointer.c \
-				$(PRINTF_DIR)/ft_printf.c \
-				$(PRINTF_DIR)/ft_u.c \
-				$(PRINTF_DIR)/len_itoa.c \
-				$(PRINTF_DIR)/len_putchar.c \
-				$(PRINTF_DIR)/len_putstr.c \
-				$(PRINTF_DIR)/printf_itoa.c
+PRINTF_SOURCES =	ft_itohex.c \
+					ft_pointer.c \
+					ft_printf.c \
+					ft_u.c \
+					len_itoa.c \
+					len_putchar.c \
+					len_putstr.c \
+					printf_itoa.c
 
-PRINTF_OBJ = $(PRINTF_SRC:.c=.o)
-
-#next line unneccessary 
-Cur_dir = $(shell pwd)
+PRINTF_SRCS	= $(addprefix $(PRINTF_DIR)/, $(PRINTF_SOURCES))
+PRINTF_OBJS = $(PRINTF_SRCS:.c=.o)
 
 Objects = $(Sources:.c=.o)
 bon_obj = $(bon_src:.c=.o)
 
 CC = cc
-
 Cflags = -Wall -Werror -Wextra
 
-all: $(PRINTF_OBJ) $(NAME)
- 
-$(NAME): $(Objects) 
-	@ar -src $@ $(Objects) $(PRINTF_OBJ)
-	@echo $(NAME) created
+.PHONY: all bonus clean fclean re seelib norm normb
+all: $(NAME)
 
-$(Objects):
-	@$(CC) -c $(Cflags) $(Sources)
-
-$(PRINTF_OBJ):
+$(NAME): $(Objects)
 	$(MAKE) -C printf
+	ar -src $@ $(Objects) $(PRINTF_OBJS)
+	@echo $(NAME) created
+	
+%.o: %.c
+	$(CC) -c $(Cflags) $< -o $@
+
+#$(Objects):
+#	$(CC) -c $(Cflags) $(Sources)
+
+clean:
+	@rm -f *.o
+	$(MAKE) -C $(PRINTF_DIR) clean
+	@echo "clean done"
+
+
+fclean:
+	@rm -f *.o
+	@rm -f $(NAME)
+	$(MAKE) -C $(PRINTF_DIR) fclean
+	@echo "fclean done"
+
+
+re: fclean all
+	@echo "recompilation done"
+
 
 bonus: $(bon_obj) all
 	@ar -src $(NAME) $(bon_obj)
@@ -66,21 +71,6 @@ bonus: $(bon_obj) all
 
 $(bon_obj):
 	@$(CC) -c $(Cflags) $(bon_src)
-
-clean:
-	@rm -rf *.o
-	$(MAKE) -C $(PRINTF_DIR) clean
-	@echo "clean done"
-
-
-fclean: clean
-	@rm -f $(NAME)
-	$(MAKE) -C $(PRINTF_DIR) fclean
-	@echo "fclean done"
-
-
-re: fclean all
-	@echo "recompilation done"
 
 
 seelib:
@@ -95,4 +85,3 @@ normb: norm
 	@norminette -R CheckForbiddenSourceHeader $(bon_src)
 	@echo all functions checked with norminette including bonus
 
-.PHONY: all bonus clean fclean re seelib norm normb

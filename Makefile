@@ -1,7 +1,7 @@
 NAME		= minishell
 
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra -g
+CFLAGS		= -Wall -Werror -Wextra
 
 SRC_PATH 	= src
 OBJ_PATH 	= obj
@@ -57,14 +57,15 @@ $(OBJ_PATH):
 	@mkdir -p $(OBJ_PATH)
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
-	@$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(LIBFT) $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -lhistory -o $(NAME) 
+	@echo "$(BYELLOW)Creating executable:$(NC)"
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -lhistory -o $(NAME) 
 	@echo "$(GREEN)Executable \"$(NAME)\" succesfully created.$(NC)"
 
 $(LIBFT):
-	@$(MAKE) -C $(LIBFT_DIR)
+	$(MAKE) -C $(LIBFT_DIR)
 
 #General
 clean:
@@ -73,7 +74,9 @@ clean:
 	@$(MAKE) -C $(LIBFT_DIR) clean
 	@echo "$(MAGENTA)Make clean in directory "$(LIBFT_DIR)" invoked.$(NC)"
 
-fclean: clean
+fclean:
+	@rm -rf $(OBJ_PATH)
+	@echo "$(MAGENTA)Obj directory removed.$(NC)"
 	@rm -f $(NAME)
 	@echo "$(MAGENTA)Deleted executable named: $(NAME)$(NC)"
 	@$(MAKE) -C $(LIBFT_DIR) fclean
@@ -82,10 +85,6 @@ fclean: clean
 re: fclean all
 	@echo "$(GREEN)Recompilation successfully done!$(NC)"
 
-aa: all
-	@echo "$(GREEN)Executing programm with \"TEST_INPUT\" of the Makefile.$(NC)"
-	./$(NAME) $(ARGV)
-
 va: all
 	valgrind \
 	--leak-check=full \
@@ -93,24 +92,12 @@ va: all
 	--suppressions=val_suppression_file.txt \
 	./$(NAME)
 
-#--track-origins=yes \
-#code valgrind_output.txt
-
-#--trace-children=yes
-#valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) $(TEST_INPUT)
-
 debug : CFLAGS += -g
 debug : fclean all
 
 norm: $(SRCS)
 	norminette -R CheckForbiddenSourceHeader $(SRCS) $(NAME).h
 	@echo "$(BWHITE)All source files checked with norminette.$(NC)"
-
-
-
-
-
-
 
 
 
