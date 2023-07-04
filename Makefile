@@ -42,7 +42,6 @@ SRC			= 	main.c \
 				redirections.c \
 				redirection_utils.c
 
-
 SRCS 		= $(addprefix $(SRC_PATH)/, $(SRC))
 OBJ 		= $(SRC:.c=.o)
 OBJS 		= $(addprefix $(OBJ_PATH)/, $(OBJ))
@@ -89,6 +88,7 @@ va: all
 	valgrind \
 	--leak-check=full \
 	--show-leak-kinds=all \
+	--track-fds=yes \
 	--suppressions=val_suppression_file.txt \
 	./$(NAME)
 

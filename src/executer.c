@@ -123,9 +123,8 @@ int	executer(t_data *data)
 	}
 	if (ft_no_child(current, data) == 0)
 	{
-		close_prev_fd(&data->fd_pipe[0]);
-		close_prev_fd(&data->fd_outfile);//dunno why export a=a | wc doesnt work, might change the pipes to dup
-		data->fd_pipe[1] = -1;
+		close_prev_fd(&data->fd_pipe[1]);
+		data->fd_outfile = -1;		
 		return (0);
 	}
 	data->pid = fork();
