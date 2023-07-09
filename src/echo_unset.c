@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:08 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/07/09 13:08:37 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/09 13:37:23 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	unset(t_data *data, char *search, char ***args)
 	free_2d_str_arr(&data->env_copy);
 	new_env[z + 1] = NULL;
 	data->env_copy = new_env;
-	return (0);
+	return (2);
 }
 
 int	ft_unset(t_data *data, char ***args)
@@ -103,10 +103,10 @@ int	ft_unset(t_data *data, char ***args)
 	while ((*args)[++i])
 	{
 		ret = unset(data, (*args)[i], args);
-		if (ret != -1)
+		if (ret == 0 || ret == 1)
 			break ;
 	}
-	if (ret == -1)
+	if (ret == 0 || ret == 1)
 		return (free_2d_str_arr(args), ret);
 	else
 		return (free_2d_str_arr(args), 0);

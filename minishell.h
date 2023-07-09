@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:08:09 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/07/09 13:09:38 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/09 14:21:36 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ void					ft_problem(t_data *data, char **new_env, int z);
 int						ft_find(t_data *data, char *search);
 int						ft_invalid_env(char *str);
 int						was_child(t_node *current, char ***args);
+int						is_numeric(char *argv);
 // export functions
 void					ft_bash(t_data *data, int command);
 int						ft_export_na(char **env, int len);

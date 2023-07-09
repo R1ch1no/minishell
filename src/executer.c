@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:22 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/07/09 13:21:43 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/09 13:58:42 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ int	ft_getlvl(t_data *data, int y)
 		x++;
 	if (data->env_copy[y][x] == '=')
 		x++;
-	lvl = ft_atoi(&data->env_copy[y][x]);
+	if (is_numeric(&data->env_copy[y][x]) == 1)
+		lvl = 0;
+	else
+		lvl = ft_atoi(&data->env_copy[y][x]);
 	if (lvl <= 0)
 		return (0);
 	return (lvl);
@@ -44,11 +47,6 @@ void	ft_bash(t_data *data, int command)
 	lvl = ft_getlvl(data, y) + command;
 	if (lvl == -1)
 		return ;
-	if (lvl == 0)
-	{
-		cleanse(data);
-		exit(0);
-	}
 	add = ft_itoa(lvl);
 	shlvl = ft_strjoin("SHLVL=", add);
 	if (!shlvl || shlvl == NULL)
@@ -117,15 +115,12 @@ int	executer(t_data *data)
 
 	current = data->cmd_line;
 	if (current->cmd[0] == '\0')
-	{
-		g_ex_status = CMD_N_F;
-		return (ft_putstr_fd("command not found\n", 2), 0);
-	}
+		return (g_ex_status = CMD_N_F, ft_putstr_fd("command not found\n", 2),
+			0);
 	if (ft_no_child(current, data) == 0)
 	{
 		close_prev_fd(&data->fd_pipe[1]);
-		data->fd_outfile = -1;
-		return (0);
+		return (data->fd_outfile = -1, 0);
 	}
 	data->pid = fork();
 	if (data->pid == -1)
