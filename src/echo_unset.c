@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:08 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 14:11:59 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/09 13:08:37 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_echo(t_node **node)
 	n = 0;
 	if ((*node) == NULL)
 		return (write(1, "\n", 1) && 0);
-	if (ft_strcmp_v2((*node)->cmd, "-n") == 0)
+	if (echo_flag((*node)->cmd))
 	{
 		n = 1;
 		(*node) = (*node)->next;
@@ -48,13 +48,6 @@ int	ft_find_match(t_data *data, char *search, int y)
 	return (0);
 }
 
-void	ft_problem(t_data *data, char **new_env, int z)
-{
-	ft_putstr_fd("mini_shell : malloc error\n", 2);
-	free_2d_str_until(new_env, z);
-	cleanse(data);
-}
-
 int	ft_core(t_data *data, char **new_env, int y, int z)
 {
 	if (data->env_copy[y])
@@ -67,12 +60,12 @@ int	ft_core(t_data *data, char **new_env, int y, int z)
 			return (1);
 		}
 		ft_strlcpy(new_env[z], data->env_copy[y], ft_strlen(data->env_copy[y])
-			+ 1);
+				+ 1);
 	}
 	return (0);
 }
 
-int	ft_unset(t_data *data, char *search, char ***args)
+int	unset(t_data *data, char *search, char ***args)
 {
 	int		y;
 	int		z;
@@ -97,5 +90,24 @@ int	ft_unset(t_data *data, char *search, char ***args)
 	free_2d_str_arr(&data->env_copy);
 	new_env[z + 1] = NULL;
 	data->env_copy = new_env;
-	return (free_2d_str_arr(args), 0);
+	return (0);
+}
+
+int	ft_unset(t_data *data, char ***args)
+{
+	int	i;
+	int	ret;
+
+	i = 0;
+	ret = -1;
+	while ((*args)[++i])
+	{
+		ret = unset(data, (*args)[i], args);
+		if (ret != -1)
+			break ;
+	}
+	if (ret == -1)
+		return (free_2d_str_arr(args), ret);
+	else
+		return (free_2d_str_arr(args), 0);
 }

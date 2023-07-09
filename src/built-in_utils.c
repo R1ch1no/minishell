@@ -6,11 +6,26 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:00:51 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:03:21 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/09 12:59:33 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	echo_flag(char *str)
+{
+	int	i;
+
+	i = -1;
+	if (str[0] != '-')
+		return (0);
+	if (str[0] == '-')
+		i += 1;
+	while (str[++i])
+		if (str[i] != 'n')
+			return (0);
+	return (1);
+}
 
 void	echo_print(t_node **node, int n)
 {
@@ -58,4 +73,11 @@ int	set_stdin_out(int fd_in, int fd_out, t_data *data)
 		close(fd_out);
 	}
 	return (0);
+}
+
+void	ft_problem(t_data *data, char **new_env, int z)
+{
+	ft_putstr_fd("mini_shell : malloc error\n", 2);
+	free_2d_str_until(new_env, z);
+	cleanse(data);
 }

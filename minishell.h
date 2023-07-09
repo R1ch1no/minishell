@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:08:09 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 15:22:45 by qtran            ###   ########.fr       */
+/*   Updated: 2023/07/09 13:09:38 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,24 +156,26 @@ void					ft_sig_quit(int signal_num);
 // built-ins
 void					echo_print(t_node **node, int n);
 int						ft_echo(t_node **node);
+int						echo_flag(char *str);
 int						ft_exit(t_data *data, char ***args);
 int						ft_cd(t_data *data, char ***args);
 int						ft_pwd(void);
 int						ft_env(char **env);
-int						ft_unset(t_data *data, char *search, char ***args);
+int						ft_unset(t_data *data, char ***args);
+void					ft_problem(t_data *data, char **new_env, int z);
 int						ft_find(t_data *data, char *search);
 int						ft_invalid_env(char *str);
 int						was_child(t_node *current, char ***args);
 // export functions
 void					ft_bash(t_data *data, int command);
 int						ft_export_na(char **env, int len);
-int						ft_export_a(t_data *data, char ***args, t_node **node,
-							int len);
-int						ft_replace_existing(t_data *data, t_node *node,
+int						ft_export_a(t_data *data, char ***args);
+int						ft_replace_existing(t_data *data, char *str,
 							char ***args);
 int						ft_strcmp_v2_until(char *s1, char *s2, char c);
-int						ft_append(t_data *data, t_node *node, int y);
+int						ft_append(t_data *data, char *str, int y);
 int						ft_invalid(char *str);
+char					**copy_2d_char_arr(char **env, int len);
 
 // execve
 int						ft_exec(t_node *node, char **env, t_data *data);

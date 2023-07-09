@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:22 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/07/01 18:54:53 by qtran            ###   ########.fr       */
+/*   Updated: 2023/07/09 13:21:43 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,15 +93,15 @@ int	ft_no_child(t_node *current, t_data *data)
 		return (malloc_error(data), 0);
 	fill_args(current, &args);
 	if (ft_strcmp_node(current, "unset") == 0 && data->no == 0)
-		return (ft_unset(data, args[1], &args));
+		return (ft_unset(data, &args));
 	else if (ft_strcmp_node(current, "exit") == 0 && data->no == 0)
 		return (ft_exit(data, &args));
 	else if (ft_strcmp_node(current, "cd") == 0 && data->no == 0)
 		return (ft_cd(data, &args));
 	else if (ft_strcmp_node(current, "export") == 0 && args[1] != NULL
-		&& data->no == 0)
+			&& data->no == 0)
 	{
-		ft_export_a(data, &args, &current, get_arr_len(data->env_copy) + 1);
+		ft_export_a(data, &args);
 		free_2d_str_arr(&args);
 		return (0);
 	}
@@ -124,7 +124,7 @@ int	executer(t_data *data)
 	if (ft_no_child(current, data) == 0)
 	{
 		close_prev_fd(&data->fd_pipe[1]);
-		data->fd_outfile = -1;		
+		data->fd_outfile = -1;
 		return (0);
 	}
 	data->pid = fork();

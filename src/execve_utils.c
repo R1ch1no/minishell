@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:31 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 15:34:20 by qtran            ###   ########.fr       */
+/*   Updated: 2023/07/05 19:14:16 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int	ft_exec_here(char **path, t_node *node, char ***args)
 		free(*path);
 		return (1);
 	}
+	*args[0] = NULL;
 	if (access(*path, F_OK) != 0)
 		code = CMD_N_F;
 	else if (access(*path, X_OK) != 0)
@@ -121,26 +122,19 @@ int	ft_exec_path(char **env, char **path, t_node *node, char ***args)
 	int		m_error;
 
 	m_error = 0;
+	*args = malloc((arg_num(node) + 1) * sizeof(char *));
+	if (!args || args == NULL)
+		return (1);
+	*args[0] = NULL;
 	if (access(node->cmd, F_OK) == 0 && node->cmd[0] == '/')
 	{
 		*path = ft_strdup(node->cmd);
 		if (path == NULL)
 			return (free_2d_str_arr(args), 1);
-		if (execve(*path, *args, env) == -1)
-		{
-			ft_putstr_fd(node->cmd, 2);
-			ft_putstr_fd(": command not found\n", 2);
-		}
-		free(*path);
-		return (free_2d_str_arr(args), CMD_N_F);
 	}
 	else
 		*path = search_path(env, node, &m_error);
 	if (*path == NULL && m_error == 0)
 		return (free_2d_str_arr(args), CMD_N_F);
-	*args = malloc((arg_num(node) + 1) * sizeof(char *));
-	*args[0] = NULL;
-	if (!args || args == NULL)
-		return (free_2d_str_arr(args), free(*path), 1);
 	return (m_error);
 }

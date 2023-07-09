@@ -6,35 +6,11 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:49 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 15:12:51 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/09 13:09:33 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	**copy_2d_char_arr(char **env, int len)
-{
-	int		y;
-	int		z;
-	char	**print;
-
-	y = -1;
-	z = -1;
-	if (!env || !len)
-		return (NULL);
-	print = malloc((len + 1) * sizeof(char *));
-	if (!print)
-		return (NULL);
-	while (env[++y])
-	{
-		print[++z] = malloc(ft_strlen(env[y]) + 1);
-		if (print[z] == NULL)
-			return (free_2d_str_arr(&print), NULL);
-		ft_strlcpy(print[z], env[y], ft_strlen(env[y]) + 1);
-	}
-	print[z + 1] = NULL;
-	return (print);
-}
 
 //print is the copy of enviroment, that was sorted before
 //this function only adds declare -x and quotes after first = sign
@@ -101,17 +77,17 @@ int	ft_export_na(char **env, int len)
 	return (0);
 }
 
-int	ft_append(t_data *data, t_node *node, int y)
+int	ft_append(t_data *data, char *str, int y)
 {
 	int		x;
 	char	*result;
 
 	x = 0;
-	while (node->cmd[x] != '=')
+	while (str[x] != '=')
 		x++;
-	if (node->cmd[x] == '=')
+	if (str[x] == '=')
 		x++;
-	result = ft_strjoin(data->env_copy[y], &node->cmd[x]);
+	result = ft_strjoin(data->env_copy[y], str);
 	if (result == NULL || !result)
 		return (malloc_error(data), 0);
 	free(data->env_copy[y]);
@@ -119,32 +95,39 @@ int	ft_append(t_data *data, t_node *node, int y)
 	return (1);
 }
 
-//export function when there are arguments
-int	ft_export_a(t_data *data, char ***args, t_node **node, int len)
+int	export_logic(t_data *data, char ***args, int len, int i)
 {
 	int		y;
 	char	**new_env;
 
-	y = 0;
-	(*node) = (*node)->next;
-	if (ft_invalid((*node)->cmd) == 1)
-		return (1);
-	if (ft_replace_existing(data, *node, args) == 1)
-		return (0);
 	new_env = copy_2d_char_arr(data->env_copy, len);
 	if (new_env == NULL || !new_env)
 		return (malloc_error(data), 1);
-	while (new_env[y] != NULL)
-		y++;
-	new_env[y] = malloc(ft_strlen((*args)[1]) + 1);
+	y = get_arr_len(new_env);
+	new_env[y] = malloc(ft_strlen((*args)[i]) + 1);
 	if (new_env[y] == NULL || !new_env[y])
-	{
-		free_2d_str_arr(&new_env);
-		return (free_2d_str_arr(args), malloc_error(data), 1);
-	}
-	ft_strlcpy(new_env[y], (*args)[1], ft_strlen((*args)[1]) + 1);
+		return (free_2d_str_arr(&new_env), free_2d_str_arr(args),
+			malloc_error(data), 1);
+	ft_strlcpy(new_env[y], (*args)[i], ft_strlen((*args)[i]) + 1);
 	new_env[y + 1] = NULL;
 	free_2d_str_arr(&data->env_copy);
 	data->env_copy = new_env;
+	return (0);
+}
+
+//export function when there are arguments
+int	ft_export_a(t_data *data, char ***args)
+{
+	int	i;
+
+	i = 0;
+	while ((*args)[++i] != NULL)
+	{
+		if (ft_invalid((*args)[i]) == 1)
+			return (1);
+		if (ft_replace_existing(data, (*args)[i], args) == 1)
+			return (0);
+		export_logic(data, args, get_arr_len(data->env_copy) + 1, i);
+	}
 	return (0);
 }
