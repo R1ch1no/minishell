@@ -1,6 +1,30 @@
 
 #include "../minishell.h"
 
+char	*mine_strjoin(char *str1, char *str2, int no)
+{
+	char	*jstr;
+	int		i;
+	int		j;
+
+	if (!str1 || str1 == NULL || !str2 || str2 == NULL)
+		return (NULL);
+	jstr = (char *)malloc(sizeof(char) * (ft_strlen(str1) + ft_strlen(str2))
+			+ 1);
+	if (!jstr || jstr == NULL)
+		return (NULL);
+	j = 0;
+	i = -1;
+	while (str1[++i])
+		jstr[i] = str1[i];
+	while (str2[j])
+		jstr[i++] = str2[j++];
+	jstr[i] = '\0';
+	if (no == 1)
+		free(str1);
+	return (jstr);
+}
+
 int	find_index(t_data *data, char *str)
 {
 	int x;
@@ -8,7 +32,6 @@ int	find_index(t_data *data, char *str)
 
 	x = -1;
 	match = -1;
-	printf("finx_index str : %s\n", str);
 	while (data->env_copy[++x])
 	{
 		if (ft_strcmp_v2_until(str, data->env_copy[x], '=') == 0)
@@ -43,23 +66,21 @@ int	pwd_change(t_data *data, int x, int pwd, char *variable)
 
 int	pwd_change_two(t_data *data, char *arg, int pwd, char *variable)
 {
-	DIR		*dir;
+	DIR		*dirr;
 	char	directory[500000];
 	char	*pwdd;
 	int		i;
 
 	i = 0;
-	if (getcwd(directory, sizeof(dir)) == NULL)
+	if (getcwd(directory, sizeof(directory)) == NULL)
 		return (0);
-	printf("directory : %s\n", directory);
-	pwdd = ft_strjoin(variable, directory);
-	pwdd = ft_strjoin(pwdd, "/");
-	pwdd = ft_strjoin(pwdd, arg);
-	printf("pwdd : %s\n", pwdd);
-	dir = opendir(arg);
-	if (dir != NULL)
+	pwdd = mine_strjoin(variable, directory, 1);
+	pwdd = mine_strjoin(pwdd, "/", 0);
+	pwdd = mine_strjoin(pwdd, arg, 0);
+	dirr = opendir(arg);
+	if (dirr != NULL)
 	{
-		closedir(dir);
+		closedir(dirr);
 		free(data->env_copy[pwd]);
 		data->env_copy[pwd] = pwdd;
 	}
@@ -77,7 +98,6 @@ void	ft_pwd_env(t_data *data, char ***args)
 	pwd = find_index(data, "PWD=");
 	old_pwd = find_index(data, "OLDPWD=");
 	home = find_index(data, "HOME=");
-	printf("pwd : %d old_pwd : %d home :%d\n", pwd, old_pwd, home);
 	if ((*args)[1] == NULL)
 	{
 		if(pwd != -1 && old_pwd != -1)
