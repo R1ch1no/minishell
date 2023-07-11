@@ -1,0 +1,10 @@
+echo -n
+echo -n test
+echo -nnn
+echo -nnntest
+echo -nnn test
+/bin/ls | /bin/cat | /bin/wc
+/bin/ls -la | /bin/cat | /bin/wc -w
+$$
+export a=a | wc
+cat

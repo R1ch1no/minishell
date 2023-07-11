@@ -1,0 +1,11 @@
+#ignores all .o files in repo (all subfolders)
+*.o
+*.a
+
+#ignores a specifc folder
+obj/
+
+#ignores specific file (in this case our executable)
+minishell
+a.out
+.heredoc
