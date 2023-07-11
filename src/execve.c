@@ -71,9 +71,15 @@ void	fill_args(t_node *node, char ***args)
 		if (current->special == 1)
 			break ;
 		(*args)[count] = (char *)malloc(ft_strlen(current->cmd) + 1);
+		if(count == 2)
+		{
+		free((*args)[count]);
+		(*args)[count] = NULL;
+		}
 		if ((*args)[count] == NULL || !(*args)[count])
 		{
-			free_2d_str_arr(args);
+			free_2d_str_until((*args), count);
+			(*args) = NULL;
 			return ;
 		}
 		ft_strlcpy((*args)[count], current->cmd, ft_strlen(current->cmd) + 1);

@@ -67,6 +67,7 @@ int	here_doc(t_data *data, char *limiter)
 {
 	int	pid;
 
+	close_prev_fd(&data->fd_infile);
 	if (!data || limiter == NULL || close_prev_fd(&data->fd_heredoc) == -1)
 		return (ERROR);
 	data->fd_heredoc = open(HERE_DOC, O_CREAT | O_WRONLY | O_TRUNC, 0666);

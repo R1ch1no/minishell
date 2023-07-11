@@ -61,6 +61,7 @@ void	free_2d_str_until(char **arr, int end)
 	{
 		free(arr[i]);
 		arr[i] = NULL;
+		i++;
 	}
 	free(arr);
 	arr = NULL;

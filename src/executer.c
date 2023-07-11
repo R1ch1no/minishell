@@ -90,6 +90,8 @@ int	ft_no_child(t_node *current, t_data *data)
 	if (!args || args == NULL)
 		return (malloc_error(data), 0);
 	fill_args(current, &args);
+	if (!args || args == NULL)
+		return (malloc_error(data), 0);
 	if (ft_strcmp_node(current, "unset") == 0 && data->no == 0)
 		return (ft_unset(data, &args));
 	else if (ft_strcmp_node(current, "exit") == 0 && data->no == 0)

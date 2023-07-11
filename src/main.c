@@ -18,7 +18,7 @@ int	main(int argc, char **argv, char **env)
 {
 	t_data	*data;
 
-	if (argc != 1 || argv[0] == NULL)
+	if (argc != 1 || argv[0] == NULL || env == NULL)
 		return (1);
 	data = malloc(sizeof(t_data));
 	if (!data)
@@ -57,7 +57,7 @@ void	init_data(t_data *data, char **env)
 	{
 		ft_putstr_fd("You are so funny Elijah :D\n", 2);
 		free(data);
-		exit(0);
+		exit(1);
 	}
 	data->cmd_line = NULL;
 	data->fd_infile = -1;
@@ -67,7 +67,6 @@ void	init_data(t_data *data, char **env)
 	data->fd_pipe[1] = -1;
 	data->children = 0;
 	data->no = 0;
-	g_ex_status = 0;
 	data->red_status = 0;
 	data->problem = 0;
 	signal_set_up(data);

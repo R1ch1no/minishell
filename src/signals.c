@@ -52,9 +52,10 @@ void	ft_wait_children(t_data *data)
 			waitpid(0, &g_ex_status, 0);
 			if (g_ex_status == 2)
 			{
+				g_ex_status = CTRL_C;
 				write(1, "\n", 1);
 			}
-			if (g_ex_status == 131)
+			else if (g_ex_status == 131)
 			{
 				write(2, "Quit (core dumped)\n", 19);
 			}
