@@ -174,7 +174,7 @@ int						ft_export_a(t_data *data, char ***args);
 int						ft_replace_existing(t_data *data, char *str,
 							char ***args);
 int						ft_strcmp_v2_until(char *s1, char *s2, char c);
-int						ft_append(t_data *data, char *str, int y);
+int						ft_append(t_data *data, char *str, int y, char ***args);
 int						ft_invalid(char *str);
 char					**copy_2d_char_arr(char **env, int len);
 

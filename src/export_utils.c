@@ -29,7 +29,7 @@ char	**copy_2d_char_arr(char **env, int len)
 	{
 		print[++z] = malloc(ft_strlen(env[y]) + 1);
 		if (print[z] == NULL)
-			return (free_2d_str_arr(&print), NULL);
+			return (free_2d_str_until(print, z), NULL);
 		ft_strlcpy(print[z], env[y], ft_strlen(env[y]) + 1);
 	}
 	print[z + 1] = NULL;
@@ -100,7 +100,7 @@ int	ft_replace_existing(t_data *data, char *str, char ***args)
 			break ;
 		}
 		if (ft_strcmp_export(data->env_copy[y], str, '=') == -9999)
-			return (ft_append(data, str, y));
+			return (ft_append(data, str, y, args));
 	}
 	if (match == -1)
 		return (0);

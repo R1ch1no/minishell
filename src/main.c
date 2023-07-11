@@ -21,7 +21,7 @@ int	main(int argc, char **argv, char **env)
 	if (argc != 1 || argv[0] == NULL || env == NULL)
 		return (1);
 	data = malloc(sizeof(t_data));
-	if (!data)
+	if (!data || data == NULL)
 		return (write(2, "Data can't be allocated!\n", 25) && 0);
 	init_data(data, env);
 	ft_bash(data, 1);
