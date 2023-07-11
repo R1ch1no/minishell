@@ -60,7 +60,7 @@ int	ft_core(t_data *data, char **new_env, int y, int z)
 			return (1);
 		}
 		ft_strlcpy(new_env[z], data->env_copy[y], ft_strlen(data->env_copy[y])
-				+ 1);
+			+ 1);
 	}
 	return (0);
 }

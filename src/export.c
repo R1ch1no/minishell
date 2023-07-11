@@ -89,7 +89,7 @@ int	ft_append(t_data *data, char *str, int y, char ***args)
 		x++;
 	result = ft_strjoin(data->env_copy[y], str);
 	if (result == NULL || !result)
-		return (free_2d_str_arr(args) ,malloc_error(data), 0);
+		return (free_2d_str_arr(args), malloc_error(data), 0);
 	free(data->env_copy[y]);
 	data->env_copy[y] = result;
 	return (1);
@@ -102,7 +102,7 @@ int	export_logic(t_data *data, char ***args, int len, int i)
 
 	new_env = copy_2d_char_arr(data->env_copy, len);
 	if (new_env == NULL || !new_env)
-		return (free_2d_str_arr(args) ,malloc_error(data), 1);
+		return (free_2d_str_arr(args), malloc_error(data), 1);
 	y = get_arr_len(new_env);
 	new_env[y] = malloc(ft_strlen((*args)[i]) + 1);
 	if (new_env[y] == NULL || !new_env[y])

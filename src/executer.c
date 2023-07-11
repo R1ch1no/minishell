@@ -99,7 +99,7 @@ int	ft_no_child(t_node *current, t_data *data)
 	else if (ft_strcmp_node(current, "cd") == 0 && data->no == 0)
 		return (ft_cd(data, &args));
 	else if (ft_strcmp_node(current, "export") == 0 && args[1] != NULL
-			&& data->no == 0)
+		&& data->no == 0)
 	{
 		ft_export_a(data, &args);
 		free_2d_str_arr(&args);
