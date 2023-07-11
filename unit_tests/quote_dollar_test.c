@@ -115,8 +115,11 @@ int main(int argc, char **argv, char **env)
 	    return (1);
     data = malloc(sizeof(t_data));
     init_data(data, env);
-
     t_test *head = NULL;
+    
+    char *str = NULL;
+    if (str == NULL)
+        printf("IT WORKS\n");
     
     //string array test
     char test [][2][100] = 
@@ -126,6 +129,8 @@ int main(int argc, char **argv, char **env)
         {"[b=\"\"\"this\"\"isnotfun]"                       , "[b=this\"isnotfun]"},
         {"[b=\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\"]"     , "[b=thisisnotfun]"},
         {"[c='\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\"']"   , "[c=\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\"]"},
+        {"$US\"test\""                                      ,  "test"      },
+        {"$USER\"test\""                                    ,  "qtrantest"      },
     };
 
 

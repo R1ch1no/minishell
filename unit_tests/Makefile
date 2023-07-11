@@ -22,7 +22,7 @@ SRC			= 	core_functions.c \
 				export_utils.c \
 				dollar.c \
 				dollar_env.c \
-				cutting_quotes.c \
+				executer_utils.c \
 				pre_executer.c \
 				executer.c \
 				execve.c \

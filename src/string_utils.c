@@ -47,7 +47,7 @@ void	strcpy_wout_ind(char **str, unsigned int x)
 	char			*cpy;
 
 	cpy = malloc(sizeof(char) * ft_strlen(*str));
-	if (!cpy)
+	if (cpy == NULL)
 		return (free_and_null(str));
 	i = 0;
 	j = 0;
