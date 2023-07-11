@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "minishell.h": "c",
+        "type_traits": "c",
+        "libft.h": "c",
+        "unistd.h": "c",
+        "types.h": "c",
+        "history.h": "c"
+    },
+    "[c]": {
+        "editor.defaultFormatter": "keyhr.42-c-format"
+    }
+}
