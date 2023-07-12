@@ -43,12 +43,12 @@ int	ft_invalid(char *str)
 	i = -1;
 	if (str[0] == '=')
 	{
-		write(2, "not a valid indentifier\n", 24);
+		write(2, " not a valid identifier\n", 24);
 		g_ex_status = 1;
 	}
 	if (str[0] <= '9' && str[0] >= '0')
 	{
-		write(2, "not a valid indentifier\n", 24);
+		write(2, " not a valid identifier\n", 24);
 		g_ex_status = 1;
 	}
 	while (str[++i] && str[i] != '=')
@@ -56,7 +56,7 @@ int	ft_invalid(char *str)
 		if ((str[i] == '-' && str[i + 1] == '\0') || (str[i] == '-' && str[i
 					+ 1] == '='))
 		{
-			write(2, "not a valid indentifier\n", 24);
+			write(2, " not a valid identifier\n", 24);
 			g_ex_status = 1;
 		}
 	}

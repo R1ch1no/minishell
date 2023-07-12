@@ -27,7 +27,7 @@ int	cd_home(t_data *data, int i, int found)
 		}
 	}
 	if (found == 0)
-		return (write(1, "cd: HOME not set\n", 17) && 0);
+		return (write(2, "cd: HOME not set\n", 17) && 0);
 	while (data->env_copy[x][i] != '=')
 		i++;
 	home = malloc(ft_strlen(&data->env_copy[x][i + 1]) + 1);
@@ -55,7 +55,7 @@ int	ft_cd(t_data *data, char ***args)
 	}
 	if ((*args)[2] != NULL)
 	{
-		ft_putstr_fd("too many argumens\n", 2);
+		ft_putstr_fd(" too many arguments\n", 2);
 		g_ex_status = 1;
 		free_2d_str_arr(args);
 		return (0);

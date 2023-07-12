@@ -8,3 +8,11 @@ echo -nnn test
 $$
 export a=a | wc
 cat
+exit 260
+ls | wc
+$USER/test/testfile
+$USER"/test/"testfile
+$USER'"/test/"testf'ile
+export qtest=$USER
+echo $qtest
+ls filethatnotexist

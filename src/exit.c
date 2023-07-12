@@ -103,7 +103,7 @@ int	ft_exit(t_data *data, char ***args)
 	}
 	if ((*args)[2] != NULL)
 	{
-		ft_putstr_fd("too many argumens\n", 2);
+		ft_putstr_fd(" too many arguments\n", 2);
 		exit_for_exit(data, args);
 	}
 	num = ft_atoi_exit((*args)[1], data);
@@ -114,7 +114,7 @@ int	ft_exit(t_data *data, char ***args)
 		free_2d_str_arr(args);
 		exit(num);
 	}
-	ft_putstr_fd("numeric argument required\n", 2);
+	ft_putstr_fd(" numeric argument required\n", 2);
 	exit_for_exit(data, args);
 	return (0);
 }

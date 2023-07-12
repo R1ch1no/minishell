@@ -117,7 +117,7 @@ int	executer(t_data *data)
 
 	current = data->cmd_line;
 	if (current->cmd[0] == '\0')
-		return (g_ex_status = CMD_N_F, ft_putstr_fd("command not found\n", 2),
+		return (g_ex_status = CMD_N_F, ft_putstr_fd(" command not found\n", 2),
 			0);
 	if (ft_no_child(current, data) == 0)
 	{

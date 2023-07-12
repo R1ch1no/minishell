@@ -58,21 +58,6 @@ void	ft_clean_cmd(t_data *data)
 	data->cmd_line = NULL;
 }
 
-void	add_node_back_old(t_node **lst, t_node *new)
-{
-	t_node	*last;
-
-	if (!*lst)
-	{
-		*lst = new;
-		return ;
-	}
-	if (!new)
-		return ;
-	last = lstlast(*lst);
-	last->next = new;
-}
-
 void	add_node_back(t_node **lst, t_node *new)
 {
 	t_node	*last;

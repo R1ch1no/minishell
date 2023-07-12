@@ -23,7 +23,7 @@ int	before_start(t_node *node)
 		if (dir != NULL)
 		{
 			closedir(dir);
-			return (ft_putstr_fd("Is a directory\n", 2), IS_DIR);
+			return (ft_putstr_fd(" Is a directory\n", 2), IS_DIR);
 		}
 	}
 	return (0);
@@ -33,10 +33,11 @@ void	ft_access_error(t_node *node)
 {
 	if (ft_strcmp_v2_until(node->cmd, "./", '/') == 0
 		|| ft_strcmp_v2_until(node->cmd, "/", '/') == 0)
-		ft_putstr_fd("No such file or directory\n", 2);
+		ft_putstr_fd(" No such file or directory\n", 2);
 	else
 	{
 		ft_putstr_fd(node->cmd, 2);
-		ft_putstr_fd(": command not found\n", 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		//ft_putstr_fd(": command not found\n", 2);
 	}
 }

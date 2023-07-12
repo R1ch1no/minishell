@@ -32,15 +32,15 @@ char	*get_end_of_dollar(char *str, int i, int left_for_cut)
 	n_single = count_char(str, '\'');
 	n_double = count_char(str, '"');
 	if (left_for_cut == TRUE && n_single > 1)
-		end = ft_str_many_chr(&str[i], "'\"$?<>| ");
+		end = ft_str_many_chr(&str[i], "'\"$?<>|/ ");
 	else if (left_for_cut == TRUE)
-		end = ft_str_many_chr(&str[i], "\"$?<>| ");
+		end = ft_str_many_chr(&str[i], "\"$?<>|/ ");
 	else if (n_single == 0 && n_double > 1)
-		end = ft_str_many_chr(&str[i], "\"$?<>| ");
+		end = ft_str_many_chr(&str[i], "\"$?<>|/ ");
 	else if (n_single <= 1 && n_double <= 1)
-		end = ft_str_many_chr(&str[i], "$?<>| ");
+		end = ft_str_many_chr(&str[i], "$?<>|/ ");
 	else
-		end = ft_str_many_chr(&str[i], "'\"$?<>| ");
+		end = ft_str_many_chr(&str[i], "'\"$?<>|/ ");
 	return (end);
 }
 
