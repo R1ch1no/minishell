@@ -87,7 +87,7 @@ int	ft_append(t_data *data, char *str, int y, char ***args)
 		x++;
 	if (str[x] == '=')
 		x++;
-	result = ft_strjoin(data->env_copy[y], str);
+	result = ft_strjoin(data->env_copy[y], &str[x]);
 	if (result == NULL || !result)
 		return (free_2d_str_arr(args), malloc_error(data), 0);
 	free(data->env_copy[y]);
