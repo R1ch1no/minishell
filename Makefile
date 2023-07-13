@@ -19,6 +19,7 @@ SRC			= 	main.c \
 				exit.c \
 				export.c \
 				export_utils.c \
+				export_utils_two.c \
 				dollar.c \
 				dollar_env.c \
 				pre_executer.c \
