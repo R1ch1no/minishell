@@ -69,6 +69,11 @@ int	subbing_cmd_str(char **str, char *before_d, char *env_value, char *end_of_d)
 	return (0);
 }
 
+
+
+
+
+
 int	subout_dollar(char **str, int i, int left_f_cut, t_data *data)
 {
 	char	*before_d;
@@ -77,10 +82,6 @@ int	subout_dollar(char **str, int i, int left_f_cut, t_data *data)
 	char	*end_of_d;
 
 	i++;
-	if (ft_strchr("<>| \0", (*str)[i]) != NULL)
-		return (1);
-	if (left_f_cut == TRUE && ((*str)[i] == '\'' || (*str)[i] == '"'))
-		return (1);
 	if (check_if_quote_and_closed((*str), i) == TRUE)
 		return (strcpy_wout_ind(str, i - 1), 0);
 	before_d = get_str_before_dollar(*str, i);

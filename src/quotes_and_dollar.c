@@ -38,6 +38,15 @@ int	single_quotes(char **str, int i, char quote)
 	free(rest);
 	return (len);
 }
+int expand_conidtion(char *str, int i, int left_f_cut)
+{
+	i++;
+	if (ft_strchr("<>| \0", str[i]) != NULL)
+		return (FALSE);
+	if (left_f_cut == TRUE && (str[i] == '\'' || str[i] == '"'))
+		return (FALSE);
+	return (TRUE);
+}
 
 //only works with malloc'd str
 //if fail then str = NULL and it will be detected
@@ -50,7 +59,7 @@ void	dollar_and_s_quotes(char **str, t_data *data)
 	left_for_cut = FALSE;
 	while ((*str) && (*str)[i])
 	{
-		if ((*str)[i] == '$')
+		if ((*str)[i] == '$' && expand_conidtion((*str), i, left_for_cut))
 			i += subout_dollar(str, i, left_for_cut, data);
 		else if (left_for_cut == FALSE && (*str)[i] == '\''
 				&& ft_strchr(&(*str)[i + 1], '\'') != NULL)
@@ -79,3 +88,12 @@ int	check_if_quote_and_closed(char *str, int i)
 		return (TRUE);
 	return (FALSE);
 }
+
+
+
+
+
+
+
+
+

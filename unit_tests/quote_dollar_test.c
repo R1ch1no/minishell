@@ -130,7 +130,14 @@ int main(int argc, char **argv, char **env)
         {"[b=\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\"]"     , "[b=thisisnotfun]"},
         {"[c='\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\"']"   , "[c=\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\"]"},
         {"$US\"test\""                                      ,  "test"      },
-        {"$USER\"test\""                                    ,  "qtrantest"      },
+        {"$USER\"test\""                                    ,  "qtrantest"},
+        {"test$\"test\""                                    ,  "testtest"},
+        {"\"test$\"test"                                    ,  "test$test"},
+        {"test$"                                            ,  "test$"},
+        {"test$'das'"                                       ,  "testdas"      },
+        {"\"test$'das'\""                                   ,  "test$'das'"      },
+        {"'test$\"das\"'"                                   ,  "test$\"das\""      },
+    
     };
 
 

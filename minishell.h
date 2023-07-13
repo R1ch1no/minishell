@@ -45,7 +45,6 @@ extern int				g_ex_status;
 typedef struct s_node
 {
 	int					special;
-	int					runnable;
 	char				*cmd;
 	struct s_node		*next;
 	struct s_node		*prev;

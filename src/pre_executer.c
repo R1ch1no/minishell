@@ -70,7 +70,7 @@ void	prep_for_executer(t_node **head, t_data *data)
 	current = *head;
 	while (current && current->cmd)
 	{
-		if (count_char(current->cmd, '"') > 1 
+		if (count_char(current->cmd, '"') > 1
 		|| count_char(current->cmd, '\'') > 1)
 			dollar_and_s_quotes(&(current->cmd), data);
 		else if (current && ft_strchr(current->cmd, '$') != NULL
