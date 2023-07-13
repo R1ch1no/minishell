@@ -32,12 +32,13 @@ int	before_start(t_node *node)
 void	ft_access_error(t_node *node)
 {
 	if (ft_strcmp_v2_until(node->cmd, "./", '/') == 0
-		|| ft_strcmp_v2_until(node->cmd, "/", '/') == 0)
+		|| ft_strcmp_v2_until(node->cmd, "/", '/') == 0
+		|| ft_strchr(node->cmd, '/') != NULL)
 		ft_putstr_fd(" No such file or directory\n", 2);
 	else
 	{
 		ft_putstr_fd(node->cmd, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		//ft_putstr_fd(": command not found\n", 2);
+		//ft_putstr_fd(": No such file or directory\n", 2);
+		ft_putstr_fd(": command not found\n", 2);
 	}
 }

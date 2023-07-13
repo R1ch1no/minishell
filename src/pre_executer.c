@@ -70,19 +70,18 @@ void	prep_for_executer(t_node **head, t_data *data)
 	current = *head;
 	while (current && current->cmd)
 	{
-		if (count_char(current->cmd, '"') > 1)
+		if (count_char(current->cmd, '"') > 1 
+		|| count_char(current->cmd, '\'') > 1)
 			dollar_and_s_quotes(&(current->cmd), data);
-		if (count_char(current->cmd, '\'') > 1)
-			dollar_and_s_quotes(&(current->cmd), data);
-		else if (current != NULL && ft_strchr(current->cmd, '$') != NULL
+		else if (current && ft_strchr(current->cmd, '$') != NULL
 			&& check_if_token(current->prev, "<<") == FALSE)
 		{
 			dollar_and_s_quotes(&(current->cmd), data);
 			if (ft_continue(data, &current) == TRUE)
 				continue ;
 		}
-		if (current != NULL)
-			s_d_quotes(&current->cmd);
+		//if (current != NULL)
+		//	s_d_quotes(&current->cmd);
 		if (current != NULL && current->cmd == NULL)
 			malloc_error(data);
 		if (current != NULL)
