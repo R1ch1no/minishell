@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:45 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/07/09 12:43:10 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/14 11:48:02 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int	ft_strcmp_export(char *s1, char *s2, char c)
 		s1++;
 		s2++;
 	}
+	if (*s1 == '\0' && *s2 == '=')
+		return (0);
 	if (*s1 == '=' && *s2 == '+')
 		return (-9999);
 	return ((int)(unsigned char)(*s1) - (int)(unsigned char)(*s2));

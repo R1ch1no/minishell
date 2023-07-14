@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:49 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/07/09 13:09:33 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/13 17:44:36 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ int	ft_export_a(t_data *data, char ***args)
 	{
 		if (ft_invalid((*args)[i]) == 1)
 			return (1);
+		if (empty_var_exist(data, (*args)[i]) == 1)
+			return (0);
 		if (ft_replace_existing(data, (*args)[i], args) == 1)
 			return (0);
 		export_logic(data, args, get_arr_len(data->env_copy) + 1, i);

@@ -6,13 +6,13 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:12 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 14:12:42 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/13 19:23:14 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	cd_home(t_data *data, int i, int found)
+int	cd_home(t_data *data, int i, int found, char ***args)
 {
 	char	*home;
 	int		x;
@@ -32,7 +32,7 @@ int	cd_home(t_data *data, int i, int found)
 		i++;
 	home = malloc(ft_strlen(&data->env_copy[x][i + 1]) + 1);
 	if (!home || home == NULL)
-		return (malloc_error(data), 1);
+		return (free_2d_str_arr(args), malloc_error(data), 1);
 	ft_strlcpy(home, &data->env_copy[x][i + 1], ft_strlen(&data->env_copy[x][i
 			+ 1]) + 1);
 	if (chdir(home) != 0)
@@ -49,23 +49,14 @@ int	ft_cd(t_data *data, char ***args)
 	i = 0;
 	found = 0;
 	if ((*args)[1] == NULL)
-	{
-		free_2d_str_arr(args);
-		return (cd_home(data, i, found));
-	}
+		return (cd_home(data, i, found, args));
 	if ((*args)[2] != NULL)
-	{
-		ft_putstr_fd(" too many arguments\n", 2);
-		g_ex_status = 1;
-		free_2d_str_arr(args);
-		return (0);
-	}
+		return (ft_putstr_fd(" too many arguments\n", 2), g_ex_status = 1, 0);
 	if (chdir((*args)[1]) != 0)
 	{
 		perror(NULL);
 		g_ex_status = 1;
 	}
-	free_2d_str_arr(args);
 	return (0);
 }
 

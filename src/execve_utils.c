@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:31 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/07/05 19:14:16 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/13 18:16:51 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,24 +66,27 @@ char	*ft_exec_access(char *env, t_node *node, int *m_error)
 char	*search_path(char **env, t_node *node, int *m_error)
 {
 	int	y;
+	int	x;
 	int	found;
 
 	y = -1;
+	x = 0;
 	found = 0;
 	while (env[++y])
 	{
 		if (ft_strcmp_v2_until(env[y], "PATH=", '=') == 0)
 		{
-			found = 1;
+			found = y;
 			break ;
 		}
 	}
-	if (found == 0)
-	{
-		ft_putstr_fd(node->cmd, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		return (NULL);
-	}
+	while (found != 0 && env[found][x] != '=' && env[found][x])
+		x++;
+	if (env[found][x] == '=')
+		x++;
+	if (found == 0 || env[found][x] == '\0')
+		return (ft_putstr_fd(node->cmd, 2),
+			ft_putstr_fd(": No such file or directory\n", 2), NULL);
 	return (ft_exec_access(env[y], node, m_error));
 }
 
@@ -119,7 +122,7 @@ int	ft_exec_here(char **path, t_node *node, char ***args)
 
 int	ft_exec_path(char **env, char **path, t_node *node, char ***args)
 {
-	int		m_error;
+	int	m_error;
 
 	m_error = 0;
 	*args = malloc((arg_num(node) + 1) * sizeof(char *));
