@@ -110,7 +110,7 @@ int						subout_dollar(char **str, int i, int left_f_cut,
 							t_data *data);
 
 // dollar_env.c
-char					*get_env_value(char *look_for, char **env);
+char					*get_env_value(char *look_for, t_data *d);
 char					*get_last_exit_status(char **end_of_d, int ret_value);
 
 // heredoc.c
@@ -197,6 +197,7 @@ int						executer(t_data *data);
 int						ft_strcmp_node(t_node *node, char *s2);
 void					ft_clean_cmd(t_data *data);
 void					add_node_back(t_node **lst, t_node *new);
+void					add_node_after(t_node *lst, t_node *new);
 void					print_list(t_node *head);
 t_node					*create_node(char *str);
 void					delete_node(t_node *delete, t_node **head);
