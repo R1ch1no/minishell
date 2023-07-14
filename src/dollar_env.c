@@ -31,6 +31,7 @@ char	*expand_spaces(char *env_value, t_node *current)
 	int		i;
 
 	arr = ft_split(env_value, ' ');
+	//arr = NULL;
 	if (!arr)
 		return (NULL);
 	free(env_value);
