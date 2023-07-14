@@ -19,6 +19,7 @@ void	clean_heredoc_child(t_data *data)
 	free_2d_str_arr(&data->env_copy);
 	free(data);
 }
+
 int	hd_subout_dollar(char **str, int i, int left_f_cut, t_data *data)
 {
 	char	*before_d;

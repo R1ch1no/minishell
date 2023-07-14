@@ -61,6 +61,8 @@ typedef struct s_data
 	int					fd_heredoc;
 	int					problem;
 	int					no;
+	int					pwd;
+	int					old_pwd;
 	int					red_status;
 	int					pipe_status;
 	struct sigaction	sa;

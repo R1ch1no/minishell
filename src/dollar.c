@@ -78,8 +78,8 @@ int	subout_dollar(t_node *current, int i, int left_f_cut, t_data *data)
 	char	*d_name;
 	char	*env_value;
 	char	*end_of_d;
-	char 	**str;
-	
+	char	**str;
+
 	i++;
 	str = &current->cmd;
 	if (check_if_quote_and_closed((*str), i) == TRUE)
@@ -91,11 +91,12 @@ int	subout_dollar(t_node *current, int i, int left_f_cut, t_data *data)
 		env_value = get_last_exit_status(&end_of_d, g_ex_status);
 	else
 		env_value = get_env_value(d_name, left_f_cut, current, data);
-		//env_value = NULL;
 	if ((!before_d) || (!end_of_d) || (!d_name) || (!env_value))
-		return (four_free(before_d, d_name, env_value, NULL), malloc_error(data), 0);
+		return (four_free(before_d, d_name, env_value, NULL), 
+			malloc_error(data), 0);
 	if (subbing_cmd_str(str, before_d, env_value, end_of_d) == 1)
-		return (four_free(before_d, d_name, env_value, NULL), malloc_error(data), 0);
+		return (four_free(before_d, d_name, env_value, NULL), 
+			malloc_error(data), 0);
 	i = ft_strlen(env_value);
 	return (four_free(before_d, d_name, env_value, NULL), i);
 }

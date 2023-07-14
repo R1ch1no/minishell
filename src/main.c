@@ -69,5 +69,7 @@ void	init_data(t_data *data, char **env)
 	data->no = 0;
 	data->red_status = 0;
 	data->problem = 0;
+	data->old_pwd = -1;
+	data->pwd = -1;
 	signal_set_up(data);
 }

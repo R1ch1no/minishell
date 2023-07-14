@@ -63,6 +63,8 @@ int	ft_continue(t_data *data, t_node **current)
 }
 
 //"$USER"te"st
+//here a comment would be nice what the continue is for
+//and what the s_d_quotes is for
 void	prep_for_executer(t_node **head, t_data *data)
 {
 	t_node	*current;
@@ -71,7 +73,7 @@ void	prep_for_executer(t_node **head, t_data *data)
 	while (current && current->cmd)
 	{
 		if (count_char(current->cmd, '"') > 1
-		|| count_char(current->cmd, '\'') > 1)
+			|| count_char(current->cmd, '\'') > 1)
 			dollar_and_s_quotes(&(current->cmd), current, data);
 		else if (current && ft_strchr(current->cmd, '$') != NULL
 			&& check_if_token(current->prev, "<<") == FALSE)
@@ -80,8 +82,8 @@ void	prep_for_executer(t_node **head, t_data *data)
 			if (ft_continue(data, &current) == TRUE)
 				continue ;
 		}
-		//if (current != NULL)
-		//	s_d_quotes(&current->cmd);
+		if (current != NULL)
+			s_d_quotes(&current->cmd);
 		if (current != NULL && current->cmd == NULL)
 			malloc_error(data);
 		if (current != NULL)

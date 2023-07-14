@@ -38,7 +38,8 @@ int	single_quotes(char **str, int i, char quote)
 	free(rest);
 	return (len);
 }
-int expand_conidtion(char *str, int i, int left_f_cut)
+
+int	expand_conidtion(char *str, int i, int left_f_cut)
 {
 	i++;
 	if (ft_strchr("<>| \0", str[i]) != NULL)
@@ -88,12 +89,3 @@ int	check_if_quote_and_closed(char *str, int i)
 		return (TRUE);
 	return (FALSE);
 }
-
-
-
-
-
-
-
-
-

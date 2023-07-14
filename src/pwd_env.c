@@ -20,7 +20,7 @@ char	*mine_strjoin(char *str1, char *str2, int no)
 
 	if (!str1 || str1 == NULL || !str2 || str2 == NULL)
 		return (NULL);
-	jstr = (char *)malloc(sizeof(char) * (ft_strlen(str1) + ft_strlen(str2))
+	jstr = (char *)malloc(sizeof(char) * (ft_strlen(str1) + ft_strlen(str2)) 
 			+ 1);
 	if (!jstr || jstr == NULL)
 		return (NULL);
@@ -71,6 +71,8 @@ int	pwd_change(t_data *data, int from, int to, char *variable)
 	ft_strlcpy(path, &data->env_copy[from][i + 1],
 		ft_strlen(&data->env_copy[from][i + 1]) + 1);
 	pwdd = ft_strjoin(variable, path);
+	if (!pwdd)
+		return (free(path), 1);
 	free(data->env_copy[to]);
 	data->env_copy[to] = pwdd;
 	free(path);
@@ -97,29 +99,29 @@ int	pwd_change_two(t_data *data, char *cwd, int to, char *variable)
 
 void	ft_pwd_env(t_data *data, char ***args)
 {
-	int		pwd;
-	int		old_pwd;
 	char	dir[500000];
 	char	**arr;
 
 	if (getcwd(dir, sizeof(dir)) == NULL)
 		return ;
-	pwd = find_index(data, "PWD=");
-	old_pwd = find_index(data, "OLDPWD=");
-	if (old_pwd == -1 && pwd != -1)
+	data->pwd = find_index(data, "PWD=");
+	data->old_pwd = find_index(data, "OLDPWD=");
+	if (data->old_pwd == -1 && data->pwd != -1)
 	{
 		arr = malloc(2 * sizeof(char *));
 		if (!arr)
 			return (free_2d_str_arr(args), malloc_error(data));
 		arr[0] = (char *)malloc(ft_strlen("OLDPWD=") + 1);
+		if(!arr[0])
+			return (free(arr), free_2d_str_arr(args), malloc_error(data));
 		arr[1] = NULL;
 		ft_strlcpy(arr[0], "OLDPWD=", ft_strlen("OLDPWD=") + 1);
 		export_logic(data, &arr, get_arr_len(data->env_copy) + 1, 0);
-		old_pwd = find_index(data, "OLDPWD=");
+		data->old_pwd = find_index(data, "OLDPWD=");
 		free_2d_str_arr(&arr);
 	}
-	if (pwd_change(data, pwd, old_pwd, "OLDPWD=") == 1)
+	if (pwd_change(data, data->pwd, data->old_pwd, "OLDPWD=") == 1)
 		return (free_2d_str_arr(args), malloc_error(data));
-	if (pwd_change_two(data, dir, pwd, "PWD=") == 1)
+	if (pwd_change_two(data, dir, data->pwd, "PWD=") == 1)
 		return (free_2d_str_arr(args), malloc_error(data));
 }

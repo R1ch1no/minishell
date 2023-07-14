@@ -14,7 +14,7 @@
 
 int	ft_numlen(long long num)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (num)
