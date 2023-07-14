@@ -50,7 +50,7 @@ int expand_conidtion(char *str, int i, int left_f_cut)
 
 //only works with malloc'd str
 //if fail then str = NULL and it will be detected
-void	dollar_and_s_quotes(char **str, t_data *data)
+void	dollar_and_s_quotes(char **str, t_node *current, t_data *data)
 {
 	int	i;
 	int	left_for_cut;
@@ -60,7 +60,7 @@ void	dollar_and_s_quotes(char **str, t_data *data)
 	while ((*str) && (*str)[i])
 	{
 		if ((*str)[i] == '$' && expand_conidtion((*str), i, left_for_cut))
-			i += subout_dollar(str, i, left_for_cut, data);
+			i += subout_dollar(current, i, left_for_cut, data);
 		else if (left_for_cut == FALSE && (*str)[i] == '\''
 				&& ft_strchr(&(*str)[i + 1], '\'') != NULL)
 			i = single_quotes(str, i, '\'');

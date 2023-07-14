@@ -72,11 +72,11 @@ void	prep_for_executer(t_node **head, t_data *data)
 	{
 		if (count_char(current->cmd, '"') > 1
 		|| count_char(current->cmd, '\'') > 1)
-			dollar_and_s_quotes(&(current->cmd), data);
+			dollar_and_s_quotes(&(current->cmd), current, data);
 		else if (current && ft_strchr(current->cmd, '$') != NULL
 			&& check_if_token(current->prev, "<<") == FALSE)
 		{
-			dollar_and_s_quotes(&(current->cmd), data);
+			dollar_and_s_quotes(&(current->cmd), current, data);
 			if (ft_continue(data, &current) == TRUE)
 				continue ;
 		}

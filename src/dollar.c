@@ -72,14 +72,16 @@ int	subbing_cmd_str(char **str, char *before_d, char *env_value, char *end_of_d)
 //the dollar should only create new nodes 
 //if it is not in "" 
 //and if in env_val is a space
-int	subout_dollar(char **str, int i, int left_f_cut, t_data *data)
+int	subout_dollar(t_node *current, int i, int left_f_cut, t_data *data)
 {
 	char	*before_d;
 	char	*d_name;
 	char	*env_value;
 	char	*end_of_d;
-
+	char 	**str;
+	
 	i++;
+	str = &current->cmd;
 	if (check_if_quote_and_closed((*str), i) == TRUE)
 		return (strcpy_wout_ind(str, i - 1), 0);
 	before_d = get_str_before_dollar(*str, i);
@@ -88,7 +90,7 @@ int	subout_dollar(char **str, int i, int left_f_cut, t_data *data)
 	if ((*str)[i] == '?')
 		env_value = get_last_exit_status(&end_of_d, g_ex_status);
 	else
-		env_value = get_env_value(d_name, data);
+		env_value = get_env_value(d_name, left_f_cut, current, data);
 	if ((!before_d) || (!end_of_d) || (!d_name) || (!env_value))
 		cleanse(data);
 	if (subbing_cmd_str(str, before_d, env_value, end_of_d) == 1)

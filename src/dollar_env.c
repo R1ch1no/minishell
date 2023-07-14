@@ -23,18 +23,31 @@ int	len_of_env_val(char *str)
 	}
 	return (i);
 }
-void expand_spaces(char *env_value, t_node *node)
+
+char	*expand_spaces(char *env_value, t_node *current)
 {
-	char **arr;
+	t_node	*new;
+	char	**arr;
+	int		i;
 
 	arr = ft_split(env_value, ' ');
 	if (!arr)
-		return ;
-	(void)node;
-	
+		return (NULL);
+	free(env_value);
+	env_value = arr[0];
+	i = 1;
+	while (arr[i] != NULL)
+	{
+		new = create_node(arr[i]);
+		add_node_after(current, new);
+		current = new;
+		i++;
+	}
+	free(arr);
+	return (env_value);
 }
 
-char	*get_env_value(char *look_for, t_data *d) //, int lfc)
+char	*get_env_value(char *look_for, int lfc, t_node *current, t_data *d)
 {
 	char		*env_value;
 	char		*start;
@@ -55,10 +68,10 @@ char	*get_env_value(char *look_for, t_data *d) //, int lfc)
 	}
 	if (d->env_copy[i] == NULL)
 		env_value = ft_strdup("");
-	if (!env_value)
-		return (NULL);
-	//if (ft_strchr(env_value, ' ') != NULL && lfc == FALSE)
-	//	expand_spaces(env_value, NULL);
+	// if (!env_value)
+		// return (NULL);
+	if (ft_strchr(env_value, ' ') != NULL && lfc == FALSE)
+		env_value = expand_spaces(env_value, current);
 	return (env_value);
 }
 

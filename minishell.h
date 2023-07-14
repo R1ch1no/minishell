@@ -94,7 +94,7 @@ int						check_if_any_token(t_node *node);
 
 // pre_executer.c
 void					prep_for_executer(t_node **head, t_data *data);
-void					dollar_and_s_quotes(char **str, t_data *data);
+void					dollar_and_s_quotes(char **str, t_node *current, t_data *data);
 void					free_and_null(char **str);
 
 // quotes_and_dollar
@@ -106,11 +106,11 @@ char					*get_str_before_dollar(char *str, int i);
 char					*get_end_of_dollar(char *str, int i, int left_for_cut);
 int						subbing_cmd_str(char **str, char *before_d,
 							char *env_value, char *end_of_d);
-int						subout_dollar(char **str, int i, int left_f_cut,
+int						subout_dollar(t_node *current, int i, int left_f_cut,
 							t_data *data);
 
 // dollar_env.c
-char					*get_env_value(char *look_for, t_data *d);
+char					*get_env_value(char *look_for, int lfc, t_node *current, t_data *d);
 char					*get_last_exit_status(char **end_of_d, int ret_value);
 
 // heredoc.c
