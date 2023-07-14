@@ -17,12 +17,12 @@ int	overflow(long long result, char num, int sign, t_data *data)
 	long long	res;
 
 	res = result * 10 * sign;
-	if (res == 9223372036854775800 && num == '8')
+	if ((res >= 9223372036854775800 && num >= '8') || ft_numlen(result) + 1 >= 20)
 	{
 		data->problem = 1;
 		return (1);
 	}
-	if (res == -9223372036854775800 && num == '9')
+	if ((res <= -9223372036854775800 && num == '9') || ft_numlen(result) + 1 >= 20)
 	{
 		data->problem = 1;
 		return (1);
@@ -35,7 +35,7 @@ long long	ft_atoi_exit(const char *str, t_data *data)
 	int			i;
 	int			sign;
 	long long	result;
-
+	
 	i = 0;
 	sign = 1;
 	result = 0;

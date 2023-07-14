@@ -157,6 +157,7 @@ void					echo_print(t_node **node, int n);
 int						ft_echo(t_node **node);
 int						echo_flag(char *str);
 int						ft_exit(t_data *data, char ***args);
+int						ft_numlen(long long num);
 int						ft_cd(t_data *data, char ***args);
 int						find_index(t_data *data, char *str);
 int						ft_pwd(void);

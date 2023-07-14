@@ -12,6 +12,19 @@
 
 #include "../minishell.h"
 
+int	ft_numlen(long long num)
+{
+	int i;
+
+	i = 0;
+	while (num)
+	{
+		num = num / 10;
+		i ++;
+	}
+	return (i);
+}
+
 int	ex_cmp(char *s1, char *s2)
 {
 	if (s1 == NULL || s2 == NULL)
