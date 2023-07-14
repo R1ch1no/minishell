@@ -13,6 +13,7 @@ SRC			= 	main.c \
 				parser.c \
 				init_cmd_line.c \
 				signals.c \
+				pwd_env.c \
 				env_cd_pwd.c \
 				echo_unset.c \
 				built-in_utils.c \

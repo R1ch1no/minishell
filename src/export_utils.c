@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:45 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/07/13 17:54:30 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/14 11:48:02 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_invalid(char *str)
 	while (str[++i] && str[i] != '=')
 	{
 		if ((str[i] == '-' && str[i + 1] == '\0') || (str[i] == '-' && str[i
-				+ 1] == '='))
+					+ 1] == '='))
 		{
 			write(2, " not a valid identifier\n", 24);
 			g_ex_status = 1;

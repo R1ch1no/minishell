@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:22 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/07/09 13:58:42 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/13 19:07:16 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	ft_commands(t_node *current, char **env, t_data *data)
 
 int	ft_no_child(t_node *current, t_data *data)
 {
+	int		i;
 	char	**args;
 
 	args = malloc((arg_num(current) + 1) * sizeof(char *));
@@ -97,14 +98,14 @@ int	ft_no_child(t_node *current, t_data *data)
 	else if (ft_strcmp_node(current, "exit") == 0 && data->no == 0)
 		return (ft_exit(data, &args));
 	else if (ft_strcmp_node(current, "cd") == 0 && data->no == 0)
-		return (ft_cd(data, &args));
+	{
+		i = ft_cd(data, &args);
+		ft_pwd_env(data, &args);
+		return (free_2d_str_arr(&args), i);
+	}
 	else if (ft_strcmp_node(current, "export") == 0 && args[1] != NULL
 		&& data->no == 0)
-	{
-		ft_export_a(data, &args);
-		free_2d_str_arr(&args);
-		return (0);
-	}
+		return (ft_export_a(data, &args), free_2d_str_arr(&args), 0);
 	if (was_child(current, &args) == 0 && data->no == 1)
 		return (0);
 	return (free_2d_str_arr(&args), 1);
