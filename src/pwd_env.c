@@ -112,7 +112,7 @@ void	ft_pwd_env(t_data *data, char ***args)
 		if (!arr)
 			return (free_2d_str_arr(args), malloc_error(data));
 		arr[0] = (char *)malloc(ft_strlen("OLDPWD=") + 1);
-		if(!arr[0])
+		if (!arr[0])
 			return (free(arr), free_2d_str_arr(args), malloc_error(data));
 		arr[1] = NULL;
 		ft_strlcpy(arr[0], "OLDPWD=", ft_strlen("OLDPWD=") + 1);
