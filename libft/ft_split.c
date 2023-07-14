@@ -68,7 +68,7 @@ static char	**makewords(char **arr, int substrs, char const *s, char c)
 		{
 			while (++j < i)
 				free(arr[j]);
-			return (NULL);
+			return (free(arr), NULL);
 		}
 		start = end;
 		i++;
@@ -88,7 +88,8 @@ char	**ft_split(char const *s, char c)
 	arr = malloc(sizeof(char *) * substrs);
 	if (!arr)
 		return (NULL);
-	return (makewords(arr, substrs, s, c));
+	arr = makewords(arr, substrs, s, c);
+	return (arr);
 }
 /* int main ()
 {

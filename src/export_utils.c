@@ -54,10 +54,10 @@ int	ft_invalid(char *str)
 	while (str[++i] && str[i] != '=')
 	{
 		if ((str[i] == '-' && str[i + 1] == '\0') || (str[i] == '-' && str[i
-					+ 1] == '='))
+					+ 1] == '=') || (str[i] == ' '))
 		{
 			write(2, " not a valid identifier\n", 24);
-			g_ex_status = 1;
+			return (g_ex_status = 1, 1);
 		}
 	}
 	if (str[i] == '=' && g_ex_status != 1)

@@ -31,9 +31,8 @@ char	*expand_spaces(char *env_value, t_node *current)
 	int		i;
 
 	arr = ft_split(env_value, ' ');
-	//arr = NULL;
 	if (!arr)
-		return (NULL);
+		return (free(env_value), NULL);
 	free(env_value);
 	env_value = arr[0];
 	i = 1;
@@ -69,8 +68,8 @@ char	*get_env_value(char *look_for, int lfc, t_node *current, t_data *d)
 	}
 	if (d->env_copy[i] == NULL)
 		env_value = ft_strdup("");
-	// if (!env_value)
-		// return (NULL);
+	if (!env_value)
+		return (NULL);
 	if (ft_strchr(env_value, ' ') != NULL && lfc == FALSE)
 		env_value = expand_spaces(env_value, current);
 	return (env_value);
