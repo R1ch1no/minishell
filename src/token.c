@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:06:04 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/29 18:06:07 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/17 15:34:45 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,26 @@ int	check_if_any_token(t_node *node)
 	if (check_if_token(node, ">>") == TRUE)
 		return (TRUE);
 	return (FALSE);
+}
+
+int	export_thing(t_data *data, char ***args, char ***prev_args)
+{
+	int		y;
+	int		len;
+	char	**new_env;
+
+	len = get_arr_len(data->env_copy) + 1;
+	new_env = copy_2d_char_arr(data->env_copy, len);
+	if (new_env == NULL || !new_env)
+		return (free_2d_str_arr(args), free_2d_str_arr(prev_args), malloc_error(data), 1);
+	y = get_arr_len(new_env);
+	new_env[y] = malloc(ft_strlen((*args)[0]) + 1);
+	if (new_env[y] == NULL || !new_env[y])
+		return (free_2d_str_arr(&new_env), free_2d_str_arr(args), free_2d_str_arr(prev_args),
+			malloc_error(data), 1);
+	ft_strlcpy(new_env[y], (*args)[0], ft_strlen((*args)[0]) + 1);
+	new_env[y + 1] = NULL;
+	free_2d_str_arr(&data->env_copy);
+	data->env_copy = new_env;
+	return (0);
 }

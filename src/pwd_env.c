@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 12:11:56 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/07/14 12:11:58 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:14:22 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	ft_pwd_env(t_data *data, char ***args)
 			return (free(arr), free_2d_str_arr(args), malloc_error(data));
 		arr[1] = NULL;
 		ft_strlcpy(arr[0], "OLDPWD=", ft_strlen("OLDPWD=") + 1);
-		export_logic(data, &arr, get_arr_len(data->env_copy) + 1, 0);
+		export_thing(data, &arr, args);
 		data->old_pwd = find_index(data, "OLDPWD=");
 		free_2d_str_arr(&arr);
 	}

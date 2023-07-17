@@ -31,8 +31,9 @@ void	add_test_back(t_test **lst, char *test, char *bash)
     new = malloc(sizeof(t_test));
     if (new == NULL)
 	    return ;
+    t_node *node = create_node(test);
     char *str = ft_strdup(test);
-    dollar_and_s_quotes(&str, data);
+    dollar_and_s_quotes(&str, node, data);
     //printf("%s\n", test);
     new->next = NULL;
     new->test = test;
@@ -117,29 +118,25 @@ int main(int argc, char **argv, char **env)
     init_data(data, env);
     t_test *head = NULL;
     
-    char *str = NULL;
-    if (str == NULL)
-        printf("IT WORKS\n");
-    
     //string array test
-    char test [][2][100] = 
+    char test [][2][1000] = 
     {
         {"b=\"'\""                                          , "b='"},
         {"a='\"'"                                           , "a=\""},
         {"[b=\"\"\"this\"\"isnotfun]"                       , "[b=this\"isnotfun]"},
         {"[b=\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\"]"     , "[b=thisisnotfun]"},
         {"[c='\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\"']"   , "[c=\"\"\"\"\"\"\"this\"\"is\"\"not\"\"fun\"]"},
-        {"$US\"test\""                                      ,  "test"      },
+        {"$US\"test\""                                      ,  "test"},
         {"$USER\"test\""                                    ,  "qtrantest"},
         {"test$\"test\""                                    ,  "testtest"},
         {"\"test$\"test"                                    ,  "test$test"},
         {"test$"                                            ,  "test$"},
-        {"test$'das'"                                       ,  "testdas"      },
-        {"\"test$'das'\""                                   ,  "test$'das'"      },
-        {"'test$\"das\"'"                                   ,  "test$\"das\""      },
-    
+        {"test$'das'"                                       ,  "testdas"},
+        {"\"test$'das'\""                                   ,  "test$'das'"},
+        {"'test$\"das\"'"                                   ,  "test$\"das\""},    
     };
 
+    printf("Core dump?\n");
 
     unsigned long j = 0;
     while (j < sizeof(test) / sizeof(test[0]))
@@ -361,6 +358,6 @@ int main(int argc, char **argv, char **env)
         "(text1234text)"
     );
 
-    print_test_list(head);
+    //print_test_list(head);
     return 0;
 }

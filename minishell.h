@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:08:09 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/07/14 11:10:05 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:22:30 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ char					**copy_2d_char_arr(char **env, int len);
 int						empty_var_exist(t_data *data, char *args);
 int						export_logic(t_data *data, char ***args, int len,
 							int i);
+int						export_thing(t_data *data, char ***args, char ***prev_args);
 
 // execve
 int						ft_exec(t_node *node, char **env, t_data *data);
@@ -214,7 +215,7 @@ void					delete_node(t_node *delete, t_node **head);
 int						get_arr_len(char **arr);
 
 // string_utils
-char					*strdup_without(char *src, char c, int len);
+char					*strdup_without(char *src, char c, int trigger_i, int len);
 void					strcpy_wout_ind(char **str, unsigned int x);
 void					four_free(char *s1, char *s2, char *s3, char *s4);
 int						check_if_char_in_row(char *str, char c);

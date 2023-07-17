@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_and_dollar.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 14:49:08 by qtran             #+#    #+#             */
-/*   Updated: 2023/06/05 16:20:25 by qtran            ###   ########.fr       */
+/*   Updated: 2023/07/17 17:10:04 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,31 +308,4 @@ void strcpy_wout_ind(char **str, unsigned int x, t_data *data)
     *str = cpy;
 }
 
-//only works with malloc'd str
-//j is to "remember" the ending double quote if before it is $ then skip substitution and to not subout single quotes
-void dollar_and_s_quotes(char **str) 
-{
-    int i;
-    int last_quote;
-    
-    i = 0;
-    last_quote = 0;
-    while ((*str)[i])
-    {
-        if ((*str)[i] == '$' && last_quote - 1 != i)//&& (*str)[i + 1] && (*str)[i + 1] != ' ' )
-        {
-            //if (i < last_quote)
-            i = subout_dollar(str, i, t_data *data);
-        }  
-        else if ((*str)[i] == '\'') // && last_quote - 1 < i) //muss noch gefixed werden
-            i = single_quotes(str, i, '\'');
-        else if ((*str)[i] == '\"')
-        {
-            last_quote = single_quotes(str, i, '\"');
-            if ((*str)[i] == '\"')
-                i++;        
-        }
-        else
-            i++;
-    }
-}
+

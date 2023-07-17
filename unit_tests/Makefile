@@ -14,17 +14,19 @@ SRC			= 	core_functions.c \
 				parser.c \
 				init_cmd_line.c \
 				signals.c \
+				pwd_env.c \
 				env_cd_pwd.c \
 				echo_unset.c \
 				built-in_utils.c \
 				exit.c \
 				export.c \
 				export_utils.c \
+				export_utils_two.c \
 				dollar.c \
 				dollar_env.c \
-				executer_utils.c \
 				pre_executer.c \
 				executer.c \
+				executer_utils.c \
 				execve.c \
 				execve_utils.c \
 				execve_utils_two.c \

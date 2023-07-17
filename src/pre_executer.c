@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pre_executer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:05:30 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 15:18:45 by qtran            ###   ########.fr       */
+/*   Updated: 2023/07/17 16:34:27 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,9 @@ void	prep_for_executer(t_node **head, t_data *data)
 	current = *head;
 	while (current && current->cmd)
 	{
-		if (count_char(current->cmd, '"') > 1
+		if ((count_char(current->cmd, '"') > 1
 			|| count_char(current->cmd, '\'') > 1)
+			&& check_if_token(current->prev, "<<") == FALSE)
 			dollar_and_s_quotes(&(current->cmd), current, data);
 		else if (current && ft_strchr(current->cmd, '$') != NULL
 			&& check_if_token(current->prev, "<<") == FALSE)
@@ -82,7 +83,7 @@ void	prep_for_executer(t_node **head, t_data *data)
 			if (ft_continue(data, &current) == TRUE)
 				continue ;
 		}
-		if (current != NULL)
+		if (current != NULL && check_if_token(current->prev, "<<") == TRUE)
 			s_d_quotes(&current->cmd);
 		if (current != NULL && current->cmd == NULL)
 			malloc_error(data);

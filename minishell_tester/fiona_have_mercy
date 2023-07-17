@@ -16,3 +16,6 @@ $USER'"/test/"testf'ile
 export qtest=$USER
 echo $qtest
 ls filethatnotexist
+bef"text''quotes"after
+bef'text""quotes'after
+

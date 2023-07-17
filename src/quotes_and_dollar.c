@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_and_dollar.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:05:37 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 15:06:47 by qtran            ###   ########.fr       */
+/*   Updated: 2023/07/17 17:27:07 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	single_quotes(char **str, int i, char quote)
 
 	sec_quote = ft_strchr(&(*str)[i + 1], quote);
 	len = sec_quote - *str - 1;
-	cutted = strdup_without((*str), quote, len);
+	cutted = strdup_without((*str), quote, i, len);
 	sec_quote++;
 	rest = ft_strdup(sec_quote);
 	if (!cutted || !rest)
@@ -60,7 +60,7 @@ void	dollar_and_s_quotes(char **str, t_node *current, t_data *data)
 	left_for_cut = FALSE;
 	while ((*str) && (*str)[i])
 	{
-		if ((*str)[i] == '$' && expand_conidtion((*str), i, left_for_cut))
+		if ((*str)[i] == '$' && expand_conidtion((*str), i, left_for_cut) == 1)
 			i += subout_dollar(current, i, left_for_cut, data);
 		else if (left_for_cut == FALSE && (*str)[i] == '\''
 				&& ft_strchr(&(*str)[i + 1], '\'') != NULL)

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   string_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:06:00 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 15:09:30 by qtran            ###   ########.fr       */
+/*   Updated: 2023/07/17 17:20:39 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 //without a specific char
-char	*strdup_without(char *src, char c, int len)
+char	*strdup_without(char *src, char c, int trigger_i, int len)
 {
 	char	*dup;
 	int		i;
@@ -28,7 +28,7 @@ char	*strdup_without(char *src, char c, int len)
 	j = 0;
 	while (src[i] && j < len)
 	{
-		if (src[i] != c)
+		if (src[i] != c || i < trigger_i)
 		{
 			dup[j] = src[i];
 			j++;
