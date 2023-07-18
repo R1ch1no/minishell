@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:08:09 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/07/17 18:12:36 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/18 13:20:44 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ char					**dup_str_arr(char **ori);
 // cleanup.c
 void					cleanse(t_data *data);
 void					free_2d_str_arr(char ***arr);
-void					free_2d_str_arr_v2(char **arr);
 void					free_2d_str_until(char **arr, int end);
 void					malloc_error(t_data *data);
 
@@ -154,7 +153,6 @@ void					ft_sig_quit(int signal_num);
 void					response(int signal_num);
 void					ft_wait_children(t_data *data);
 void					child_response(int signal_num);
-void					ft_sig_quit(int signal_num);
 
 // built-ins
 void					echo_print(t_node **node, int n);
@@ -198,7 +196,6 @@ char					*exec_strjoin(char *str1, char *str2);
 int						arg_num(t_node *node);
 int						set_stdin_out(int fd_in, int fd_out, t_data *data);
 void					fill_args(t_node *node, char ***args);
-int						arg_num(t_node *node);
 int						before_start(t_node *node);
 void					ft_access_error(t_node *node);
 
@@ -224,8 +221,6 @@ void					strcpy_wout_ind(char **str, unsigned int x);
 void					four_free(char *s1, char *s2, char *s3, char *s4);
 int						check_if_char_in_row(char *str, char c);
 int						count_char(char *str, char c);
-
-// check if actually called
 
 // string_utils_2 aka "libft alike"
 char					*ft_str_many_chr(char *str, char *set);
