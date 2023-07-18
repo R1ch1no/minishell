@@ -18,18 +18,18 @@ Cflags = -Wall -Werror -Wextra
 all: $(NAME) 
  
 $(NAME): $(Objects)
-	ar -src $@ $(Objects)
+	@ar -src $@ $(Objects)
 	@echo $(NAME) created
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@rm -f *.o
+	@rm -f $(Objects)
 	@echo "clean done"
 
 fclean: 
-	@rm -f *.o
+	@rm -f $(Objects)
 	@rm -f $(NAME)
 	@echo "fclean done"
 

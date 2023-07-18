@@ -37,26 +37,26 @@ Cflags = -Wall -Werror -Wextra
 all: $(NAME)
 
 $(NAME): $(Objects)
-	$(MAKE) -C printf
-	ar -src $@ $(Objects) $(PRINTF_OBJS)
+	@$(MAKE) -C printf
+	@ar -src $@ $(Objects) $(PRINTF_OBJS)
 	@echo $(NAME) created
 	
 %.o: %.c
-	$(CC) -c $(Cflags) $< -o $@
+	@$(CC) -c $(Cflags) $< -o $@
 
 #$(Objects):
 #	$(CC) -c $(Cflags) $(Sources)
 
 clean:
-	@rm -f *.o
-	$(MAKE) -C $(PRINTF_DIR) clean
+	@rm -f $(Objects)
+	@$(MAKE) -C $(PRINTF_DIR) clean
 	@echo "clean done"
 
 
 fclean:
-	@rm -f *.o
+	@rm -f $(Objects)
 	@rm -f $(NAME)
-	$(MAKE) -C $(PRINTF_DIR) fclean
+	@$(MAKE) -C $(PRINTF_DIR) fclean
 	@echo "fclean done"
 
 
