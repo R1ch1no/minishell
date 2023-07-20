@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:08 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/07/09 13:37:23 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/20 16:04:57 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ int	ft_echo(t_node **node)
 	n = 0;
 	if ((*node) == NULL)
 		return (write(1, "\n", 1) && 0);
-	if (echo_flag((*node)->cmd))
+	while (echo_flag((*node)->cmd) == 1)
 	{
 		n = 1;
 		(*node) = (*node)->next;
+		continue ;
 	}
 	if ((*node) == NULL && n == 1)
 		return (0);

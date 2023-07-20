@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:05:22 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/07/09 14:18:28 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/20 15:57:31 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,6 @@ void	init_data(t_data *data, char **env)
 	data->problem = 0;
 	data->old_pwd = -1;
 	data->pwd = -1;
+	data->last_child = -1;
 	signal_set_up(data);
 }

@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:00:51 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/07/09 13:44:59 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/20 16:04:44 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,28 @@
 int	echo_flag(char *str)
 {
 	int	i;
+	int	flag;
 
-	i = -1;
+	i = 0;
+	flag = 0;
 	if (str[0] != '-')
 		return (0);
 	if (str[0] == '-')
+	{
+		flag = 1;
 		i += 1;
-	while (str[++i])
-		if (str[i] != 'n')
-			return (0);
+	}
+	if (str[i] == '\0')
+		return (0);
+	if (flag == 1)
+	{
+		while (str[i])
+		{
+			if (str[i] != 'n')
+				return (0);
+			i++;
+		}
+	}
 	return (1);
 }
 

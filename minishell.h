@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:08:09 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/07/18 13:20:44 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/20 13:12:44 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_data
 	struct sigaction	sa;
 	t_node				*cmd_line;
 	int					pid;
+	int					last_child;
 }						t_data;
 
 // main.c
