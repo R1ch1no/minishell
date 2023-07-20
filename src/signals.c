@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:05:52 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/07/09 14:20:08 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/20 16:04:34 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,36 +37,40 @@ void	child_response(int signal_num)
 	if (signal_num == SIGINT)
 	{
 		write(1, "\n", 1);
+		rl_replace_line("", 1);
 		rl_on_new_line();
 		rl_redisplay();
-		exit(signal_num);
+		exit(SIGINT);
 	}
 }
 
 void	ft_wait_children(t_data *data)
 {
-	if (data->children > 0)
+	int	status;
+	int	nothing;
+
+	while (data->children > 0)
 	{
-		while (data->children > 0)
+		if (data->children > 1)
+			waitpid(0, &nothing, 0);
+		waitpid(data->last_child, &status, 0);
+		if (WIFSIGNALED(status) == 1)
 		{
-			waitpid(0, &g_ex_status, 0);
-			if (g_ex_status == 2)
+			if (status == 2)
 			{
-				g_ex_status = CTRL_C;
+				g_ex_status = 130;
 				write(1, "\n", 1);
 			}
-			else if (g_ex_status == 131)
+			else if (status == 131)
 			{
+				g_ex_status = 131;
 				write(2, "Quit (core dumped)\n", 19);
 			}
-			else
-				g_ex_status = WEXITSTATUS(g_ex_status);
-			data->children--;
-			if (data->red_status == 1)
-				g_ex_status = 1;
 		}
+		else
+			g_ex_status = WEXITSTATUS(status);
+		data->children --;
 	}
-	signal(SIGINT, response);
 }
 
 //this function sets up incoming signals to be ignored,

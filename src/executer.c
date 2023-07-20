@@ -6,7 +6,7 @@
 /*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:04:22 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/07/13 19:07:16 by rkurnava         ###   ########.fr       */
+/*   Updated: 2023/07/20 15:43:55 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,9 @@ int	executer(t_data *data)
 		return (data->fd_outfile = -1, 0);
 	}
 	data->pid = fork();
+	data->last_child = data->pid;
 	if (data->pid == -1)
 		return (write(2, "Fork problem!\n", 14) && 0);
-	data->children += 1;
 	if (data->pid == 0)
 	{
 		signal(SIGQUIT, ft_sig_quit);
@@ -137,6 +137,6 @@ int	executer(t_data *data)
 			exit(1);
 		ft_commands(current, data->env_copy, data);
 	}
-	signal(SIGINT, SIG_IGN);
-	return (0);
+	data->children ++;
+	return (signal(SIGINT, SIG_IGN), 0);
 }

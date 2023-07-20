@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   core_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qtran <qtran@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rkurnava <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 18:01:04 by rkurnava          #+#    #+#             */
-/*   Updated: 2023/06/30 11:04:53 by qtran            ###   ########.fr       */
+/*   Updated: 2023/07/20 16:03:33 by rkurnava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	minishell_core(t_data *data)
 	if (loop_each_cmd(data) == ERROR)
 		reset_fds(data);
 	ft_wait_children(data);
+	signal(SIGINT, response);
 	data->no = 0;
 	ft_clean_cmd(data);
 }
