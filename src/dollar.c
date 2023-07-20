@@ -23,24 +23,21 @@ char	*get_str_before_dollar(char *str, int i)
 	return (before_dollar);
 }
 
-char	*get_end_of_dollar(char *str, int i, int left_for_cut)
+char	*get_end_of_dollar(char *str, int i)
 {
 	char	*end;
-	int		n_single;
-	int		n_double;
-
-	n_single = count_char(str, '\'');
-	n_double = count_char(str, '"');
-	if (left_for_cut == TRUE && n_single > 1)
-		end = ft_str_many_chr(&str[i], "'\"$?<>|/ ");
-	else if (left_for_cut == TRUE)
-		end = ft_str_many_chr(&str[i], "\"$?<>|/ ");
-	else if (n_single == 0 && n_double > 1)
-		end = ft_str_many_chr(&str[i], "\"$?<>|/ ");
-	else if (n_single <= 1 && n_double <= 1)
-		end = ft_str_many_chr(&str[i], "$?<>|/ ");
-	else
-		end = ft_str_many_chr(&str[i], "'\"$?<>|/ ");
+	int		j;
+	
+	if (!str)
+		return (NULL);
+	j = i;
+	while (str[j])
+	{
+		if (ft_isalpha(str[j]) == FALSE)
+			break;
+		j++;
+	}
+	end = &str[j];
 	return (end);
 }
 
@@ -85,7 +82,7 @@ int	subout_dollar(t_node *current, int i, int left_f_cut, t_data *data)
 	if (check_if_quote_and_closed((*str), i) == TRUE)
 		return (strcpy_wout_ind(str, i - 1), 0);
 	before_d = get_str_before_dollar(*str, i);
-	end_of_d = get_end_of_dollar(*str, i, left_f_cut);
+	end_of_d = get_end_of_dollar(*str, i);
 	d_name = ft_substr(*str, i, end_of_d - &(*str)[i]);
 	if ((*str)[i] == '?')
 		env_value = get_last_exit_status(&end_of_d, g_ex_status);

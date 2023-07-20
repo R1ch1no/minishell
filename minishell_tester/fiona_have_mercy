@@ -18,4 +18,7 @@ echo $qtest
 ls filethatnotexist
 bef"text''quotes"after
 bef'text""quotes'after
+*ad$USER~asa#
+ls | exitcodemustbe127
+ls | wc -exitcodemustbe1or2
 

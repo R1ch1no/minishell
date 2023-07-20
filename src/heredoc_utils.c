@@ -20,7 +20,7 @@ void	clean_heredoc_child(t_data *data)
 	free(data);
 }
 
-int	hd_subout_dollar(char **str, int i, int left_f_cut, t_data *data)
+int	hd_subout_dollar(char **str, int i, t_data *data)
 {
 	char	*before_d;
 	char	*d_name;
@@ -31,7 +31,7 @@ int	hd_subout_dollar(char **str, int i, int left_f_cut, t_data *data)
 	if (check_if_quote_and_closed((*str), i) == TRUE)
 		return (strcpy_wout_ind(str, i - 1), 0);
 	before_d = get_str_before_dollar(*str, i);
-	end_of_d = get_end_of_dollar(*str, i, left_f_cut);
+	end_of_d = get_end_of_dollar(*str, i);
 	d_name = ft_substr(*str, i, end_of_d - &(*str)[i]);
 	if ((*str)[i] == '?')
 		env_value = get_last_exit_status(&end_of_d, g_ex_status);
@@ -53,7 +53,7 @@ void	check_for_dollar(char **line, t_data *data)
 	while ((*line)[i])
 	{
 		if ((*line)[i] == '$')
-			i += hd_subout_dollar(line, i, FALSE, data);
+			i += hd_subout_dollar(line, i, data);
 		else
 			i++;
 	}
